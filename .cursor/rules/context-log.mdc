@@ -1,0 +1,13 @@
+---
+description: Persistently append user-provided background and rationale to docs/context-log.md
+alwaysApply: true
+---
+
+# Context Log Rule
+
+- When the user shares background, causes, intent, constraints, rationale, or project context, append a concise summary to `docs/context-log.md`.
+- Treat this as always-on workspace behavior, even if the user does not explicitly say "record this" each time.
+- Never overwrite prior entries; only append new dated entries.
+- Prefer short structured summaries over raw transcript dumps.
+- If the content is ambiguous, ask a brief clarification question before recording.
+- Do not record secrets, tokens, passwords, or other sensitive values verbatim.
