@@ -53,6 +53,21 @@
 ### 현재 상태
 - 초기 학습 재료는 준비되었고, 다음 단계는 학습 실행 파이프라인으로 넘어가는 상태다.
 
+### Harmony 렌더링
+- `datasets/gpt-oss/seed_ch01_first3.json`의 앞 3개 샘플에 대해 실제 `gpt-oss` tokenizer의 `apply_chat_template()`를 사용한 Harmony 렌더링 결과 파일을 생성했다.
+- 렌더링 결과는 `datasets/rendered/gpt-oss/seed_ch01_first3_harmony.jsonl`에 저장한다.
+
+### 렌더링 스크립트
+- Harmony 렌더링을 반복 실행할 수 있도록 `datasets/gpt-oss/render_harmony.py` 스크립트를 추가했다.
+- 이 스크립트는 canonical `messages` 입력을 받아 `rendered_text` JSONL로 변환한다.
+
+## 2026-03-11
+
+### llm_datasets 구조 변경 대응
+- 데이터셋 구조가 `llm_datasets/seed_v1`, `llm_datasets/rendered/gpt-oss`, `llm_datasets/render_gpt-oss-harmony.py` 기준으로 재배치되었다.
+- 렌더링 스크립트의 기본 출력 경로와 `source_file` 기록 방식을 새 구조 기준으로 수정했다.
+- 수정 후 `seed_v1/seed_ch01_first3.json` 입력으로 렌더링 파일을 재생성해 경로 메타가 올바르게 반영되는 것을 확인했다.
+
 ## 2026-03-11
 
 ### 저장소 연결
@@ -61,3 +76,33 @@
 
 ### 제약
 - `@.archive`는 탐색뿐 아니라 Git 추적 대상에서도 제외하는 방향으로 정리한다.
+
+### 브랜치 기준
+- 원격 저장소의 첫 기본 브랜치는 `main`이 아니라 `master` 기준으로 맞추기로 했다.
+
+## 2026-03-11
+
+### gpt-oss-20b 스모크 목표
+- 이번 단계의 목표는 `llm_datasets/rendered/gpt-oss/seed_ch01_first3_harmony.jsonl` 3건으로 `gpt-oss-20b` 학습 파이프라인이 실제로 끝까지 동작하는지 검증하는 것이다.
+- 전체 Harmony 렌더링 확장은 이번 범위에서 제외하고, 이미 준비된 샘플을 바로 학습 입력으로 사용한다.
+
+### 실행 기준
+- 학습 스택은 `Transformers + TRL + PEFT`를 우선 사용한다.
+- 성공 기준은 `학습 완료 + adapter 재로딩 + 샘플 질문 추론 1~2개 성공`으로 둔다.
+
+## 2026-03-11
+
+### 커스텀 서브에이전트 요구
+- 파일 경로를 입력으로 받아 코드를 검토하고 상세 주석을 추가하는 전용 서브에이전트를 프로젝트에 두기로 했다.
+- 이 서브에이전트는 단순 설명보다, 사용된 라이브러리와 클래스/모듈/함수 옵션의 의미와 선택 이유를 자세히 주석으로 설명하는 역할을 맡는다.
+
+## 2026-03-11
+
+### Git 추적 정리 의도
+- 워크스페이스 루트의 `.gitignore`에 Python 프로젝트 기준의 기본 제외 항목을 보강해 캐시, 가상환경, 에디터 설정, 로그 파일이 추적되지 않도록 정리한다.
+
+## 2026-03-11
+
+### Git ignore 재정리
+- 모델 베이스 디렉터리 `llm_model_base/`는 계속 전체 무시하되, `llm_model_lora/`는 산출물 대부분을 무시하면서 하위 `README.md`만 Git 추적 대상으로 남기도록 규칙을 조정한다.
+- 스테이징을 막던 `.git/index.lock`이 실행 중인 Git 없이 남아 있는 상태라면 stale lock으로 보고 제거해 정상적인 `git add`가 다시 가능하도록 정리한다.

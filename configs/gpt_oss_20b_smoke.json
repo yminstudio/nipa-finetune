@@ -1,0 +1,24 @@
+{
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+  "dataset_path": "/home/work/dev_data/fine-tuning/llm_datasets/rendered/gpt-oss/seed_ch01_first3_harmony.jsonl",
+  "prompt_source_path": "/home/work/dev_data/fine-tuning/llm_datasets/seed_v1/seed_ch01_first3.json",
+  "output_dir": "/home/work/dev_data/fine-tuning/llm_model_lora/gpt-oss-20b-smoke",
+  "report_path": "/home/work/dev_data/fine-tuning/llm_model_lora/gpt-oss-20b-smoke/smoke_result.json",
+  "max_length": 512,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 1,
+  "max_steps": 3,
+  "learning_rate": 0.0002,
+  "logging_steps": 1,
+  "save_steps": 3,
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q_proj",
+    "v_proj"
+  ],
+  "sample_prompt_count": 2,
+  "seed": 42
+}

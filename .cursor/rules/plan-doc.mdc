@@ -1,0 +1,24 @@
+---
+description: 계획(Plan) 규칙 - Mermaid 시퀀스 다이어그램 필수
+globs:
+alwaysApply: false
+---
+---
+description: 계획 문서에는 반드시 mermaid sequenceDiagram 블록이 포함되어야 함
+globs: ["docs/**/*.md", "**/*plan*.md", "**/*계획*.md"]
+---
+
+## 계획(Plan) 문서 필수 규칙
+- 문서 헤더(상단)에는 **문서 작성일**과 **계획 원인/배경**을 반드시 포함합니다.
+- 계획 문서에는 아래 형식의 **Mermaid 시퀀스 다이어그램**이 반드시 포함되어야 합니다.
+- 시퀀스의 각 번호마다 역활을 간단하게 머메이트 차트아래 출력합니다.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant A as Actor/Client
+  participant B as Server/Service
+  A->>B: request
+  B-->>A: response
+```
+1. 유저요청:조회합니다.
