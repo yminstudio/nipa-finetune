@@ -76,9 +76,17 @@ def load_train_dataset(path: Path) -> Dataset:
 
 def load_prompt_records(path: Path, limit: int) -> list[dict[str, Any]]:
     """추론 샘플에 사용할 프롬프트 레코드를 일부만 읽는다."""
-    records = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(records, list):
-        raise ValueError(f"prompt source must be a JSON array: {path}")
+    if path.suffix == ".jsonl":
+        records = read_jsonl_records(path)
+    else:
+        records = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(records, list):
+            raise ValueError(f"prompt source must be a JSON array: {path}")
+
+    for index, record in enumerate(records, start=1):
+        messages = record.get("messages")
+        if not isinstance(messages, list) or not messages:
+            raise ValueError(f"record {index}: missing messages for prompt source")
     return records[:limit]
 
 

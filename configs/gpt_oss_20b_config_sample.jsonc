@@ -1,0 +1,129 @@
+{
+  // 학습에 사용할 베이스 모델 이름입니다.
+  // 현재는 GPT-OSS 20B의 BF16 버전을 기준으로 LoRA 어댑터만 얹는 구조라,
+  // 전체 가중치를 다시 학습하지 않고도 "데이터 로드 -> 학습 -> 저장 -> 재로딩 -> 추론" 흐름을 점검할 수 있습니다.
+  // 다른 모델로 바꾸면 토크나이저, target_modules, 메모리 요구량이 함께 달라질 수 있습니다.
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+
+  // 베이스 모델 가중치와 토크나이저를 캐시해 둘 로컬 디렉터리입니다.
+  // 처음 실행할 때는 허깅페이스 등 원격 저장소에서 다운로드가 발생할 수 있고,
+  // 이후에는 이 경로를 재사용해 반복 실험 속도를 높입니다.
+  // 실험을 여러 번 돌릴 경우 디스크 사용량이 커질 수 있으므로 저장 공간을 확인하는 편이 좋습니다.
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+
+  // 실제 학습에 투입할 텍스트 데이터 파일 경로입니다.
+  // 이 스크립트는 canonical messages JSON이 아니라,
+  // 이미 GPT-OSS Harmony 형식으로 렌더링된 `rendered_text` JSONL을 직접 소비합니다.
+  // 즉, 학습 직전 전처리가 끝난 산출물을 지정해야 합니다.
+  "dataset_path": "/home/work/dev_data/fine-tuning/llm_datasets/rendered/gpt-oss/seed_ch01_first3_harmony.jsonl",
+
+  // 학습 후 샘플 추론 검증에 사용할 원본 프롬프트 소스 파일입니다.
+  // 이 파일의 `messages`를 읽어 "어댑터가 정상적으로 재적용되어 답변을 생성하는지" 확인합니다.
+  // 학습 데이터와 반드시 완전히 같을 필요는 없지만, 같은 도메인의 샘플을 쓰는 편이 확인이 쉽습니다.
+  "prompt_source_path": "/home/work/dev_data/fine-tuning/llm_datasets/seed_v1/seed_ch01_first3.json",
+
+  // 학습이 끝난 뒤 저장할 LoRA 어댑터 출력 디렉터리입니다.
+  // 베이스 모델 전체가 아니라 LoRA 가중치, 토크나이저 설정, 체크포인트가 이 경로에 기록됩니다.
+  // 실험을 여러 번 병행할 때는 디렉터리 이름을 바꿔 결과를 분리하는 것이 안전합니다.
+  "output_dir": "/home/work/dev_data/fine-tuning/llm_model_lora/gpt-oss-20b-smoke",
+
+  // 학습 결과 요약 리포트를 저장할 JSON 파일 경로입니다.
+  // 여기에는 train metrics와 샘플 추론 결과가 함께 들어가므로,
+  // "학습은 돌았는지", "응답은 대충 어떤 식으로 나오는지"를 빠르게 점검할 때 유용합니다.
+  "report_path": "/home/work/dev_data/fine-tuning/llm_model_lora/gpt-oss-20b-smoke/smoke_result.json",
+
+  // LoRA adapter를 베이스 모델에 병합한 뒤 저장할 BF16 모델 디렉터리입니다.
+  // `scripts/merge_gpt_oss_lora.py`는 이 경로에 병합본을 shard 단위로 저장하고,
+  // 이후 direct validation과 vLLM 병합본 서빙이 이 디렉터리를 기준으로 이어집니다.
+  "merged_output_dir": "/home/work/dev_data/fine-tuning/llm_model_merged/gpt-oss-20b-smoke-bf16",
+
+  // 병합 단계 결과를 저장할 JSON 파일 경로입니다.
+  // 어떤 adapter를 어떤 base model에 병합했는지 빠르게 추적할 수 있도록 별도 리포트로 분리합니다.
+  "merge_report_path": "/home/work/dev_data/fine-tuning/llm_model_merged/gpt-oss-20b-smoke-bf16/merge_result.json",
+
+  // 병합본 또는 adapter를 직접 로드해 생성 품질을 확인한 결과를 저장할 경로입니다.
+  // `scripts/check_gpt_oss_model_output.py`는 이 파일에 질문별 raw/final 응답을 남깁니다.
+  "validation_report_path": "/home/work/dev_data/fine-tuning/llm_model_merged/gpt-oss-20b-smoke-bf16/validation_result.json",
+
+  // 병합본을 vLLM에서 노출할 때 사용할 served model name입니다.
+  // OpenWebUI나 OpenAI 호환 클라이언트에서 식별하기 쉬운 이름으로 고정해 두는 편이 편합니다.
+  "served_model_name": "gpt-oss-20b-smoke-bf16",
+
+  // 2차 학습 이후 고정적으로 재질의할 대표 질문 목록입니다.
+  // 하나는 문제 재현 질문으로 두고, 나머지는 seed 데이터 범위를 대표하는 질문 3~5개를 권장합니다.
+  "validation_questions": [
+    "펀드 평가에서 유형분류가 왜 중요한가요?",
+    "유형분류 기준은 어떤 순서로 적용해야 하나요?",
+    "펀드평가에서 평가대상과 평가등급은 어떻게 연결해서 이해해야 하나요?"
+  ],
+
+  // 한 샘플에서 학습에 사용할 최대 토큰 길이입니다.
+  // 값이 크면 긴 문맥을 더 살릴 수 있지만 GPU 메모리 사용량이 증가하고,
+  // 값이 작으면 긴 샘플이 잘려서 정보가 손실될 수 있습니다.
+  // 스모크 테스트이므로 메모리 안정성을 우선해 비교적 보수적인 512로 잡았습니다.
+  "max_length": 512,
+
+  // GPU 한 장치에서 한 번에 처리할 마이크로 배치 크기입니다.
+  // 20B급 모델에서는 메모리 부담이 크기 때문에 기본값을 1로 두는 것이 가장 안전합니다.
+  // 더 크게 올리면 속도는 나아질 수 있지만 OOM 위험이 빠르게 커집니다.
+  "per_device_train_batch_size": 1,
+
+  // 작은 배치를 여러 step 누적해 더 큰 유효 배치를 흉내 내는 설정입니다.
+  // 예를 들어 batch_size=1, accumulation=4면 실질적으로는 4개 샘플을 모아 한 번 업데이트하는 효과가 납니다.
+  // 현재 스모크에서는 단순성을 위해 1로 두어, 각 step마다 바로 업데이트합니다.
+  "gradient_accumulation_steps": 1,
+
+  // 전체 학습을 몇 step까지만 수행할지 정합니다.
+  // smoke 설정의 핵심은 "끝까지 도는지" 확인이지 성능 최적화가 아니므로,
+  // 매우 작은 3 step만 수행해 파이프라인 생존 여부만 빠르게 점검합니다.
+  "max_steps": 3,
+
+  // 옵티마이저의 학습률입니다.
+  // LoRA에서는 전체 모델을 미세조정하는 것보다 상대적으로 조금 큰 학습률을 쓰는 경우가 많지만,
+  // 너무 크면 몇 step 안에서도 손실이 튀거나 응답이 불안정해질 수 있습니다.
+  // 현재 값은 짧은 스모크 실험에서 무난한 출발점입니다.
+  "learning_rate": 0.0002,
+
+  // 몇 step마다 로그를 남길지 설정합니다.
+  // smoke는 step 수가 적기 때문에 1로 두면 매 step마다 로그를 확인할 수 있어 디버깅에 편합니다.
+  "logging_steps": 1,
+
+  // 몇 step마다 체크포인트를 저장할지 설정합니다.
+  // 현재는 전체 step 수가 3뿐이라 마지막 step에서 한 번 저장되도록 맞춰 두었습니다.
+  // 더 긴 학습이라면 중간 복구를 위해 더 자주 저장할 수 있습니다.
+  "save_steps": 3,
+
+  // LoRA 저랭크 행렬의 rank 값입니다.
+  // 값이 커질수록 어댑터 표현력은 좋아질 수 있지만, 파라미터 수와 메모리 사용량도 함께 증가합니다.
+  // smoke 단계에서는 너무 공격적으로 키우기보다, 작고 안정적인 값을 쓰는 것이 목적에 맞습니다.
+  "lora_r": 8,
+
+  // LoRA 업데이트 크기를 조절하는 스케일링 계수입니다.
+  // 보통 rank와 함께 튜닝하며, 값이 너무 작으면 학습 영향이 약하고,
+  // 너무 크면 짧은 학습에서도 출력이 과하게 흔들릴 수 있습니다.
+  "lora_alpha": 16,
+
+  // LoRA 경로에만 적용되는 dropout 비율입니다.
+  // 과적합을 줄이는 데 도움을 줄 수 있지만, smoke처럼 데이터가 작고 step도 적은 경우엔
+  // 큰 차이가 나지 않을 수도 있습니다. 그래도 0이 아닌 작은 값을 두면 실전 설정과 유사하게 점검할 수 있습니다.
+  "lora_dropout": 0.05,
+
+  // LoRA를 삽입할 대상 모듈 suffix 목록입니다.
+  // 현재는 attention 계열의 `q_proj`, `v_proj`만 대상으로 삼아,
+  // 최소 범위에서 어댑터 부착과 저장/재적용이 잘 되는지를 보는 보수적 baseline입니다.
+  // 모델 아키텍처가 바뀌면 이 이름들이 존재하지 않을 수 있으므로 함께 조정해야 합니다.
+  "target_modules": [
+    "q_proj",
+    "v_proj"
+  ],
+
+  // 학습 후 샘플 추론을 몇 건만 수행할지 정하는 값입니다.
+  // 이 단계의 목적은 품질 평가라기보다 "재로딩된 어댑터가 실제 생성까지 되는가" 확인하는 것이므로,
+  // 2건 정도면 smoke에서는 충분합니다.
+  "sample_prompt_count": 2,
+
+  // 난수 시드입니다.
+  // 동일한 데이터와 설정에서 가능한 한 재현 가능한 결과를 얻기 위한 값이며,
+  // 데이터 셔플, 초기화, 일부 생성 결과에 영향을 줄 수 있습니다.
+  "seed": 42
+}

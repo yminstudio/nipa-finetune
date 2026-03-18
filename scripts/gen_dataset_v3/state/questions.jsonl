@@ -1,0 +1,280 @@
+{"id": "v3_q_0001", "question": "투자설명서상의 투자목적과 전략에 따라 펀드 유형을 분류할 때, 어떤 기준으로 국내투자 펀드와 해외투자 펀드를 구분하나요?", "section": "1.1 유형분류 개요", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0002", "question": "국내투자 펀드와 해외투자 펀드의 유형생성 기본원칙인 충분성, 비교성, 지속성은 각각 어떤 구체적인 고려사항을 의미하나요?", "section": "1.1 유형생성의 기본원칙", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0003", "question": "일반주식, 중소형주식, 배당주식 등 국내주식형 대유형 소유형은 어떤 투자전략이나 자산유형의 차이로 구분되나요?", "section": "국내펀드 – 대유형별 상세 소유형", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0004", "question": "주식형과 채권혼합형 펀드의 차이점은 무엇이며, 각각의 운용 전략 기준은 어떤 것들이 적용되나요?", "section": "국내펀드 – 대유형별 상세 소유형", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0005", "question": "해외펀드의 벤치마크는 어떤 기준으로 선정하며, 해외펀드 유형별 최신 벤치마크 변경 사항은 무엇인가요?", "section": "1.2 유형별 벤치마크", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0006", "question": "펀드의 기준가와 시장 벤치마크 지수의 일자 차이로 인해 적용일이 어떻게 달리 적용되며, 이를 고려한 수익률 산출 방법은 무엇인지요?", "section": "1.2 유형별 벤치마크 > 1) BM의 설정기준 세부적용 방법 > 펀드 BM의 적용일 구분", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0007", "question": "펀드의 투자전략에 따라 벤치마크를 유형 BM이 아닌 펀드 BM으로 설정하는 경우는 어떤 상황인가요?", "section": "1.2 유형별 벤치마크 > 1) BM의 설정기준 세부적용 방법 > 유형 BM과 펀드 BM 적용 차이", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0008", "question": "국내펀드 중 주식형이 '약관상 최고 투자한도 2/3초과'인 경우, 어떤 유형으로 분류하며, 각 소유형의 특징은 무엇일까요?", "section": "1.3. 유형분류 기준 > 국내펀드 > 주식형 세부 분류", "chapter": "1\\. 유형분류 기준", "qa_type": "section_qa"}
+{"id": "v3_q_0009", "question": "펀드 %순위 및 등급 선정 기준에서, 평가대상인 펀드가 10억원 이상 순자산을 가지려면 어떤 자산 규모 조건을 충족해야 하나요?", "section": "2.1. 제로인 펀드평가 대상 선정 기준", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0010", "question": "클래스 펀드의 경우, 순자산 합계가 10억원 이상이더라도 성과에 이상이 있으면 %순위 평가에서 제외된다고 하는데, 구체적으로 어떤 기준이 적용되나요?", "section": "2.1. 제로인 펀드평가 대상 선정 기준", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0011", "question": "운용펀드가 3개 미만이면 %순위 산출이 되지 않는다고 했는데, 실무에서는 펀드가 3개 이하일 때 어떻게 성과 평가를 진행하면 되나요?", "section": "2.1. 제로인 펀드평가 대상 선정 기준", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0012", "question": "제외 대상 펀드(종류형 운용펀드 및 모펀드)는 어떤 펀드들인가요? 그리고 이들이 성과 및 등급 산출 대상에서 제외되는 이유는 무엇인가요?", "section": "2.1. 제로인 펀드평가 대상 선정 기준", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0013", "question": "운용사와 유형별 그룹 수익률은 언제부터 계산하며, 성과 평가를 위해 최소 그룹수는 몇 개 이상이어야 하나요?", "section": "2.1. 운용사/유형 %순위 및 등급의 선정 기준", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0014", "question": "운용사 또는 유형별 등급은 기간 종료일이 지나도 삭제하거나 변경하지 않는다고 하는데, 이미 산출된 등급이 떨어지는 경우 어떻게 처리하나요?", "section": "2.1. 운용사/유형 %순위 및 등급의 선정 기준", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0015", "question": "성과등급 산출 시, 월1회 평가를 하며 위험조정수익률(CE)를 사용하는데, CE가 무엇이고 어떻게 계산하나요?", "section": "2.2. 제로인 펀드등급 - 성과등급(Performance Rating)", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0016", "question": "ZI Score는 어떤 절차와 공식으로 산출하며, 계산 시 Peer Group의 평균과 표준편차는 어떻게 구하나요?", "section": "2.2. 제로인 펀드등급 - 성과등급(Performance Rating)", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0017", "question": "CE 식의 유도를 보면, 위험회피계수(람다)는 어떤 가정을 바탕으로 산출하며, 그 식은 무엇인가요?", "section": "2.2. 제로인 펀드등급 - 성과등급(Performance Rating)", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0018", "question": "펀드 또는 운용사 등급 산출에 적합한 최소 기간은 어느 정도이며, 최소 펀드수 및 최소 운용사수 조건은 무엇인가요?", "section": "2.2. 제로인 펀드등급 - 성과등급(Performance Rating)", "chapter": "2. 펀드평가 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0019", "question": "펀드의 ZI를 계산할 때 가중치는 기간 길이에 비례한다고 하는데, 구체적으로 어떤 기준으로 가중치를 정하나요?", "section": "Step 4 : 각 펀드의 기간별 ZI 를 가중 평균하여 펀드의 ZI 를 계산합니다.", "chapter": "Step 4 : 각 펀드의 기간별 ZI 를 가중 평균하여 펀드의 ZI 를 계산합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0020", "question": "1년 등급인 경우에는 기간 수가 1개(즉, n=1)로 계산하는 것으로 이해되는데, 이 경우 가중치는 어떻게 적용되나요?", "section": "Step 4 : 각 펀드의 기간별 ZI 를 가중 평균하여 펀드의 ZI 를 계산합니다.", "chapter": "Step 4 : 각 펀드의 기간별 ZI 를 가중 평균하여 펀드의 ZI 를 계산합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0021", "question": "3년, 5년, 10년 등급인 경우 n이 각각 3, 5, 10이 되는데, 여러 기간별 ZI를 가중 평균할 때 각각의 기간에 어떤 가중치를 부여하는지 구체적인 규칙이 있나요?", "section": "Step 4 : 각 펀드의 기간별 ZI 를 가중 평균하여 펀드의 ZI 를 계산합니다.", "chapter": "Step 4 : 각 펀드의 기간별 ZI 를 가중 평균하여 펀드의 ZI 를 계산합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0022", "question": "펀드의 1년, 3년, 5년 성과를 계산할 때 각각의 효용값(CE) 산정을 위한 구체적인 방법은 무엇인가요?", "section": "ZI Score Calculation Flow", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0023", "question": "기간별 ZI 점수(ZI(i,j)) 표준화 방법은 어떻게 되나요? 표준화 시 필요한 데이터나 기준이 있나요?", "section": "ZI Score Calculation Flow", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0024", "question": "최종 ZI Score를 계산할 때 기간별 가중치(w_j)는 어떻게 결정되며, 각각의 가중치가 의미하는 바는 무엇인가요?", "section": "ZI Score Calculation Flow", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0025", "question": "각 기간별로 산출된 ZI 점수에 가중치를 곱해 최종 ZI Score를 산출하는 방법에서, 가중치를 부여하는 기준이나 규칙이 있나요?", "section": "ZI Score Calculation Flow", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0026", "question": "전 펀드 대상의 ZI 백분율 순위(%Rank)는 어떤 기준이나 절차를 통해 계산되며, 이 순위는 어떻게 활용되나요?", "section": "Step 3", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0027", "question": "효용값(CE) 산정을 위해 고려하는 기간별 성과 데이터는 어떤 데이터 소스를 참고해야 하나요?", "section": "ZI Score Calculation Flow", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0028", "question": "가중치 산정 시 최근 1년, 2년, 3년 성과에 대해 각각 1/6, 2/6, 3/6의 가중치를 적용하는 구체적 이유와 방법은 무엇인가요?", "section": "ZI Score Calculation Flow", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0029", "question": "지금까지 산출된 ZI 백분율 순위(%Rank)를 활용하여 펀드 평가 및 리포트에 반영하는 구체적인 절차는 무엇인가요?", "section": "Step 3", "chapter": "Step 5 : 전 펀드를 대상으로 ZI 에 대한 백분율 순위(%Rank)를 부여합니다.", "qa_type": "section_qa"}
+{"id": "v3_q_0030", "question": "3년, 5년, 10년 이상 운용기간 펀드에 대해 정식 등급을 부여하려면 어떤 기준을 충족해야 하나요?", "section": "다) 제로인 펀드등급의 부여", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0031", "question": "1년 이상인 펀드에 가등급을 부여할 때 어떤 백분율순위(%Rank)를 기준으로 등급을 결정하나요?", "section": "다) 제로인 펀드등급의 부여", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0032", "question": "펀드의 운용기간이 1년 미만인 경우에는 등급이 부여되지 않는다고 하는데, 그 이유와 예외 조건이 있나요?", "section": "다) 제로인 펀드등급의 부여", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0033", "question": "MMF에 대해서만 6개월 등급에 백분율순위(%Rank)를 표기하는 이유는 무엇인가요?", "section": "다) 제로인 펀드등급의 부여", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0034", "question": "ZI Score는 어떻게 계산되며, Min과 Max ZI값은 각각 어떤 의미를 갖나요?", "section": "이하 'ZI Score 변환 개념' 부분", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0035", "question": "ZI값이 -2.5 또는 2.5일 때 각각 ZI Score는 얼마나 되며, 이 점수는 어떤 의미를 갖나요?", "section": "이하 'ZI Score 변환 개념' 부분", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0036", "question": "ZI값을 표준화하여 ZI Score로 환산하는 이유는 무엇이며, 어떤 장점이 있나요?", "section": "이하 'ZI Score 변환 개념' 부분", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0037", "question": "단순 수익률과 로그 수익률 분포의 차이점은 무엇이며, 각각의 분석에 적합한 상황은 어떤 것이 있나요?", "section": "수익률 분포 비교", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0038", "question": "로그 수익률이 정규분포에 가까운 이유는 무엇이고, 이를 활용할 때 주의해야 하는 점은 무엇인가요?", "section": "수익률 분포 비교", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0039", "question": "표준정규분포에서 신뢰도 99%에 해당하는 $pm2.53$ 컷오프는 어떤 의미이며, 극단값 처리 방법으로 사용되는 이유는 무엇인가요?", "section": "수익률 분포 비교", "chapter": "다) 제로인 펀드등급의 부여", "qa_type": "section_qa"}
+{"id": "v3_q_0040", "question": "국내기타, 해외기타, 테마주식, 기타인덱스 유형의 펀드는 어떤 기준으로 펀드 등급 대상에서 제외되나요?", "section": "펀드 등급 대상 제외 펀드", "chapter": "라) 펀드 등급 대상 제외 펀드", "qa_type": "section_qa"}
+{"id": "v3_q_0041", "question": "제외유형 펀드에서 상호비교가 적절하지 않은 이유는 무엇인가요?", "section": "펀드 등급 대상 제외 펀드", "chapter": "라) 펀드 등급 대상 제외 펀드", "qa_type": "section_qa"}
+{"id": "v3_q_0042", "question": "제외유형 또는 타인덱스에 속하는 펀드 중 제로인 자체 조사에 따른 비평가펀드나 M&A 펀드는 어떤 평가 기준을 적용받나요?", "section": "펀드 등급 대상 제외 펀드", "chapter": "라) 펀드 등급 대상 제외 펀드", "qa_type": "section_qa"}
+{"id": "v3_q_0043", "question": "모펀드와 종류형운용펀드의 경우, 보수 차감 여부 때문에 상호비교가 불가능하다고 하는데, 상세한 이유와 그에 따른 평가 방법론은 무엇인가요?", "section": "펀드 등급 대상 제외 펀드", "chapter": "라) 펀드 등급 대상 제외 펀드", "qa_type": "section_qa"}
+{"id": "v3_q_0044", "question": "운용체계 등 정성평가와 과거 성과를 모두 고려하는 리서치등급 부여 시, 어떤 유형의 펀드가 평가 대상에 포함되며, 자산규모와 운용기간은 어떤 기준을 충족해야 하나요?", "section": "리서치등급(Research Rating)", "chapter": "2) 리서치등급(Research Rating)", "qa_type": "section_qa"}
+{"id": "v3_q_0045", "question": "리서치등급 평가 대상 펀드에서 자산규모가 50억 원 미만인 펀드는 제외된다고 하는데, 이 경우 평가 대상에 포함되기 위해서 어떤 조건을 만족해야 하나요?", "section": "가) 등급 부여 대상 펀드", "chapter": "2) 리서치등급(Research Rating)", "qa_type": "section_qa"}
+{"id": "v3_q_0046", "question": "수익성 평가지표에서 백분위순위점수는 어떻게 산출하며, 수익률이 낮으면 몇 점, 높으면 몇 점이 부여되나요?", "section": "평가항목 - 수익성 / 수익률", "chapter": "2) 리서치등급(Research Rating)", "qa_type": "section_qa"}
+{"id": "v3_q_0047", "question": "평가 기간 동안 평균수익성 점수를 구할 때, 1년, 2년, 3년 등 평가 기간별로 각각의 백분위 점수는 어떻게 산출하며, 성과 안정성은 어떤 방식으로 계산하나요?", "section": "평가항목 - 평균 수익성", "chapter": "2) 리서치등급(Research Rating)", "qa_type": "section_qa"}
+{"id": "v3_q_0048", "question": "원금보존성을 평가할 때, 하락분만을 고려하여 위험도를 측정하는데, 구체적으로 어떤 수식이 적용되며, 손실이 적을수록 어떤 점수 부여 방침인가요?", "section": "평가항목 - 원금보존성", "chapter": "2) 리서치등급(Research Rating)", "qa_type": "section_qa"}
+{"id": "v3_q_0049", "question": "1년 투자비용 산정 시, 신탁보수율과 선취수수료율의 차이와 그 영향을 구체적으로 어떻게 반영하나요?", "section": "비용효율성", "chapter": "비용효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0050", "question": "평가기간이 1년, 2년, 3년인 경우 각각의 1년 투자비용을 어떻게 계산하며, 어떤 차이점이 있나요?", "section": "비용효율성", "chapter": "비용효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0051", "question": "1년 투자비용이 없는 펀드에 대해 동일 유형의 평균 백분위순위점수인 50점을 부여하는 기준은 무엇인가요?", "section": "비용효율성", "chapter": "비용효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0052", "question": "운용사 평가점수는 어떤 기준으로 산출되며, 어떤 항목들이 평가 대상에 포함되나요?", "section": "정성 지표", "chapter": "정성 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0053", "question": "주식형 펀드의 정성평가 점수를 산출할 때 어떤 방식으로 운용사의 평가점수를 적용하나요?", "section": "정성 지표", "chapter": "정성 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0054", "question": "채권형 펀드와 혼합형 펀드의 정성평가 점수는 어떻게 차별화하여 적용되나요?", "section": "정성 지표", "chapter": "정성 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0055", "question": "기간평균 Score는 어떻게 산출하며, 운용 기간이 다른 펀드 간 비교는 어떻게 이루어지나요?", "section": "다) 리서치등급 부여 - 기간평균 Score", "chapter": "정성 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0056", "question": "가장 최근 정성평가점수는 어떻게 반영하며, 정성평가점수의 평가 시점과 기준은 무엇인가요?", "section": "다) 리서치등급 부여 - 정성평가 점수", "chapter": "정성 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0057", "question": "종합점수 산출 시 국내주식형 및 혼합형의 정량점수와 성과 점수의 배점이 각각 70점과 20점인 이유는 무엇인가요?", "section": "종합점수 산출", "chapter": "종합점수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0058", "question": "리서치 등급에서 1등급과 5등급은 각각 어떤 펀드를 의미하며, 백분위 기준으로 어느 수준인지 구체적으로 알고 싶어요.", "section": "리서치 등급 기준", "chapter": "종합점수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0059", "question": "리서치 등급을 매길 때 동일한 분포(10/23/34/23/10)를 적용하는데, 이 분포가 어떤 기준이나 정책에 따른 것인지 설명해 주세요.", "section": "리서치 등급 기준", "chapter": "종합점수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0060", "question": "ESG 펀드 스코어를 산출할 때, 환경, 사회책임, 지배구조에 대한 평가 점수가 있는 종목만 고려하는 것인지, 아니면 모든 종목을 포함하는지요?", "section": "나) 펀드 ESG 스코어의 산출", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0061", "question": "펀드 내 주식 비중을 재산출할 때, ESG 평가 점수가 없는 종목은 제외하는 것으로 알고 있는데, ESG 평가가 없는 종목은 어떻게 처리해야 하나요?", "section": "나) 펀드 ESG 스코어의 산출", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0062", "question": "펀드포트폴리오의 ESG 점수 산출 시, 포트폴리오 내 종목별 ESG 점수는 어떻게 할당하는지 구체적인 절차를 설명해 주세요.", "section": "나) 펀드 ESG 스코어의 산출", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0063", "question": "Sin Stock 점수 산출 시, 종목 수에 따라 가중치가 어떻게 반영되는지 구체적인 산출 예시를 제공해주실 수 있나요?", "section": "6. 펀드 포트폴리오 Sin Stock(죄악주식) 점수 산출", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0064", "question": "펀드 ESG 점수의 절대순위와 %순위는 어떤 기준으로 산출하며, 이 등급이 투자 성과 평가에 어떤 영향을 미치나요?", "section": "7. 펀드 포트폴리오 ESG 등급 산출 - a) 유형내 상대 등급", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0065", "question": "ESG 점수의 절대 등급 산출 시, 한국기업지배구조원 ESG평가 기준만 사용하는지, 다른 기준도 참고하나요?", "section": "7. 펀드 포트폴리오 ESG 등급 산출 - b) 절대 등급", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0066", "question": "매월 산출하는 ESG 평가 결과가 포트폴리오의 변동성을 어떻게 반영하는지, 그리고 평가 주기를 변경할 필요가 있나요?", "section": "산출 주기", "chapter": "3) ESG 펀드 스코어링 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0067", "question": "기간수익률 계산 시 결산이익분배율 감안을 위해 어떤 요소들이 고려되나요?", "section": "1) 펀드 수익률 계산", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0068", "question": "일별 실현수익률(r_{i,F}) 계산에 필요한 기준가와 분배율(P_i, P_{i-1}, P_0, D_i)는 각각 어떻게 적용되나요?", "section": "1) 펀드 수익률 계산", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0069", "question": "기간(누적)수익률 R_{t,F}는 일별수익률 r_{i,F}를 어떻게 곱해서 산출하나요?", "section": "1) 펀드 수익률 계산", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0070", "question": "일별 기간수익률을 산출하는 산출 기준일이 휴일인 경우에는 어떻게 처리되나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0071", "question": "구간수익률 산출 기준일은 어떤 규칙으로 설정되며, 휴일인 경우는 어떻게 반영되나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0072", "question": "BM 수익률 산출 시 펀드 기준가가 휴일에 반영되는 경우에는 어떤 방식을 따르나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0073", "question": "국내외펀드의 BM 적용일자가 지역별 차이를 두는 이유는 무엇이며, 구체적으로 어떤 차이가 있나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0074", "question": "복합 BM 수익률 지수 ZCI_BM_{i}는 각 시장 지수와 투자비중에 따라 어떻게 산출되나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0075", "question": "펀드의 실제 편입비를 반영하는 수익률 방식을 복합형 펀드에 적용하려면 어떤 계산법을 참고해야 하나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0076", "question": "순자산총액(NAV)은 보정 NAV을 사용하는 이유와, 결산익일 재투자분이 NAV에 미치는 영향을 어떻게 보정하나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0077", "question": "그룹 수익률을 산출할 때 유의할 최소 운용규모와 운용기간은 각각 어떻게 정해지며, 왜 그렇게 규정되었나요?", "section": "그룹(Peer Group) 수익률 계산", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0078", "question": "그룹 수익률 대상 펀드 선정 시, 운용 재량권 유무는 어떻게 반영되나요?", "section": "그룹(Peer Group) 수익률 계산", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0079", "question": "일별 수익률 r_{i,P}를 계산할 때 펀드의 NAV와 수정 NAV는 각각 어떻게 활용되며, 그 차이점은 무엇인가요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0080", "question": "그룹의 일별 BM 수익률 r^{BM}_{i,P}는 어떤 방식으로 산출되며, 왜 수정 NAV 대신 GNAV를 사용하는 건가요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0081", "question": "그룹 수익률 산출 시 일별 수익률들을 곱하여 기간수익률 R_{t,P}를 구하는 절차는 어떻게 되나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0082", "question": "평균수익률 계산 시 사용하는 단순평균수익률과 로그수익률의 차이점은 무엇인가요? 그리고 각각 언제 사용하는 게 적합한가요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0083", "question": "로그수익률을 사용하는 이유는 무엇이며, 이를 통해 수익률 분포의 왜곡 현상은 어떻게 개선되나요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0084", "question": "수익률의 연환산 방법 중 1년 이상 기간 펀드와 1년 미만 기간 펀드 각각에 적용하는 공식 차이는 무엇인가요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0085", "question": "연환산 수익률 계산 시, 단순 기간수익률과 실현수익률 기준으로 각각 어떻게 산출하는지 구체적 공식을 알려주세요.", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0086", "question": "%순위(백분율 순위)는 어떻게 계산하며, 이 값이 의미하는 성과 수준은 무엇인가요?", "section": "수익률 평가방법", "chapter": "2.3. 수익률 평가방법", "qa_type": "section_qa"}
+{"id": "v3_q_0087", "question": "표준편차가 총위험과 변동성을 나타내는 지표로서, 이를 펀드 평가 시 어떤 상황에서 활용하나요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0088", "question": "(-)표준편차는 어떤 성격의 위험을 의미하는지 알고 싶은데, 분류 또는 분석 방법에 대해 설명해줄 수 있나요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0089", "question": "하락편차와 상승편차가 각각 어떤 특정 기간이나 조건에서 계산되는지 구체적인 계산 기준이 궁금합니다.", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0090", "question": "베타, 상승베타, 하락베타의 차이점은 무엇이며, 각각의 베타를 평가할 때 어떤 상황에 유용하게 쓰이나요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0091", "question": "결정계수는 베타의 유의성을 평가하는 지표라고 하는데, 유의성 수치가 어떤 기준 이상이면 신뢰할 수 있나요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0092", "question": "지수 추적오차는 평가 대상 펀드의 추적 능력을 보여주는데, 일정 기준을 초과하거나 미달하는 경우 어떤 조치가 필요한지요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0093", "question": "Maximum Drawdown과 최대손실은 모두 손실 폭을 나타내는데, 두 개의 차이점과 각각의 적용 기준은 무엇인가요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0094", "question": "기간중 음수익비중과 양수익비중은 어떤 주기(주, 월) 단위로 계산되며, 각각의 수치가 높을 때 해석하는 방법은 무엇인가요?", "section": "[제로인 산출 위험지표 및 위험조정 성과지표 요약]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0095", "question": "샤프지수와 수정샤프지수는 어떻게 구분하며, 두 지표 모두 펀드의 위험 대비 수익성을 평가하는 데 어떤 차이점이 있나요?", "section": "[3. 위험지표 및 위험조정 성과지표 방법론]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0096", "question": "수익/위험비율은 무엇을 의미하는지 설명해주시고, 펀드 평가 시 어떤 경우에 이 지표를 우선적으로 고려하나요?", "section": "[3. 위험지표 및 위험조정 성과지표 방법론]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0097", "question": "Bull/Bear Beta Ratio는 상승시장과 하락시장 베타의 비율인데, 이 비율이 높거나 낮을 때의 의미와 해석 기준이 궁금합니다.", "section": "[3. 위험지표 및 위험조정 성과지표 방법론]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0098", "question": "Calmar Ratio와 Sterling Ratio는 둘 다 연복리 수익률을 기준으로 하는데, 각각의 차이점과 적합한 분석 환경은 무엇인가요?", "section": "[3. 위험지표 및 위험조정 성과지표 방법론]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0099", "question": "첨도와 왜도는 수익률 분포의 특성을 보여주는 지표라고 하는데, 각각의 수치가 높거나 낮을 때 어떤 의미가 있나요?", "section": "[3. 위험지표 및 위험조정 성과지표 방법론]", "chapter": "3. 위험지표 및 위험조정 성과지표 방법론", "qa_type": "section_qa"}
+{"id": "v3_q_0100", "question": "표준편차를 이용해 펀드의 위험 수준을 평가할 때, 값이 크면 어떤 의미이며 그에 따른 투자 전략은 어떻게 달라질 수 있나요?", "section": "3.1. 위험지표", "chapter": "3.1. 위험지표", "qa_type": "section_qa"}
+{"id": "v3_q_0101", "question": "연환산 표준편차를 계산할 때, 곱하기 √52를 하는 이유는 무엇인가요? 그리고 이 연환산 수치는 어떤 상황에서 유용하게 활용되나요?", "section": "3.1. 위험지표", "chapter": "3.1. 위험지표", "qa_type": "section_qa"}
+{"id": "v3_q_0102", "question": "펀드의 로그수익률이 1주일 동안 평균보다 높은 날이 많을수록 표준편차는 어떻게 변하며, 이를 통해 펀드의 위험 정도를 어떻게 판단할 수 있나요?", "section": "3.1. 위험지표", "chapter": "3.1. 위험지표", "qa_type": "section_qa"}
+{"id": "v3_q_0103", "question": "하락편차를 계산할 때, 펀드 수익률이 벤치마크보다 낮은 기간수를 구하는 구체적인 방법은 무엇인가요?", "section": "2) 하락편차 ; Downside Deviation", "chapter": "2) 하락편차 ; Downside Deviation", "qa_type": "section_qa"}
+{"id": "v3_q_0104", "question": "하락편차 값이 클수록 하락 리스크가 크다고 하는데, 이와 관련해서 어떤 상황이나 특성의 펀드가 높은 하락편차를 가지는지 알려줄 수 있나요?", "section": "2) 하락편차 ; Downside Deviation", "chapter": "2) 하락편차 ; Downside Deviation", "qa_type": "section_qa"}
+{"id": "v3_q_0105", "question": "주간 수익률 데이터를 이용해 하락편차를 연환산하는데, 연환산 방법의 구체적인 절차나 주의해야 할 점이 있나요?", "section": "2) 하락편차 ; Downside Deviation", "chapter": "2) 하락편차 ; Downside Deviation", "qa_type": "section_qa"}
+{"id": "v3_q_0106", "question": "상승편차의 값이 클수록 어떤 의미를 가지며, 이것이 펀드의 위험 측면에서 어떤 것을 나타내는지 설명해 주실 수 있나요?", "section": "3) 상승편차 ; Upside Deviation", "chapter": "3) 상승편차 ; Upside Deviation", "qa_type": "section_qa"}
+{"id": "v3_q_0107", "question": "상승편차를 계산할 때 펀드 수익률이 벤치마크를 초과하는 기간수 $n^{F,M}_U$는 어떻게 산출하나요? 구체적인 산출 기준을 설명해 주세요.", "section": "3) 상승편차 ; Upside Deviation", "chapter": "3) 상승편차 ; Upside Deviation", "qa_type": "section_qa"}
+{"id": "v3_q_0108", "question": "연환산 값으로 산출하는 상승편차가 실제 운용 성과 평가에서 어떤 역할을 하며, 어느 상황에서 중요한 지표로 활용될 수 있을까요?", "section": "3) 상승편차 ; Upside Deviation", "chapter": "3) 상승편차 ; Upside Deviation", "qa_type": "section_qa"}
+{"id": "v3_q_0109", "question": "베타값이 1인 펀드는 시장 수익률과 동일하게 움직인다고 하는데, 이때 시장이 2% 상승하면 펀드 수익률은 얼마 정도 기대할 수 있나요?", "section": "4) 베타 ; Beta", "chapter": "4) 베타 ; Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0110", "question": "시장 수익률이 1% 상승할 때 펀드가 평균적으로 얼마나 민감하게 반응하는지를 나타내는 지표인 베타를 계산하려면 어떤 자료와 계산식이 필요한가요?", "section": "4) 베타 ; Beta", "chapter": "4) 베타 ; Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0111", "question": "시장 상승 국면과 하락 국면에서의 펀드 베타는 어떻게 구분하고, 이를 위해 상승베타와 하락베타를 각각 별도로 계산하는 절차가 있나요?", "section": "5) 상승베타 ; Bull Beta", "chapter": "4) 베타 ; Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0112", "question": "상승베타 계산 시, 펀드가 시장보다 더 상승하거나 더 하락하는 경우를 반영하려면 어떤 수식을 사용하며, '펀드가 시장보다 더 많이 상승할 때'의 베타는 어떻게 구하는지요?", "section": "5) 상승베타 ; Bull Beta", "chapter": "4) 베타 ; Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0113", "question": "상승베타와 일반 베타의 차이점이 무엇인가요? 그리고 실제 업무에 적용하기 위해 어떤 경우에 상승베타를 별도로 산출하는 것이 유리한가요?", "section": "5) 상승베타 ; Bull Beta", "chapter": "4) 베타 ; Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0114", "question": "하락베타(Bear Beta)를 계산할 때, ‘기간 중 펀드수익률이 시장수익률보다 낮은 기간’의 의미와 이를 어떻게 구분하는지 궁금합니다.", "section": "6) 하락베타 ; Bear Beta", "chapter": "6) 하락베타 ; Bear Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0115", "question": "하락베타 계산식을 보면, n^{F,M}_D와 두 평균값이 나오는데, 각각 어떤 의미이며 어떤 기준으로 산출하는지 자세히 설명해 주세요.", "section": "6) 하락베타 ; Bear Beta", "chapter": "6) 하락베타 ; Bear Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0116", "question": "시장 혹은 벤치마크 지수의 하락 시 하락베타 값이 어떻게 해석되어야 하는지, 계산된 값이 의미하는 바와 평가 기준은 무엇인가요?", "section": "6) 하락베타 ; Bear Beta", "chapter": "6) 하락베타 ; Bear Beta", "qa_type": "section_qa"}
+{"id": "v3_q_0117", "question": "결정계수 R-squared 값이 1이면, 어떤 의미이며, 펀드 수익률을 완벽하게 설명할 수 있다는 것을 어떻게 이해하면 되나요?", "section": "7) 결정계수 ; R-Square($R^2$)", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0118", "question": "포트폴리오의 베타 값과 결정계수 값이 각각 어떤 역할을 하며, 이 둘의 상관관계는 어떻게 이해해야 하나요?", "section": "7) 결정계수 ; R-Square($R^2$)", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0119", "question": "시장모형에서 결정계수는 어떻게 계산하며, 포트폴리오 위험 중 시장위험과 관련된 정도를 어떤 방식으로 판단할 수 있나요?", "section": "7) 결정계수 ; R-Square($R^2$)", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0120", "question": "트래킹에러(Tracking Error)가 무엇이며, 일정 기간 동안 펀드 수익률과 벤치마크 지수 수익률과의 차이 변동성을 어떻게 측정하나요?", "section": "8) 추적오차 ; Tracking Error", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0121", "question": "트래킹에러 계산 공식에 등장하는 수익률 R_i^F와 R_i^{BM}가 각각 의미하는 것이 무엇이며, 평균수익률은 어디에 반영되나요?", "section": "8) 추적오차 ; Tracking Error", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0122", "question": "평균손실(Average Loss)이 무엇을 의미하며, 주간 손실률이 음수일 때의 평균치는 어떻게 계산되나요?", "section": "9) 평균손실 ; Average Loss", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0123", "question": "평균이익(Average Gain)이란 무엇이고, 양수의 주간 수익률 평균은 어떤 방식으로 산출되나요?", "section": "10) 평균이익 ; Average Gain", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0124", "question": "Maximum Drawdown은 어떤 의미이며, 최대 하락 구간을 산출하기 위한 계산 방법은 무엇인가요?", "section": "11) Maximum Drawdown", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0125", "question": "최대손실(Maximum Loss)은 어떤 기간의 수익률을 말하며, 펀드 수익률이 마이너스인 경우 어떤 수치를 참고하나요?", "section": "12) 최대손실 ; Maximum Loss", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0126", "question": "최대이익(Maximum Gain)은 무엇이고, 펀드가 설정 이후 기록한 최고 수익률은 어떻게 산출하나요?", "section": "13) 최대이익 ; Maximum Gain", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0127", "question": "기간중 음비중(Negative Periods)와 양비중(Positive Periods)은 각각 어떤 의미를 가지며, 계산 공식은 어떻게 되나요?", "section": "14) 기간중 음비중 ; Negative Periods", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0128", "question": "최대드로우다운이 발생한 기간(기간 동안 최고점에서 최저점까지 얼마나 하락했는지 나타내는 것)이 무엇인지, 계산 방법과 예시를 알려주세요.", "section": "16) Maximum Drawdown Periods", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0129", "question": "Recovery Period란 무엇이며, 최대 드로우다운 이후 회복까지 걸리는 기간은 어떻게 산출하나요?", "section": "17) Recovery Periods", "chapter": "7) 결정계수 ; R-Square($R^2$)", "qa_type": "section_qa"}
+{"id": "v3_q_0130", "question": "샤프지수는 펀드의 위험을 1단위로 부담했을 때 초과수익을 얼마나 얻었는지를 보여주는 것인데, 측정 기간이 동일해야만 비교할 수 있다고 하셨는데, 그렇다면 어떤 기간을 기준으로 계산하는 것이 적절한가요?", "section": "1) 샤프지수 ; Sharpe Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0131", "question": "수익률이 음수인 초과수익률에 대해 수정샤프지수를 사용할 때, 표준편차에 어떤 값을 곱하는지 구체적인 계산법과 사례를 알려줄 수 있나요?", "section": "2) 수정샤프지수 ; Modified Sharpe Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0132", "question": "트레이너지수는 체계적 위험인 베타를 활용하는데, 베타가 크면 어떤 의미이며, 시장과의 관계를 어떻게 해석해야 하나요?", "section": "3) 트레이너지수 ; Treynor Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0133", "question": "젠센알파는 기대수익률과 실제수익률 차이를 보여주는 지표라고 하는데, 이것이 시장평균 대비 얼마나 우수하거나 열위인지 판단하는 기준은 무엇인가요?", "section": "4) 젠센알파 ; Jensen’s Alpha", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0134", "question": "정보비율은 벤치마크 대비 초과수익률과 추적오차의 비율이라는데, 이 값이 높을수록 어떤 의미를 가지며, 성과 평가에 어떻게 활용되나요?", "section": "5) 정보비율 ; Information Ratio(IR)", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0135", "question": "확실성등가를 계산할 때 위험회피계수 λ 값이 어떻게 결정되며, 예를 들어 국내 일반 주식형 펀드의 표준편차에 따른 위험회피계수 산출 방법을 구체적으로 설명해 주세요.", "section": "6) 확실성등가 ; Certainty Equivalence(CE)", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0136", "question": "수익/위험비율을 계산할 때 주간 수익률 평균과 표준편차를 연환산하는 방법이 있는데, 이때 곱하는 상수(52와 √52)의 의미와 계산법을 알려 주세요.", "section": "7) 수익/위험비율 ; Return to Risk Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0137", "question": "상대위험 조정후 수익률(RRAR)은 어떻게 산출하며, 이를 활용 시 어떤 장점이 있어 다른 성과지표와 차별화되나요?", "section": "8) 상대위험 조정후 수익률 ; Relative Risk Adjusted Return(RRAR)", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0138", "question": "모딜리아니 & 모딜리아니 ‘s RAP는 시장 표준편차를 곱해서 가상 수익률을 보여준다고 하는데, 이 수치는 어떻게 계산하며 어디에 활용하나요?", "section": "9) MM’s RAP ; Modigliani & Modigliani ‘s Risk Adjusted Performance", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0139", "question": "Sortino Ratio는 하방편차만을 고려한다고 하는데, 이때 하방편차는 어떤 방식으로 계산하며, 무엇이 다른 성과지표와 차별화되나요?", "section": "10) Sortino Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0140", "question": "Bull Beta Ratio와 Bear Beta로 각각 측정하는데, 이 값이 클수록 어떤 특성을 갖는 펀드라고 해석할 수 있나요?", "section": "11) Bull/Bear Beta Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0141", "question": "Calmar Ratio는 연복리수익률을 최대 낙폭으로 나눈 것인데, 최대 누적손실인 Maximum Drawdown은 어떻게 산출하며, 어떤 경우에 수치가 낮아지나요?", "section": "12) Calmar Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0142", "question": "Sterling Ratio는 연평균 수익률에서 10%를 뺀 값으로 최대 낙폭과 나누는데, 이때 10%는 어떻게 선정했으며, 수치가 높을수록 어떤 의미인가요?", "section": "13) Sterling Ratio", "chapter": "3.2. 위험조정 성과지표", "qa_type": "section_qa"}
+{"id": "v3_q_0143", "question": "펀드 수익률 분포의 첨도 값이 0보다 크면 어떤 의미이며, 이것이 펀드의 수익률 특성상 어떤 특징을 나타내는지 알 수 있나요?", "section": "3.3. 기타 지표 > 1) 첨도 ; Kurtosis", "chapter": "3.3. 기타 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0144", "question": "분포곡선이 평평하게 보인다면 첨도 값이 어떤 상태인지, 그리고 이 경우 펀드 수익률이 어떤 분포 형태를 가질 가능성이 높은지 설명해 주세요.", "section": "3.3. 기타 지표 > 1) 첨도 ; Kurtosis", "chapter": "3.3. 기타 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0145", "question": "펀드 수익률의 첨도 값이 음수인 경우, 수익률 분포가 어떤 모양을 보이거나 어떤 특성을 갖게 되는지 구체적으로 설명해 주실 수 있나요?", "section": "3.3. 기타 지표 > 1) 첨도 ; Kurtosis", "chapter": "3.3. 기타 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0146", "question": "수익률의 첨도 산출식을 사용할 때, 펀드의 주간 로그수익률 데이터가 n개일 경우 계산 방법과 유의할 점은 무엇인가요?", "section": "3.3. 기타 지표 > 1) 첨도 ; Kurtosis", "chapter": "3.3. 기타 지표", "qa_type": "section_qa"}
+{"id": "v3_q_0147", "question": "왜도 값이 0이면 펀드의 수익률 분포가 대칭이라고 할 수 있나요?", "section": "왜도 : Skewness", "chapter": "2) 왜도 : Skewness", "qa_type": "section_qa"}
+{"id": "v3_q_0148", "question": "양의 왜도 또는 음의 왜도 기준은 각각 무엇이며, 어떤 상황에서 해당 왜도 유형으로 분류할 수 있나요?", "section": "왜도 : Skewness", "chapter": "2) 왜도 : Skewness", "qa_type": "section_qa"}
+{"id": "v3_q_0149", "question": "펀드의 주간 로그 수익률 데이터를 이용해 왜도를 계산할 때, n은 어떤 값을 의미하며 표본 크기와 관련된 조건이 있나요?", "section": "왜도 : Skewness", "chapter": "2) 왜도 : Skewness", "qa_type": "section_qa"}
+{"id": "v3_q_0150", "question": "펀드의 운용스타일을 분류하는 기준은 어떤 특징적인 점들을 바탕으로 정해지며, 사전적 규정 외에 어떤 요소들이 고려되나요?", "section": "4. 펀드의 스타일분류", "chapter": "2) 왜도 : Skewness", "qa_type": "section_qa"}
+{"id": "v3_q_0151", "question": "펀드 운용스타일을 벤치마크로 활용하려면 어떤 방식을 통해 분류하거나 평가하는 것이 적합한지 구체적인 절차가 궁금합니다.", "section": "4. 펀드의 스타일분류", "chapter": "2) 왜도 : Skewness", "qa_type": "section_qa"}
+{"id": "v3_q_0152", "question": "펀드의 운용스타일이 사람의 운전스타일에 비유된다는 설명에서, 이를 실무적으로 펀드 성과평가에 어떻게 적용할 수 있나요?", "section": "4. 펀드의 스타일분류", "chapter": "2) 왜도 : Skewness", "qa_type": "section_qa"}
+{"id": "v3_q_0153", "question": "개별주식을 규모구분할 때 시가총액 기준으로 상위 5%와 15%를 각각 대형주와 중형주로 나누는 방법은 어떤 기준으로 결정하나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 규모의 구분 - 가) 개별주식의 규모구분", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0154", "question": "펀드 포트폴리오의 규모 구분 시 40~60% 내에 포함된 종목들의 가중평균 시가총액을 기준으로 대·중·소형을 어떻게 구분하나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 규모의 구분 - 나) 펀드 포트폴리오의 규모구분", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0155", "question": "시장 규모별 PER과 PBR의 대표값 산출 방법은 어떻게 되며, 어떤 종목들을 기준으로 중앙값을 정하나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 가치특성의 구분 - 가) 시장의 규모별 대표 PER, PBR 계산", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0156", "question": "개별 종목의 상대 PER와 PBR은 어떻게 계산하며, 이때 규모별 대표 PER과 PBR을 어디서 참고하나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 가치특성의 구분 - 나) 개별종목의 상대 PER, PBR 계산", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0157", "question": "펀드 내 주식 포트폴리오의 대표 PER 또는 PBR을 산출하는 방법은 무엇이며, 어느 종목들을 분석 대상에 포함시키나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 가치특성의 구분 - 다) 펀드의 가치특성 점수(Value Score) 계산", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0158", "question": "Value Score 값이 2.25를 초과하면 성장형으로, 1.75 미만이면 가치형으로 분류하는 기준은 무엇인가요?", "section": "4.1. 주식 포트폴리오의 스타일 - 가치특성의 구분 - 라) 펀드의 가치특성 구분", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0159", "question": "3*3 분류 기준에서 펀드의 규모는 어떻게 측정하며, 누적편입비 40~60%인 종목의 시가총액이 어떤 기준으로 최소 시가평가액과 비교되나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 주식 포트폴리오 스타일의 분류 기준 - 가) 3*3 분류 기준 - 규모의 구분", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0160", "question": "5*5 분류 기준에서 초대형주부터 초소형주까지의 구분은 어떻게 이루어지며, 각 구분의 시가총액 기준은 무엇인가요?", "section": "4.1. 주식 포트폴리오의 스타일 - 주식 포트폴리오 스타일의 분류 기준 - 나) 5*5 분류 기준 - 규모의 구분", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0161", "question": "가치구분이 '가치형', '혼합형', '성장형'으로 나뉠 때, 각각의 Value Score 기준값은 어떻게 정해지고, 어떤 펀드 특성을 반영하나요?", "section": "4.1. 주식 포트폴리오의 스타일 - 주식 포트폴리오 스타일의 분류 기준 - 가) 3*3 분류 기준 - 가치특성의 구분", "chapter": "4.1. 주식 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0162", "question": "보유 채권의 신용등급별 부도율 계산 시, 어떤 채권은 CP를 제외하고 평가해야 하나요?", "section": "1) 신용도의 구분", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0163", "question": "국공채와 지방채는 신용등급 산정 시 AAA로 간주하나요? 아니면 별도 평가가 필요한가요?", "section": "1) 신용도의 구분", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0164", "question": "보증채의 신용등급 평가 시, 보증기관과 발행기관 중 어떤 것을 우선적으로 고려하나요?", "section": "1) 신용도의 구분", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0165", "question": "신용등급별 부도율 계산 방법은 어떻게 되나요? 과거 10년간 데이터를 사용하는 거죠?", "section": "1) 신용도의 구분", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0166", "question": "기초자산의 듀레이션을 계산할 때, 잔존만기와 듀레이션 값이 어떻게 차이가 있나요?", "section": "2) 듀레이션의 구분", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0167", "question": "Modified Duration을 계산할 때, 이자율에 따라 채권 가격이 얼마나 변화하는지 감을 잡으려면 어떤 값이 중요한가요?", "section": "2) 듀레이션의 구분", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0168", "question": "펀드 내 채권과 유동성자산(금리선물, CP 등)의 듀레이션을 종합하여 산출하는 방법은 어떻게 되나요?", "section": "4) 펀드듀레이션 및 펀드신용등급의 산출", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0169", "question": "금리선물의 듀레이션을 산출할 때, 기초자산의 듀레이션을 어떻게 반영하나요?", "section": "4) 펀드듀레이션 및 펀드신용등급의 산출", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0170", "question": "CP와 CD의 듀레이션은 잔존일수와 금리 수준에 따라 어떻게 계산되나요?", "section": "4) 펀드듀레이션 및 펀드신용등급의 산출", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0171", "question": "펀드 듀레이션과 신용평점 산출 시, 어떤 자산 배분 비중이 반영되나요?", "section": "4) 펀드듀레이션 및 펀드신용등급의 산출", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0172", "question": "채권 포트폴리오의 스타일 분류 기준인 3×3, 5×5는 각각 어떤 기준으로 신용도와 듀레이션을 구분하나요?", "section": "3) 채권 포트폴리오 스타일의 분류 기준", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0173", "question": "3×3 분류에서 신용점수와 듀레이션은 각각 어떻게 계산하며, 어떤 값에 따라 상·중·하 또는 단기/중기/장기로 구분하나요?", "section": "3) 채권 포트폴리오 스타일의 분류 기준", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0174", "question": "5×5 분류 기준의 신용등급 구분은 어디까지 고려하며, 듀레이션 구간은 어떻게 설정되어 있나요?", "section": "3) 채권 포트폴리오 스타일의 분류 기준", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0175", "question": "펀드 내 채권, 채권선물, CD, CP 등 자산을 반영한 펀드듀레이션 산출 시, 각각의 가중치는 어떻게 적용되나요?", "section": "4) 펀드듀레이션 및 펀드신용등급의 산출", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0176", "question": "펀드의 신용등급 산출 방법에서, 각 종목별 부도율은 어떻게 가중평균하는지 구체적인 계산법을 알려 주세요.", "section": "4) 펀드듀레이션 및 펀드신용등급의 산출", "chapter": "4.2. 채권 포트폴리오의 스타일", "qa_type": "section_qa"}
+{"id": "v3_q_0177", "question": "자산배분효과를 계산할 때, 평균편입비수익률과 BM수익률을 구하는 구체적인 방법은 무엇인가요?", "section": "5.1. BM대비 성과요인 분석", "chapter": "5.1. BM대비 성과요인 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0178", "question": "자산배분타이밍효과가 양수일 때, 어떤 상황을 의미하며 어떻게 해석할 수 있나요?", "section": "5.1. BM대비 성과요인 분석", "chapter": "5.1. BM대비 성과요인 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0179", "question": "종목선정효과는 어떤 성과를 나타내며, 펀드수익률과 실제편입비수익률 차이로 어떻게 산출하나요?", "section": "5.1. BM대비 성과요인 분석", "chapter": "5.1. BM대비 성과요인 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0180", "question": "자산배분효과와 자산배분타이밍효과의 차이는 무엇이고, 각각의 고유한 의미는 무엇인가요?", "section": "5.1. BM대비 성과요인 분석", "chapter": "5.1. BM대비 성과요인 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0181", "question": "이 분석방법을 통해 자산배분 실패와 성공을 어떻게 구분할 수 있으며, 그 기준은 무엇인가요?", "section": "5.1. BM대비 성과요인 분석", "chapter": "5.1. BM대비 성과요인 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0182", "question": "포트폴리오 내 주식의 성과를 종목선정효과와 업종선정효과로 나누어 분석하는데, 각각의 구체적인 차이점은 무엇인가요?", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0183", "question": "개별 종목별 수익률 계산 방법이 네 가지 있는데, 각각 어떤 상황에 어떤 수익률 계산식을 적용하는지 설명해 주세요.", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0184", "question": "포트폴리오 기준시가평가액을 평가할 때, 전체 개별 종목의 평가액과 매수액을 어떻게 합산해서 계산하는지 상세하게 설명해 주세요.", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0185", "question": "시장대비 초과수익률을 구할 때 종목선정효과와 업종선정효과를 각각 계산하는 방법이 구체적으로 어떻게 되나요?", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0186", "question": "가중치 산출 시, 포트폴리오의 전체 평가액을 기준으로 개별 종목의 평가액이나 매수액을 어떻게 반영하는지 알려 주세요.", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0187", "question": "일손익과 수익률 계산에서 T-1일과 T일의 평가액, 매수액, 매도액의 차이를 어떻게 구별해서 적용해야 하나요?", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0188", "question": "이 구분된 성과요인 분석법이 실제 펀드 평가 실무에서 어떻게 활용되고 있나요? 구체적인 예를 들어 설명해 주세요.", "section": "5.2. 주식부문 성과요인분석", "chapter": "5.2. 주식부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0189", "question": "포트폴리오 내 순수 채권의 성과를 분해할 때, 종목선정효과와 만기선정효과의 차이는 무엇인가요?", "section": "5.3. 채권부문 성과요인분석", "chapter": "5.3. 채권부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0190", "question": "일손익과 일수익률 계산 시 포지션별로 어떤 평가액과 매수액을 기준으로 하는지 구체적으로 알 수 있나요?", "section": "5.3. 채권부문 성과요인분석", "chapter": "5.3. 채권부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0191", "question": "시장대비 초과수익률을 구하려면 어떤 요소들을 고려해야 하며, 각각의 효과(종목선정효과, 만기선정효과, 등급선정효과, 섹터선정효과, 시장선정효과)는 어떻게 구분해서 계산하나요?", "section": "5.3. 채권부문 성과요인분석", "chapter": "5.3. 채권부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0192", "question": "단기채권종합지수 일수익률과 소분류 해당 만기채권지수 일수익률 차이를 이용한 만기선정효과 분리 방법이 왜 중요한가요?", "section": "5.3. 채권부문 성과요인분석", "chapter": "5.3. 채권부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0193", "question": "포트폴리오 기준시가평가액은 어떻게 산출하며, 개별 종목의 가중치는 어떤 방식으로 결정되나요?", "section": "5.3. 채권부문 성과요인분석", "chapter": "5.3. 채권부문 성과요인분석", "qa_type": "section_qa"}
+{"id": "v3_q_0194", "question": "회전율이 높게 나올 경우, 펀드의 주식 매매 빈도가 너무 잦다는 의미인가요?", "section": "6.1. 회전율 분석", "chapter": "6.1. 회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0195", "question": "일별 결제액 데이터를 활용하여 정확한 회전율 분석을 하려면 어떤 자료를 준비해야 하나요?", "section": "6.1. 회전율 분석", "chapter": "6.1. 회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0196", "question": "보통 회전율이 어느 수준 이상이면 비용 과다 지출로 간주하나요?", "section": "6.1. 회전율 분석", "chapter": "6.1. 회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0197", "question": "회전율 계산 시, 결제매수와 결제매도 합을 어떤 기간에 걸쳐 계산하는 것이 적절한가요?", "section": "6.1. 회전율 분석", "chapter": "6.1. 회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0198", "question": "월말 기준 보유 자산 내역만으로는 회전율 계산이 어려운 것으로 알고 있는데, 제로인은 월중에 발생한 매매를 감안하지 않고 추정 회전율을 산출한다는 것이 맞나요?", "section": "6.2. 추정 주식회전율 분석", "chapter": "6.2. 추정 주식회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0199", "question": "추정 주식매도회전율 계산식에서 S_{t-1,i}가 S_{t,i}보다 크면 해당 종목이 매도된 것으로 간주하는데, 이 경우 특정 종목이 전월보다 수량이 적은 것도 매도회전율에 포함시키는 건가요?", "section": "1) 추정 주식매도회전율", "chapter": "6.2. 추정 주식회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0200", "question": "추정 주식매수회전율 계산 시 S_{t-1,i}보다 S_{t,i}가 크면 매수로 계산하는데, 이 값들을 모두 더해서 당월의 전체 매수회전율로 산출하는 것이 맞나요?", "section": "2) 추정 주식매수회전율", "chapter": "6.2. 추정 주식회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0201", "question": "추정 주식매매회전율은 매도회전율과 매수회전율을 합산해서 계산하는데, 이는 펀드의 전체 거래 활발도를 보여주는 지표로 이해하면 되나요?", "section": "3) 추정 주식매매회전율", "chapter": "6.2. 추정 주식회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0202", "question": "이 계산 방식으로 산출된 추정 회전율은 실제 거래량과 얼마나 차이가 날 수 있나요? 또한, 월중 매매가 없던 경우에는 어떤 점을 유의해야 하나요?", "section": "6.2. 추정 주식회전율 분석", "chapter": "6.2. 추정 주식회전율 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0203", "question": "월말 동결 평가액은 어떤 기준이나 가정 하에 산출하며, 구체적으로 어떤 방식으로 계산하나요?", "section": "6.3. 동결 주식포트폴리오 분석", "chapter": "6.3. 동결 주식포트폴리오 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0204", "question": "동결 손익은 월초의 보유 주식을 월말까지 그대로 유지하는 가정을 할 때의 평가손익을 의미하는데, 여기서 평가손익은 어떤 항목들을 포함하나요?", "section": "6.3. 동결 주식포트폴리오 분석", "chapter": "6.3. 동결 주식포트폴리오 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0205", "question": "동결 수익률 계산 방법에서 분모인 설정액이 어떤 기준으로 정해지며, 변경될 수 있나요?", "section": "6.3. 동결 주식포트폴리오 분석", "chapter": "6.3. 동결 주식포트폴리오 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0206", "question": "실현손익은 한달간 실제 매매와 평가손익의 합이기 때문에, 평가손익이 제외되거나 포함되는 구체적인 사례가 있다면 무엇인가요?", "section": "6.3. 동결 주식포트폴리오 분석", "chapter": "6.3. 동결 주식포트폴리오 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0207", "question": "운용 수익률은 실현 수익률에서 동결 수익률을 차감하는데, 만약 동결 수익률이 플러스인 경우와 마이너스인 경우 각각 어떻게 해석하나요?", "section": "6.3. 동결 주식포트폴리오 분석", "chapter": "6.3. 동결 주식포트폴리오 분석", "qa_type": "section_qa"}
+{"id": "v3_q_0208", "question": "매수가격의 효율성을 계산할 때 매수금액 가중치를 어떻게 산출하는지 구체적인 방법을 알고 싶습니다.", "section": "6.4. 주식의 매매가격 효율성 / 1) 매수가격의 효율성", "chapter": "6.4. 주식의 매매가격 효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0209", "question": "매수가격의 효율성이 0과 1 사이의 값을 갖는다고 했는데, 이 값이 낮을수록 어떤 의미인가요?", "section": "6.4. 주식의 매매가격 효율성 / 1) 매수가격의 효율성", "chapter": "6.4. 주식의 매매가격 효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0210", "question": "매도가격의 효율성을 산출할 때 매도금액 가중치는 어떤 기준으로 결정되며, 가중치가 높거나 낮은 경우에 어떤 의미를 가지나요?", "section": "6.4. 주식의 매매가격 효율성 / 2) 매도가격의 효율성", "chapter": "6.4. 주식의 매매가격 효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0211", "question": "월별 매매가격 효율성 산출 시, 집계하는 방법이나 가중평균 방식을 좀 더 구체적으로 설명해줄 수 있나요?", "section": "6.4. 주식의 매매가격 효율성 / 3) 월별 매매가격 효율성", "chapter": "6.4. 주식의 매매가격 효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0212", "question": "매수 또는 매도 가격이 각각 최저가 또는 최고가일 때 효율성 값이 각각 0 또는 1이 되는 기준은 무엇인가요?", "section": "6.4. 주식의 매매가격 효율성 / 1) 매수가격의 효율성 / 2) 매도가격의 효율성", "chapter": "6.4. 주식의 매매가격 효율성", "qa_type": "section_qa"}
+{"id": "v3_q_0213", "question": "Delta Normal Method를 이용하여 VaR를 산출할 때, 기초 시장가격인 KOSPI의 수익률 분포를 정규분포로 가정하는 이유는 무엇인가요?", "section": "Delta Normal Method의 특징", "chapter": "6.5. 주식 포트폴리오의 VaR", "qa_type": "section_qa"}
+{"id": "v3_q_0214", "question": "포트폴리오의 위험민감도(델타)가 시간에 따라 변할 수 있다고 하는데, 이 변화를 어떻게 측정하거나 반영하나요?", "section": "Delta Normal Method의 특징", "chapter": "6.5. 주식 포트폴리오의 VaR", "qa_type": "section_qa"}
+{"id": "v3_q_0215", "question": "VaR 계산식에서 신뢰수준(α)을 95%로 설정하면 어떤 의미인지, 그리고 해당 신뢰수준이 포트폴리오 위험 평가에 어떤 영향을 미치는지 설명해 주세요.", "section": "VaR 계산식", "chapter": "6.5. 주식 포트폴리오의 VaR", "qa_type": "section_qa"}
+{"id": "v3_q_0216", "question": "포트폴리오의 변화량(변동성)을 EWMA 방식을 통해 측정할 때, 감쇠 계수(λ)를 어떻게 설정하나요? 그리고 이 값이 변동성 산출에 어떤 영향을 미치는지 설명해 주세요.", "section": "KOSPI 변동성의 측정 방법", "chapter": "6.5. 주식 포트폴리오의 VaR", "qa_type": "section_qa"}
+{"id": "v3_q_0217", "question": "KOSPI 변동성을 EWMA 방식을 이용해 측정하는 경우, 최근 데이터에 더 가중치를 두는 이유와 그 방법이 위험 측정에 미치는 영향을 구체적으로 설명해 주세요.", "section": "KOSPI 변동성의 측정 방법", "chapter": "6.5. 주식 포트폴리오의 VaR", "qa_type": "section_qa"}
+{"id": "v3_q_0218", "question": "펀드 제공 자료에서 일간 주기로 제공되는 '수익률분석' 자료는 어떤 내용들이 포함되어 있나요?", "section": "7. 제공 자료의 종류", "chapter": "7. 제공 자료의 종류", "qa_type": "section_qa"}
+{"id": "v3_q_0219", "question": "월간 주기로 제공되는 '펀드등급(성과등급)'과 '펀드등급(리서치등급)'은 각각 어떤 평가 항목을 기준으로 하고 있나요?", "section": "7. 제공 자료의 종류", "chapter": "7. 제공 자료의 종류", "qa_type": "section_qa"}
+{"id": "v3_q_0220", "question": "포트폴리오 분석 자료는 어떤 자산 분석 내용이 포함되어 있으며, 스타일 분석과 어떤 차별점이 있나요?", "section": "7. 제공 자료의 종류", "chapter": "7. 제공 자료의 종류", "qa_type": "section_qa"}
+{"id": "v3_q_0221", "question": "해외주식형 펀드의 해외 포트폴리오 분석 자료는 어떤 정보를 제공하며, 이를 평가할 때 어떤 점을 유의해야 하나요?", "section": "7. 제공 자료의 종류", "chapter": "7. 제공 자료의 종류", "qa_type": "section_qa"}
+{"id": "v3_q_0222", "question": "월간 제공되는 '자산분석(해외채권포함)' 자료에서는 어떤 자산 구성 정보와 분석 내용이 포함되어 있나요?", "section": "7. 제공 자료의 종류", "chapter": "7. 제공 자료의 종류", "qa_type": "section_qa"}
+{"id": "v3_q_0223", "question": "펀드 평가 자료가 변경되었을 때 즉시 반영된다고 하는데, 어떤 절차로 수정 데이터를 제출하고 반영하는 건가요?", "section": "8. 평가 자료의 공시", "chapter": "8. 평가 자료의 공시", "qa_type": "section_qa"}
+{"id": "v3_q_0224", "question": "웹사이트(http://www.funddoctor.co.kr)에서 공개하는 평가 자료는 어떤 정보를 포함하고 있으며, 공개 시점은 언제인가요?", "section": "8. 평가 자료의 공시", "chapter": "8. 평가 자료의 공시", "qa_type": "section_qa"}
+{"id": "v3_q_0225", "question": "평가 자료의 수정이 즉시 반영되지 않는 경우가 있다면 어떤 사유가 있나요?", "section": "8. 평가 자료의 공시", "chapter": "8. 평가 자료의 공시", "qa_type": "section_qa"}
+{"id": "v3_q_0226", "question": "펀드의 실질 자금 유입과 유출을 파악하려면 어떤 값을 계산해야 하나요?", "section": "X.1. 펀드의 실질자금 순유출입", "chapter": "X1. 기타", "qa_type": "section_qa"}
+{"id": "v3_q_0227", "question": "순유출입액을 산출할 때 사용되는 S_t, U_t, P_t 등의 변수들은 각각 무엇을 의미하며, 어떻게 계산에 반영되나요?", "section": "X.1. 펀드의 실질자금 순유출입", "chapter": "X1. 기타", "qa_type": "section_qa"}
+{"id": "v3_q_0228", "question": "해지 익일의 순유출입액 계산 방법은 무엇이며, 전일과 당일 데이터가 어떻게 반영되나요?", "section": "X.1. 펀드의 실질자금 순유출입", "chapter": "X1. 기타", "qa_type": "section_qa"}
+{"id": "v3_q_0229", "question": "기간별 투자비용을 산출할 때 신탁보수율과 선취수수료를 각각 어떻게 포함시키는지 구체적인 계산식을 알고 싶어요.", "section": "X.2. 기간별 투자비용", "chapter": "X1. 기타", "qa_type": "section_qa"}
+{"id": "v3_q_0230", "question": "1년 투자비용과 3년 투자비용을 계산할 때, 각각 어떤 변수들이 필요하며, 그 차이점은 무엇인가요?", "section": "X.2. 기간별 투자비용", "chapter": "X1. 기타", "qa_type": "section_qa"}
+{"id": "v3_q_0231", "question": "신탁보수율과 투자비용 수준을 평가할 때, 비정규 분포를 고려하여 상한값과 하한값은 어떻게 계산하며, 어떤 펀드들이 이 기준점에 해당하는지 구체적으로 설명해 주세요.", "section": "1) 신탁보수율 및 투자비용 수준", "chapter": "X.3. 보수 및 운용규모의 등급화", "qa_type": "section_qa"}
+{"id": "v3_q_0232", "question": "신탁보수율뿐만 아니라 1년·3년 투자비용 수준을 각각 산출할 때, 어떤 방법으로 평균 이상, 수준, 이하로 구분하는지 구체적인 절차를 알려 주세요.", "section": "1) 신탁보수율 및 투자비용 수준", "chapter": "X.3. 보수 및 운용규모의 등급화", "qa_type": "section_qa"}
+{"id": "v3_q_0233", "question": "운용규모 수준을 평가할 때, 포트폴리오 사이즈와 유사한 분포를 적용하는 상세 방법과, 기준펀드 선정 시 어떤 펀드들을 대상으로 하는지 구체적으로 설명해 주세요.", "section": "2) 운용규모 수준", "chapter": "X.3. 보수 및 운용규모의 등급화", "qa_type": "section_qa"}
+{"id": "v3_q_0234", "question": "순자산총액 기준으로 상위 5.0%, 15.0%, 30.0%, 50.0%에 해당하는 펀드의 평균순자산액을 산출하는 방법과, 그 값이 어디에 적용되는지 상세하게 설명해 주세요.", "section": "2) 운용규모 수준", "chapter": "X.3. 보수 및 운용규모의 등급화", "qa_type": "section_qa"}
+{"id": "v3_q_0235", "question": "종목수 수준 평가 시, 100억 이상 펀드의 정규분포와 유사한 분포를 가정하여 기준값을 산출하는 구체적 절차와, 이를 ‘평균이상’, ‘평균수준’, ‘평균이하’로 구분하는 기준은 무엇인지 알려 주세요.", "section": "3) 종목수 수준", "chapter": "X.3. 보수 및 운용규모의 등급화", "qa_type": "section_qa"}
+{"id": "v3_q_0236", "question": "순자산액 100억 이상 펀드의 종목수와 Top10 종목 집중도 기준 수치는 어떻게 산출하며, 그 성격과 전반적인 적용 방법에 대해 상세히 설명해 주세요.", "section": "4) Top10 종목 집중도", "chapter": "X.3. 보수 및 운용규모의 등급화", "qa_type": "section_qa"}
+{"id": "v3_q_0237", "question": "배당주식시가배당률은 어떤 방식으로 산출되며, 어떤 종목들이 대상이 되나요?", "section": "X.4. 주식 포트폴리오의 시가배당률", "chapter": "X.4. 주식 포트폴리오의 시가배당률", "qa_type": "section_qa"}
+{"id": "v3_q_0238", "question": "펀드 내 배당주식시가배당률을 계산할 때, 시가배당이 존재하지 않는 종목은 제외하나요?", "section": "X.4. 주식 포트폴리오의 시가배당률", "chapter": "X.4. 주식 포트폴리오의 시가배당률", "qa_type": "section_qa"}
+{"id": "v3_q_0239", "question": "주식시가배당률을 산출할 때 전체 주식 종목을 대상으로 하는 경우, 비중 계산은 어떻게 이루어지나요?", "section": "X.4. 주식 포트폴리오의 시가배당률", "chapter": "X.4. 주식 포트폴리오의 시가배당률", "qa_type": "section_qa"}
+{"id": "v3_q_0240", "question": "시가배당률 산출 시 사용되는 종가 데이터는 어떤 기준으로 수집하며, 일별 종가정보를 활용하는 이유는 무엇인가요?", "section": "X.4. 주식 포트폴리오의 시가배당률", "chapter": "X.4. 주식 포트폴리오의 시가배당률", "qa_type": "section_qa"}
+{"id": "v3_q_0241", "question": "배당주식시가배당률과 주식시가배당률의 차이점은 무엇이며, 각각을 평가항목으로 활용하는 목적은 무엇인가요?", "section": "X.4. 주식 포트폴리오의 시가배당률", "chapter": "X.4. 주식 포트폴리오의 시가배당률", "qa_type": "section_qa"}
+{"id": "v3_q_0242", "question": "환헷지를 하지 않는 해외투자 펀드의 원화환산 BM지수는 어떻게 산출하나요?", "section": "X.5. 원화환산 BM지수의 산출", "chapter": "X.5. 원화환산 BM지수의 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0243", "question": "원화환산 BM지수를 계산할 때 사용하는 '해당 Local 또는 USD지수'는 어떤 기준일까요?", "section": "X.5. 원화환산 BM지수의 산출", "chapter": "X.5. 원화환산 BM지수의 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0244", "question": "환율은 어느 시점의 환율을 적용하며, 산출 날짜는 어떻게 정하나요?", "section": "X.5. 원화환산 BM지수의 산출", "chapter": "X.5. 원화환산 BM지수의 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0245", "question": "기산일 지수는 어떤 의미이며, 언제 첫 지수로 정하나요?", "section": "X.5. 원화환산 BM지수의 산출", "chapter": "X.5. 원화환산 BM지수의 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0246", "question": "KRW Hedged 지수 산출 시 Local지수, USD지수, KRW Hedged 지수 중 어떤 기준 지수를 선택하는 것이 더 적합한지 결정하려면 어떤 기준을 고려해야 하나요?", "section": "해외투자 성과측정 및 상대비교를 위한 BM 선정", "chapter": "X.6. KRW Hedged 지수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0247", "question": "환헤지 비율이 100%일 때와 50% 또는 기타 비율일 때 각각의 KRW Hedged 지수 계산이 어떻게 달라지는지 구체적으로 알고 싶습니다.", "section": "KRW Hedged 지수 산출", "chapter": "X.6. KRW Hedged 지수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0248", "question": "헤지 비용 또는 프리미엄을 반영해서 KRW Hedged 지수와 유사한 지수를 자체적으로 산출하려면 어떤 절차와 고려사항이 필요합니까?", "section": "대안으로 USD지수를 활용한 KRW Hedged 유사 지수 산출", "chapter": "X.6. KRW Hedged 지수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0249", "question": "헤지 비율로 임의 값을 적용하는 경우, 예를 들어 H_t=0.5 또는 0.9를 적용할 때, 산출 공식에 어느 부분이 어떻게 영향을 받는지 구체적으로 설명해 주세요.", "section": "산출식 및 헤지 비율의 적용", "chapter": "X.6. KRW Hedged 지수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0250", "question": "Lehman Brother’s 지수에 대해 H_t를 계산할 때 Yield_t 값을 어떤 시점으로 산출하는지, 그리고 이 값이 지수 산출에 어떤 영향을 미치는지 궁금합니다.", "section": "Lehman Brother’s 지수의 H_t 계산", "chapter": "X.6. KRW Hedged 지수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0251", "question": "KRW/USD 1개월 선물환율(FRR)과 FXR의 차이 및 각각의 역할이 무엇인지, 그리고 ForwardReturn_t 계산에 어떻게 반영되는지 구체적으로 설명해 주세요.", "section": "산출식 내 Forward 환율과 환율수익률 계산", "chapter": "X.6. KRW Hedged 지수 산출", "qa_type": "section_qa"}
+{"id": "v3_q_0252", "question": "운용성과 변동 추이가 유사할 것으로 예상되는 펀드를 유사펀드로 정의하려면 어떤 기준이나 조건을 충족해야 하나요?", "section": "1) 유사펀드의 정의", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0253", "question": "운용기간이 다른 투자자별 특성을 고려할 때, 유사펀드 선정 시에는 어떤 운용성과 지표를 중심으로 비교하는 것이 적절한가요?", "section": "1) 유사펀드의 정의", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0254", "question": "유사펀드 선정의 주된 목적은 무엇이며, 고객에게 어떤 상황에서 유사펀드 추천이 활용될 수 있나요?", "section": "2) 유사펀드 선정의 목적", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0255", "question": "운용사와 고객이 유사펀드를 검토할 때 유사성 판단 기준으로 어떤 자료나 지표를 사용하는 것이 적합한가요?", "section": "2) 유사펀드 선정의 목적", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0256", "question": "시스템적 부담을 최소화하면서 유사펀드를 선정하려면 어떤 방식으로 수익률 자료를 활용하는 게 좋은가요?", "section": "2) 유사펀드 선정의 목적", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0257", "question": "유사펀드 선정은 매월 2일 이전의 주간 수익률 자료를 사용하는데, 자료 수집 시 주의해야 할 점이나 고려할 사항이 있나요?", "section": "3) 유사펀드 선정 주기 및 자료", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0258", "question": "유사펀드 선정 시, 매월 말일이나 1일에 처리하는데 어려운 점이 있다면 어떤 대안이나 방법이 있나요?", "section": "3) 유사펀드 선정 주기 및 자료", "chapter": "X.7. 유사펀드 측정", "qa_type": "section_qa"}
+{"id": "v3_q_0259", "question": "통합채권형으로 분류하려면 어떤 유형의 펀드들이 포함되며, 각각의 세부 조건은 무엇인가요?", "section": "통합채권형", "chapter": "4) 유사펀드 선정 대상 유형(공모 및 사모, 클래스 및 모펀드 모두 포함)", "qa_type": "section_qa"}
+{"id": "v3_q_0260", "question": "통합주식형 대상에는 어떤 펀드들이 포함되고, 커머디티형도 포함되나요? 각각의 구체적인 분류 기준은 무엇인가요?", "section": "통합주식형", "chapter": "4) 유사펀드 선정 대상 유형(공모 및 사모, 클래스 및 모펀드 모두 포함)", "qa_type": "section_qa"}
+{"id": "v3_q_0261", "question": "통합혼합형에 해당하는 펀드들은 무엇이 있으며, 이들의 분류 기준이나 포함 조건은 어떻게 되나요?", "section": "통합혼합형", "chapter": "4) 유사펀드 선정 대상 유형(공모 및 사모, 클래스 및 모펀드 모두 포함)", "qa_type": "section_qa"}
+{"id": "v3_q_0262", "question": "부동산 등 유형에 속하는 펀드들은 어떤 펀드들이 포함되며, 국내와 해외 부동산형의 구체적 범위는 어떻게 되나요?", "section": "부동산 등", "chapter": "4) 유사펀드 선정 대상 유형(공모 및 사모, 클래스 및 모펀드 모두 포함)", "qa_type": "section_qa"}
+{"id": "v3_q_0263", "question": "ELF와 베어마켓 인덱스는 어떤 펀드들을 의미하며, 이들을 분류하는 구체적인 기준은 무엇인가요?", "section": "ELF 등", "chapter": "4) 유사펀드 선정 대상 유형(공모 및 사모, 클래스 및 모펀드 모두 포함)", "qa_type": "section_qa"}
+{"id": "v3_q_0264", "question": "제외펀드로 분류되는 글로벌장기미분류, 글로벌신규설정펀드, 장기미분류, 영구미분류, 신규설정펀드의 구체적 정의와 선정 기준은 무엇인가요?", "section": "제외펀드", "chapter": "4) 유사펀드 선정 대상 유형(공모 및 사모, 클래스 및 모펀드 모두 포함)", "qa_type": "section_qa"}
+{"id": "v3_q_0265", "question": "TECO 지표는 펀드 간 수익률 차이를 어떻게 계산하며, 어떤 상황에서 활용되나요?", "section": "5) 선정지표", "chapter": "5) 선정지표", "qa_type": "section_qa"}
+{"id": "v3_q_0266", "question": "TECO 지표의 계산식에서 n은 무엇을 의미하며, 데이터 개수에 따라 어떻게 영향받나요?", "section": "5) 선정지표", "chapter": "5) 선정지표", "qa_type": "section_qa"}
+{"id": "v3_q_0267", "question": "코렉레이션 계수(ρ)를 활용한 TECO 값을 조정하는 방식이 무엇이며, 이 값이 펀드 분석에 어떤 의미가 있나요?", "section": "5) 선정지표", "chapter": "5) 선정지표", "qa_type": "section_qa"}
+{"id": "v3_q_0268", "question": "TECO 현황 점수화 시, 관측치 상위 5%는 어떻게 처리하며 그 이유는 무엇인가요?", "section": "5) 선정지표", "chapter": "5) 선정지표", "qa_type": "section_qa"}
+{"id": "v3_q_0269", "question": "TECO 지표를 이용한 펀드 선정 시, 어떤 경우에 이 지표가 적합하며, 어떤 점을 유의해야 하나요?", "section": "5) 선정지표", "chapter": "5) 선정지표", "qa_type": "section_qa"}
+{"id": "v3_q_0270", "question": "TECO 지표는 타겟펀드와 대상펀드의 수익률 변동 추이뿐만 아니라 상관계수도 활용하는데, 구체적으로 어떤 방식으로 두 지표를 결합하여 평가하나요?", "section": "6) TECO 지표의 특성", "chapter": "6) TECO 지표의 특성", "qa_type": "section_qa"}
+{"id": "v3_q_0271", "question": "TECO 지표는 현재 0~10점 사이의 값을 가지며, 장래 수정 예정이라고 하는데, 현재 기준으로 어떤 수익률 변동성과 방향성의 특징을 반영하여 점수를 산출하나요?", "section": "6) TECO 지표의 특성", "chapter": "6) TECO 지표의 특성", "qa_type": "section_qa"}
+{"id": "v3_q_0272", "question": "TECO 지표가 0~100 범위로 수정될 경우, 기존 0~10점 구간과의 차이점과 그에 따른 평가 방식의 변경은 어떻게 예상하나요?", "section": "6) TECO 지표의 특성", "chapter": "6) TECO 지표의 특성", "qa_type": "section_qa"}
+{"id": "v3_q_0273", "question": "유사성 지표를 활용해서 펀드별 유사펀드를 선정할 때 어떤 기준이나 방법이 있나요?", "section": "7) 유사성 지표의 활용 방안", "chapter": "7) 유사성 지표의 활용 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0274", "question": "매니저별 운용펀드 파악 시 유사성 지표를 어떻게 적용하면 효율적일까요?", "section": "7) 유사성 지표의 활용 방안", "chapter": "7) 유사성 지표의 활용 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0275", "question": "신규펀드에 대한 리스크 등급을 부여할 때 유사성 지표는 어떤 역할을 하나요?", "section": "7) 유사성 지표의 활용 방안", "chapter": "7) 유사성 지표의 활용 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0276", "question": "웹에 유사펀드 선정 결과를 제시할 때, 공모 펀드만을 대상으로 하는 구체적인 이유가 무엇인가요?", "section": "8) 유사펀드 선정 결과의 웹 제시 방안", "chapter": "8) 유사펀드 선정 결과의 웹 제시 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0277", "question": "유사성 지표 점수가 높은 순으로 나열할 때, 어떤 기준으로 점수의 순위를 매기나요?", "section": "8) 유사펀드 선정 결과의 웹 제시 방안", "chapter": "8) 유사펀드 선정 결과의 웹 제시 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0278", "question": "대상펀드와의 상관계수, 보수율, 과거수익률(6개월), 제로인 대유형과 소유형, 포트폴리오 내역 등을 함께 제공하는 목적은 무엇인가요?", "section": "8) 유사펀드 선정 결과의 웹 제시 방안", "chapter": "8) 유사펀드 선정 결과의 웹 제시 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0279", "question": "상관계수는 제외하고 나머지 보조지표들을 회사 내부 DB에서도 활용하는 이유는 무엇인가요?", "section": "8) 유사펀드 선정 결과의 웹 제시 방안", "chapter": "8) 유사펀드 선정 결과의 웹 제시 방안", "qa_type": "section_qa"}
+{"id": "v3_q_0280", "question": "유사펀드 DB 외와 내부 DB를 함께 사용할 때, 어떤 기준이나 절차로 데이터를 선택하고 통합하나요?", "section": "8) 유사펀드 선정 결과의 웹 제시 방안", "chapter": "8) 유사펀드 선정 결과의 웹 제시 방안", "qa_type": "section_qa"}
