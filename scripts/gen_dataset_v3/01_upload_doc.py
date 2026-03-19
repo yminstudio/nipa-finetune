@@ -10,19 +10,22 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+ROOT = Path(__file__).resolve().parents[2]
+
+
 def load_dotenv_file() -> None:
-    dotenv_path = Path(__file__).resolve().parents[2] / ".env"
-    if not dotenv_path.exists():
-        return
-    for raw_line in dotenv_path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#") or "=" not in line:
+    for dotenv_path in (ROOT / ".env", ROOT.parent / ".env"):
+        if not dotenv_path.exists():
             continue
-        key, value = line.split("=", 1)
-        key = key.strip()
-        value = value.strip().strip("'").strip('"')
-        if key and key not in os.environ:
-            os.environ[key] = value
+        for raw_line in dotenv_path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip("'").strip('"').replace("\r", "")
+            if key and key not in os.environ:
+                os.environ[key] = value
 
 
 load_dotenv_file()
@@ -57,11 +60,13 @@ def require_api_key() -> str:
     key = os.getenv("OPENAI_API_KEY")
     if not key:
         raise RuntimeError("OPENAI_API_KEY is not set.")
-    return key
+    return key.strip().replace("\r", "")
 
 
 def upload_file(api_base: str, api_key: str, doc_path: Path) -> dict:
     import urllib.request
+    api_base = api_base.strip().replace("\r", "")
+    api_key = api_key.strip().replace("\r", "")
 
     file_content = doc_path.read_bytes()
     filename = doc_path.name

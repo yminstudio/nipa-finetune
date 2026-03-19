@@ -1,0 +1,34 @@
+{
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+  "dataset_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_datasets/rendered/gpt-oss/seed_v4_all_harmony.jsonl",
+  "prompt_source_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_datasets/seed_v4/seed_v4_all.jsonl",
+  "output_dir": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_lora/gpt-oss-20b-seed-v4-all",
+  "report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_lora/gpt-oss-20b-seed-v4-all/train_result.json",
+  "validation_report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_lora/gpt-oss-20b-seed-v4-all/adapter_validation.json",
+  "validation_questions": [
+    "유형생성의 기본원칙에서 충분성, 비교성, 지속성은 각각 무엇을 뜻하나요?",
+    "국내투자 펀드와 국외투자 펀드의 유형분류 기준은 어떤 점이 다르나요?",
+    "펀드 %순위 및 등급의 평가 선정 기준에서 순자산과 운용기간 조건은 어떻게 적용되나요?",
+    "제로인 펀드등급에서 CE, ZI, ZI Score는 어떤 관계로 연결되나요?",
+    "실현수익률의 연환산은 1년 초과와 1년 미만에서 어떻게 다르게 적용되나요?"
+  ],
+  "max_length": 1024,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 4,
+  "max_steps": 120,
+  "learning_rate": 0.0001,
+  "logging_steps": 10,
+  "save_steps": 60,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "sample_prompt_count": 5,
+  "seed": 42
+}

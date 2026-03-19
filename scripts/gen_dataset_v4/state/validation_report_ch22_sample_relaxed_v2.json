@@ -1,0 +1,15 @@
+{
+  "total": 4,
+  "passed": 3,
+  "manual_review": 1,
+  "dropped": 0,
+  "failures": [
+    {
+      "id": "v4_q_0004",
+      "issues": [
+        "bad_phrase:필요 시"
+      ],
+      "review_status": "manual_review"
+    }
+  ]
+}

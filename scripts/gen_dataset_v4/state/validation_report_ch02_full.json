@@ -1,0 +1,15 @@
+{
+  "total": 39,
+  "passed": 38,
+  "manual_review": 1,
+  "dropped": 0,
+  "failures": [
+    {
+      "id": "v4_q_0019",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    }
+  ]
+}
