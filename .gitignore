@@ -21,3 +21,4 @@ llm_model_base/
 llm_model_lora/**
 !llm_model_lora/**/
 !llm_model_lora/**/README.md
+.worktrees/
