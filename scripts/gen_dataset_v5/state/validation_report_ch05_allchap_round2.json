@@ -1,0 +1,36 @@
+{
+  "total": 51,
+  "passed": 47,
+  "manual_review": 4,
+  "dropped": 0,
+  "failures": [
+    {
+      "id": "v5_q_0005",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0008",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0017",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0040",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    }
+  ]
+}

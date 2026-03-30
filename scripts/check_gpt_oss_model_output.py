@@ -12,6 +12,23 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 FINAL_CHANNEL_PREFIX = "<|channel|>final<|message|>"
 RETURN_TOKEN = "<|return|>"
+DEFAULT_SYSTEM_PROMPT = (
+    "당신은 제로인 펀드평가 방법론에 근거해 답변하는 도메인 어시스턴트입니다. "
+    "한국어로 답변하며 출처나 원문을 직접 언급하지 않습니다. "
+    "제로인 펀드평가 방법론에 명시되지 않은 기준, 수치, 예외는 추정하거나 임의로 추가하지 않습니다. "
+    "답변은 독립적으로 이해 가능해야 하지만, 그 이해 가능성을 이유로 새 정보를 만들면 안 됩니다. "
+    "문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소한의 설명만 허용합니다. "
+    "이 최소 설명은 용어 풀이, 생략된 주어/관계 보완, 질문의 대상을 짧게 다시 잡아 주는 수준에 한합니다. "
+    "답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현합니다. "
+    "새로운 판단 기준, 규칙, 질문에 없는 대상이나 비교는 추가하지 않습니다."
+)
+P6_REQUIRED_CLAUSES = (
+    "답변은 독립적으로 이해 가능해야 하지만, 그 이해 가능성을 이유로 새 정보를 만들면 안 됩니다.",
+    "문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소한의 설명만 허용합니다.",
+    "이 최소 설명은 용어 풀이, 생략된 주어/관계 보완, 질문의 대상을 짧게 다시 잡아 주는 수준에 한합니다.",
+    "답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현합니다.",
+    "새로운 판단 기준, 규칙, 질문에 없는 대상이나 비교는 추가하지 않습니다.",
+)
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -26,6 +43,34 @@ def read_jsonl_records(path: Path) -> list[dict[str, Any]]:
             continue
         records.append(json.loads(line))
     return records
+
+
+def harmonize_system_prompt(system_prompt: str) -> str:
+    normalized = " ".join(system_prompt.split())
+    if not normalized:
+        return DEFAULT_SYSTEM_PROMPT
+
+    for clause in P6_REQUIRED_CLAUSES:
+        if clause not in normalized:
+            normalized = f"{normalized} {clause}".strip()
+    return normalized
+
+
+def resolve_system_prompt(cfg: dict[str, Any]) -> str:
+    prompt_source_path = Path(cfg["prompt_source_path"]).resolve()
+    if prompt_source_path.suffix == ".jsonl" and prompt_source_path.exists():
+        records = read_jsonl_records(prompt_source_path)
+        for record in records:
+            messages = record.get("messages")
+            if not isinstance(messages, list):
+                continue
+            system_message = next(
+                (msg.get("content", "").strip() for msg in messages if msg.get("role") == "system"),
+                "",
+            )
+            if system_message:
+                return harmonize_system_prompt(system_message)
+    return DEFAULT_SYSTEM_PROMPT
 
 
 def resolve_dtype(name: str) -> torch.dtype:
@@ -77,9 +122,13 @@ def load_validation_questions(cfg: dict[str, Any], limit: int) -> list[str]:
     return prompts
 
 
-def build_prompt_inputs(tokenizer, question: str) -> dict[str, torch.Tensor]:
+def build_prompt_inputs(tokenizer, question: str, system_prompt: str) -> dict[str, torch.Tensor]:
+    messages: list[dict[str, str]] = []
+    if system_prompt.strip():
+        messages.append({"role": "system", "content": system_prompt.strip()})
+    messages.append({"role": "user", "content": question})
     rendered = tokenizer.apply_chat_template(
-        [{"role": "user", "content": question}],
+        messages,
         tokenize=False,
         add_generation_prompt=True,
     )
@@ -166,10 +215,11 @@ def main() -> None:
     model = model.to(device)
     model.eval()
 
+    system_prompt = resolve_system_prompt(cfg)
     questions = load_validation_questions(cfg, args.question_limit)
     generations: list[dict[str, str]] = []
     for question in questions:
-        encoded = build_prompt_inputs(tokenizer, question)
+        encoded = build_prompt_inputs(tokenizer, question, system_prompt)
         input_ids = encoded["input_ids"].to(model.device)
         attention_mask = encoded["attention_mask"].to(model.device)
         with torch.inference_mode():
@@ -199,6 +249,7 @@ def main() -> None:
         "config_path": str(config_path),
         "question_limit": args.question_limit,
         "max_new_tokens": args.max_new_tokens,
+        "system_prompt": system_prompt,
         "generations": generations,
     }
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

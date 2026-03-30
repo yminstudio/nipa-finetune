@@ -1,0 +1,471 @@
+# 질문 프롬프트 로그
+
+## Stage
+questions
+
+## Record ID
+Zeroin 펀드평가 방법론 - only_text_structure_0002
+
+## Question
+ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?
+
+## Model
+gpt-5-nano
+
+## API Base
+https://api.openai.com/v1
+
+## Extra
+```json
+{
+  "chapter": "X.6. KRW Hedged 지수 산출",
+  "section": "2) 산출식",
+  "subsection": "",
+  "seed_title": "2) 산출식",
+  "record_target": 50,
+  "requested_question_count": 52,
+  "call_requested_question_count": 24,
+  "call_allowed_types": [
+    "definition",
+    "comparison",
+    "application"
+  ],
+  "call_type_targets": {
+    "definition": 8,
+    "comparison": 8,
+    "application": 8
+  },
+  "target_total": 100,
+  "generated_question": "ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?",
+  "qa_type": "application",
+  "question_template": "Application_Template"
+}
+```
+
+## System Prompt
+```text
+당신은 제로인 방법론 기반 QA 데이터셋의 질문 생성기다.
+반드시 한국어로만 답하고, 제공된 재료 범위 안에서만 질문을 만든다.
+질문은 짧고 단일 쟁점 중심이어야 한다.
+일반 금융상식, 투자조언, 문서 바깥 배경지식 질문은 금지한다.
+업로드 문서를 보지 않고도 일반 금융 상식만으로 답할 수 있는 질문은 생성하지 않는다.
+질문은 반드시 문서 안의 특정 정의, 기준, 비교, 적용 중 하나에 직접 매핑되어야 한다.
+정답은 문서의 핵심 정보와 의미 연결을 위한 최소 설명만으로 성립해야 하며, 문서 밖 지식 확장을 요구하는 질문은 만들지 않는다.
+정답이 자연스러운 문장으로 연결될 수는 있어도, 그 연결을 위해 새로운 정보가 필요해지는 질문은 만들지 않는다.
+```
+
+## User Prompt
+```text
+아래 재료만 사용해서 자연스러운 질문 후보를 생성해줘.
+
+[단원 제목]
+X.6. KRW Hedged 지수 산출
+
+[절 제목]
+2) 산출식
+
+[소절 제목]
+
+
+[핵심 제목]
+2) 산출식
+
+[핵심 명사]
+) 산출식, 산출식, Lehman Brother’s 지수인 경우,, HedgedIndex, times, HedgedIndexR, Where, frac, FXR, HReturn, ForwardReturn, CurrencyReturn
+
+[질문 유형 목표]
+criteria 0개, definition 8개, comparison 8개, application 8개
+
+[이번 호출에서 허용되는 질문 유형]
+definition, comparison, application
+
+[이번 호출의 생성 목표]
+definition 8개, comparison 8개, application 8개를 우선 맞춘다.
+
+규칙:
+- 질문은 짧고 단일 쟁점 중심
+- 문서 범위를 벗어난 질문 금지
+- 제목을 그대로 복붙한 문장 금지
+- 일반 금융상식, 투자조언, 시장전망 질문 금지
+- 업로드 문서를 보지 않고도 일반 금융 상식만으로 답할 수 있는 질문은 생성하지 않는다
+- 답이 표 전체 요약이나 장문 설명이 되도록 만드는 질문은 금지하고, 특정 기준 하나만 묻는 질문으로 만든다
+- 질문 하나에는 하나의 판단축만 남긴다. 정의와 기준, 기준과 예외를 한 문장에 함께 묻지 않는다
+- 정답은 문서의 핵심 정보와 의미 연결을 위한 최소 설명만으로 완결될 수 있어야 한다
+- 정답이 자연스러운 문장으로 연결되더라도 새로운 정보 추가 없이 답할 수 있어야 한다
+- 질문이 새로운 판단 기준, 질문에 없는 대상, 불필요한 비교를 답변에 끌어오게 만들면 폐기한다
+- definition 질문은 정의문 하나로 직접 답할 수 있어야 하며 절차·비교·예외를 동시에 요구하지 않는다
+- criteria 질문은 판단 기준만 묻게 하고 적용 절차나 다른 대상 비교를 함께 요구하지 않는다
+- comparison 질문은 필요한 비교축만 묻게 하고 각 대상의 정의나 절차 설명까지 요구하지 않는다
+- application 질문은 적용 순서나 전환 조건을 묻되 정의/비교를 한 문장에 함께 묻지 않는다
+- 질문 유형은 definition, criteria, comparison, application 중 하나만 사용
+- 허용되지 않은 질문 유형은 절대 생성하지 않는다
+- 최대 24개까지만 생성
+
+생성 후 자체 점검:
+- 이 질문은 문서의 특정 표, 기준, 정의, 절차가 없으면 답하기 어려운가?
+- 이 질문에 일반 금융 상식으로 그럴듯하게 답할 수 있으면 폐기한다
+- 질문이 길거나 복합적이면 더 짧은 한 쟁점 질문으로 다시 쓴다
+- 이 질문에 답하려고 할 때 질문에 없는 대상/비교/예외를 덧붙이게 되면 폐기한다
+
+반환 형식:
+순수 JSON 배열만 출력한다.
+[
+  {
+    "question": "질문 내용",
+    "qa_type": "definition|criteria|comparison|application",
+    "question_template": "템플릿 이름"
+  }
+]
+
+```
+
+---
+
+## Stage
+answers
+
+## Record ID
+v5_q_0054
+
+## Model
+gpt-5.4-nano
+
+## API Base
+https://api.openai.com/v1
+
+## Extra
+```json
+{
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee",
+  "chapter": "X.6. KRW Hedged 지수 산출",
+  "section": "2) 산출식",
+  "subsection": "",
+  "seed_title": "2) 산출식",
+  "question": "ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?",
+  "answer_policy": "application_medium"
+}
+```
+
+## System Prompt
+```text
+제로인은 펀드평가사로 펀드평가의 방법론을 가지고 있습니다.
+당신은 제로인 방법론에 근거해 답변하는 도메인 어시스턴트다.
+반드시 한국어로만 답한다.
+업로드된 문서에 근거가 없는 기준, 수치, 예외를 만들지 않는다.
+질문에 필요한 최소 범위까지만 답한다.
+문서 밖 일반 지식으로 빈칸을 메우지 않는다.
+문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소한의 설명만 허용한다.
+이 최소 설명은 용어를 풀거나 생략된 주어와 관계를 잇는 수준에 한한다.
+답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다.
+답변은 짧고 구조적으로 유지한다.
+문서의 핵심 용어와 판단 기준어는 가능하면 유지한다.
+질문이 묻지 않은 다른 판단 기준으로 확장하지 않는다.
+새로운 판단 기준, 규칙, 예외, 질문에 없는 대상이나 비교는 추가하지 않는다.
+출처/원문/문서/장/절을 직접 언급하지 않는다.
+일반 금융 상식으로 확장하지 않는다.
+```
+
+## User Prompt
+```text
+[질문]
+ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?
+
+[답변 스타일]
+적용형 답변으로 3~5개 불릿까지 허용한다. 적용 순서, 조건, 전환 규칙만 남기고 정의 재설명이나 불필요한 비교는 쓰지 않는다.
+- 답변 길이는 공백 포함 최대 1100자 이내
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소 설명만 허용한다
+- 이 최소 설명은 용어 풀이와 생략된 주어/관계 보완 수준에 한한다
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다
+- 새로운 판단 기준, 규칙, 예외, 질문에 없는 대상/비교는 추가하지 않는다
+- 적용형: 답변은 적용 순서, 적용 조건, 전환 규칙만 제시한다
+- 적용형: 정의 재설명이나 불필요한 비교는 포함하지 않는다
+- 질문에 직접 필요한 기준만 남기고 예시, 배경설명, 장황한 열거는 줄인다
+- 제목, 번호 섹션, 마크다운 헤더(예: ##, 1) )는 쓰지 않는다
+```
+
+---
+
+## Assistant Response
+```text
+- ForwardReturn_t를 먼저 산출한다.   
+- 다음으로 CurrencyReturn_t를 산출한다.   
+- 산출된 ForwardReturn_t와 CurrencyReturn_t를 사용해 HReturn_t를 구한다( HReturn_t = ForwardReturn_t - CurrencyReturn_t ).   
+- HReturn_t를 HedgedIndexR_t에 반영한다( HReturn_t 항은 + H_t × HReturn_t 로 전환되어 가산됨 ).   
+- 마지막으로 HedgedIndexR_t를 이용해 HedgedIndex_t를 계산한다( HedgedIndex_t = HedgedIndex_0 × (1 + HedgedIndexR_t) ).
+```
+
+## Response Extra
+```json
+{
+  "answer_status": "generated",
+  "answer_issues": [],
+  "answer_policy": "application_medium",
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee"
+}
+```
+
+---
+
+## Stage
+answers
+
+## Record ID
+v5_q_0054
+
+## Model
+gpt-5.4-nano
+
+## API Base
+https://api.openai.com/v1
+
+## Extra
+```json
+{
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee",
+  "chapter": "X.6. KRW Hedged 지수 산출",
+  "section": "2) 산출식",
+  "subsection": "",
+  "seed_title": "2) 산출식",
+  "question": "ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?",
+  "answer_policy": "application_medium"
+}
+```
+
+## System Prompt
+```text
+제로인은 펀드평가사로 펀드평가의 방법론을 가지고 있습니다.
+- 당신은 제로인 방법론에 근거해 답변하는 도메인 어시스턴트다.
+- 반드시 한국어로만 답한다.
+- 답변은 질문에 직접 필요한 범위를 넘기지 않되, 독립적으로 이해 가능하도록 필요한 짧은 전제 설명은 포함할 수 있다.
+- 답변은 독립적으로 이해 가능해야 한다. 하지만 그 이해 가능성을 이유로 새 정보를 만들면 안 된다.
+- 답변은 불필요하게 짧게 끊지 말고, 구조적으로 정리하되 필요한 연결 문장은 남긴다.
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소한의 설명만 허용한다.
+- 이 최소 설명은 용어를 풀거나 생략된 주어와 관계를 잇는 수준, 또는 질문의 대상을 짧게 다시 잡아 주는 수준에 한한다.
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다.
+- 질문이 묻지 않은 다른 판단 기준으로 확장하지 않는다.
+- 출처/원문/문서/장/절을 직접 언급하지 않는다.
+- 일반 금융 상식으로 확장하지 않는다.
+- **반드시 답변은 독립적으로 이해 가능해야 한다.**
+```
+
+## User Prompt
+```text
+[질문]
+ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?
+
+[답변 스타일]
+적용형 답변으로 3~5개 불릿까지 허용한다. 적용 대상과 맥락을 짧게 밝힌 뒤 적용 순서, 조건, 전환 규칙만 남기고 정의 재설명이나 불필요한 비교는 쓰지 않는다.
+- 답변 길이는 공백 포함 최대 1100자 이내
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소 설명만 허용한다
+- 이 최소 설명은 용어 풀이, 생략된 주어/관계 보완, 질문의 대상을 짧게 다시 잡아 주는 수준에 한한다
+- 답변은 독립적으로 이해 가능해야 하지만, 그 이해 가능성을 이유로 새 정보를 만들면 안 된다
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다
+- 새로운 판단 기준, 규칙, 예외, 질문에 없는 대상/비교는 추가하지 않는다
+- 적용형: 답변은 적용 순서, 적용 조건, 전환 규칙만 제시한다
+- 적용형: 정의 재설명이나 불필요한 비교는 포함하지 않는다
+- 질문에 직접 필요한 기준만 남기되, 새 정보가 아닌 범위에서 짧은 전제 설명은 허용한다
+- 예시, 장황한 배경설명, 불필요한 열거는 줄인다
+- 제목, 번호 섹션, 마크다운 헤더(예: ##, 1) )는 쓰지 않는다
+```
+
+---
+
+## Assistant Response
+```text
+해외 헤지비율이 반영된 Hedged 지수 산출에서 ForwardReturn이 들어가는 흐름은, t일 수익률(일자 단위) 계산 → 지수수익률 반영 → 지수 누적 순으로 적용됩니다. 
+
+- 적용 순서 1: ForwardReturn_t를 먼저 산출합니다.   
+  - 조건: ForwardReturn_t는 FFR_0, FFR_t, FXR_0^R, FXR_t^R, OddDay_t, T를 사용하며, OddDay_t는 해당 월에서 t일의 잔여일수입니다.   
+  - 전환 규칙: OddDay_t/T가 Forward 환율 구간의 반영비중으로 들어가므로, t일이 바뀌면 ForwardReturn_t가 함께 갱신됩니다. 
+
+- 적용 순서 2: CurrencyReturn_t를 산출합니다.   
+  - 조건: CurrencyReturn_t는 FXR_t^R와 FXR_0^R로 계산됩니다. 
+
+- 적용 순서 3: HReturn_t를 계산합니다(ForwardReturn 사용).   
+  - 전환 규칙: HReturn_t = ForwardReturn_t − CurrencyReturn_t 로, ForwardReturn이 CurrencyReturn 차감 후 Hedged 성격의 수익률로 전환됩니다. 
+
+- 적용 순서 4: HedgedIndexR_t에 HReturn_t를 반영해 t일 헤지지수 수익률을 만듭니다.   
+  - 조건: HedgedIndexR_t는 (I_t/I_0) 항과 H_t × HReturn_t 항을 합해 산출됩니다. 
+
+- 적용 순서 5: HedgedIndex_t를 HedgedIndex_0에 (1 + HedgedIndexR_t)를 곱해 산출합니다.   
+  - 전환 규칙: t일의 HedgedIndex는 직전 누적값이 아니라 HedgedIndex_0 기준의 (1+수익률) 형태로 전환됩니다.
+```
+
+## Response Extra
+```json
+{
+  "answer_status": "generated",
+  "answer_issues": [],
+  "answer_policy": "application_medium",
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee"
+}
+```
+
+---
+
+## Stage
+answers
+
+## Record ID
+v5_q_0054
+
+## Model
+gpt-5.4-nano
+
+## API Base
+https://api.openai.com/v1
+
+## Extra
+```json
+{
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee",
+  "chapter": "X.6. KRW Hedged 지수 산출",
+  "section": "2) 산출식",
+  "subsection": "",
+  "seed_title": "2) 산출식",
+  "question": "ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?",
+  "answer_policy": "application_medium"
+}
+```
+
+## System Prompt
+```text
+제로인은 펀드평가사로 펀드평가의 방법론을 가지고 있습니다.
+- 당신은 제로인 방법론에 근거해 답변하는 도메인 어시스턴트다.
+- 반드시 한국어로만 답한다.
+- 답변은 질문에 직접 필요한 범위를 넘기지 않되, 독립적으로 이해 가능하도록 필요한 짧은 전제 설명은 포함할 수 있다.
+- 답변은 독립적으로 이해 가능해야 한다. 하지만 그 이해 가능성을 이유로 새 정보를 만들면 안 된다.
+- 답변은 불필요하게 짧게 끊지 말고, 구조적으로 정리하되 필요한 연결 문장은 남긴다.
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소한의 설명만 허용한다.
+- 이 최소 설명은 용어를 풀거나 생략된 주어와 관계를 잇는 수준, 또는 질문의 대상을 짧게 다시 잡아 주는 수준에 한한다.
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다.
+- 질문이 묻지 않은 다른 판단 기준으로 확장하지 않는다.
+- 출처/원문/문서/장/절을 직접 언급하지 않는다.
+- 일반 금융 상식으로 확장하지 않는다.
+- **반드시 답변은 독립적으로 이해 가능해야 한다.**
+```
+
+## User Prompt
+```text
+[질문]
+ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?
+
+[답변 스타일]
+적용형 답변으로 3~5개 불릿까지 허용한다. 적용 대상과 맥락을 짧게 밝힌 뒤 적용 순서, 조건, 전환 규칙만 남기고 정의 재설명이나 불필요한 비교는 쓰지 않는다.
+- 답변 길이는 공백 포함 최대 1100자 이내
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소 설명만 허용한다
+- 이 최소 설명은 용어 풀이, 생략된 주어/관계 보완, 질문의 대상을 짧게 다시 잡아 주는 수준에 한한다
+- 답변은 독립적으로 이해 가능해야 하지만, 그 이해 가능성을 이유로 새 정보를 만들면 안 된다
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다
+- 새로운 판단 기준, 규칙, 예외, 질문에 없는 대상/비교는 추가하지 않는다
+- 적용형: 답변은 적용 순서, 적용 조건, 전환 규칙만 제시한다
+- 적용형: 정의 재설명이나 불필요한 비교는 포함하지 않는다
+- 질문에 직접 필요한 기준만 남기되, 새 정보가 아닌 범위에서 짧은 전제 설명은 허용한다
+- 예시, 장황한 배경설명, 불필요한 열거는 줄인다
+- 제목, 번호 섹션, 마크다운 헤더(예: ##, 1) )는 쓰지 않는다
+```
+
+---
+
+## Assistant Response
+```text
+- (t일 기준) 해당 월의 잔여일수 OddDay_t와 월 총일수 T를 산정하고, 환율 관련 값(FXR_0^R, FXR_t^R, FFR_0, FFR_t)을 준비합니다.   
+- CurrencyReturn_t를 먼저 계산합니다(= FXR_t^R / FXR_0^R).   
+- ForwardReturn_t를 산출합니다. 이때 OddDay_t/T 비중을 사용해 (FFR_t - FXR_t^R)을 반영합니다.   
+- ForwardReturn을 HReturn_t로 “전환”한 뒤( HReturn_t = ForwardReturn_t - CurrencyReturn_t ), 이를 HedgedIndexR_t에 반영합니다( HedgedIndexR_t = (I_t/I_0)×(FXR_t^R/FXR_0^R) - 1 + H_t×HReturn_t → HedgedIndex_t = HedgedIndex_0×(1+HedgedIndexR_t ) ).
+```
+
+## Response Extra
+```json
+{
+  "answer_status": "generated",
+  "answer_issues": [],
+  "answer_policy": "application_medium",
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee"
+}
+```
+
+---
+
+## Stage
+answers
+
+## Record ID
+v5_q_0054
+
+## Model
+gpt-5.4-nano
+
+## API Base
+https://api.openai.com/v1
+
+## Extra
+```json
+{
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee",
+  "chapter": "X.6. KRW Hedged 지수 산출",
+  "section": "2) 산출식",
+  "subsection": "",
+  "seed_title": "2) 산출식",
+  "question": "ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?",
+  "answer_policy": "application_medium"
+}
+```
+
+## System Prompt
+```text
+제로인은 펀드평가사로 펀드평가의 방법론을 가지고 있습니다.
+- 당신은 제로인 방법론에 근거해 답변하는 도메인 어시스턴트다.
+- 반드시 한국어로만 답한다.
+- 답변은 질문에 직접 필요한 범위를 넘기지 않되, 독립적으로 이해 가능하도록 필요한 짧은 전제 설명은 포함할 수 있다.
+- 답변은 독립적으로 이해 가능해야 한다. 하지만 그 이해 가능성을 이유로 새 정보를 만들면 안 된다.
+- 답변은 불필요하게 짧게 끊지 말고, 구조적으로 정리하되 필요한 연결 문장은 남긴다.
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소한의 설명만 허용한다.
+- 이 최소 설명은 용어를 풀거나 생략된 주어와 관계를 잇는 수준, 또는 질문의 대상을 짧게 다시 잡아 주는 수준에 한한다.
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다.
+- 질문이 묻지 않은 다른 판단 기준으로 확장하지 않는다.
+- 출처/원문/문서/장/절을 직접 언급하지 않는다.
+- 일반 금융 상식으로 확장하지 않는다.
+- **반드시 답변은 독립적으로 이해 가능해야 한다.**
+```
+
+## User Prompt
+```text
+[질문]
+ForwardReturn이 산출식에 포함될 때의 일반적 적용 순서는 무엇인가?
+
+[답변 스타일]
+적용형 답변으로 3~5개 불릿까지 허용한다. 적용 대상과 맥락을 짧게 밝힌 뒤 적용 순서, 조건, 전환 규칙만 남기고 정의 재설명이나 불필요한 비교는 쓰지 않는다.
+- 답변 길이는 공백 포함 최대 1100자 이내
+- 문서에 없는 내용은 추가하지 않되, 의미 연결을 위한 최소 설명만 허용한다
+- 이 최소 설명은 용어 풀이, 생략된 주어/관계 보완, 질문의 대상을 짧게 다시 잡아 주는 수준에 한한다
+- 답변은 독립적으로 이해 가능해야 하지만, 그 이해 가능성을 이유로 새 정보를 만들면 안 된다
+- 답변은 자연스러운 문장으로 연결하되, 새로운 정보 추가 없이 기존 내용을 매끄럽게 표현한다
+- 새로운 판단 기준, 규칙, 예외, 질문에 없는 대상/비교는 추가하지 않는다
+- 적용형: 답변은 적용 순서, 적용 조건, 전환 규칙만 제시한다
+- 적용형: 정의 재설명이나 불필요한 비교는 포함하지 않는다
+- 질문에 직접 필요한 기준만 남기되, 새 정보가 아닌 범위에서 짧은 전제 설명은 허용한다
+- 예시, 장황한 배경설명, 불필요한 열거는 줄인다
+- 제목, 번호 섹션, 마크다운 헤더(예: ##, 1) )는 쓰지 않는다
+```
+
+---
+
+## Assistant Response
+```text
+- KRW Hedged 지수 산출에서는 ForwardReturn_t가 HReturn_t의 구성요소( HReturn_t = ForwardReturn_t - CurrencyReturn_t )로 들어가며, 이후 HedgedIndexR_t와 HedgedIndex_t로 순차 반영된다 .  
+- 적용 순서 1: 해당 월에서의 잔여일수 OddDay_t(= T - t일 경과일수, 당일 포함)와 T(해당 월 총일수)를 먼저 정한 뒤 ForwardReturn_t를 산출한다 .  
+- 적용 순서 2(전환 규칙): ForwardReturn_t 산출에 OddDay_t/T를 사용해 (FFR_t - FXR_t^R) 구간을 잔여일 비율만큼 반영하는 형태로 처리한다 .  
+- 적용 순서 3: CurrencyReturn_t(= FXR_t^R/FXR_0^R)를 구한 후 HReturn_t = ForwardReturn_t - CurrencyReturn_t로 전환하고, 이를 HedgedIndexR_t = (I_t/I_0)*(FXR_t^R/FXR_0^R) - 1 + H_t*HReturn_t에 대입한다 .  
+- 적용 순서 4: 마지막으로 HedgedIndex_t = HedgedIndex_0*(1 + HedgedIndexR_t)로 최종 지수를 산출한다 .
+```
+
+## Response Extra
+```json
+{
+  "answer_status": "generated",
+  "answer_issues": [],
+  "answer_policy": "application_medium",
+  "vector_store_id": "vs_68a80414c938819189ac784ba37c10ee"
+}
+```

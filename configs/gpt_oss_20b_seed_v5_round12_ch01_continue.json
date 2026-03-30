@@ -1,0 +1,37 @@
+{
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+  "init_adapter_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v5/llm_model_lora/gpt-oss-20b-seed-v5-round1-ch01",
+  "dataset_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v5/llm_datasets/rendered/gpt-oss/seed_v5_round12_ch01_harmony.jsonl",
+  "prompt_source_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v5/llm_datasets/seed_v5/seed_v5_round12_ch01.jsonl",
+  "output_dir": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v5/llm_model_lora/gpt-oss-20b-seed-v5-round12-ch01",
+  "report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v5/llm_model_lora/gpt-oss-20b-seed-v5-round12-ch01/train_result.json",
+  "validation_report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v5/llm_model_lora/gpt-oss-20b-seed-v5-round12-ch01/adapter_validation.json",
+  "served_model_name": "gpt-oss-20b-seed-v5-round12-ch01",
+  "validation_questions": [
+    "유형생성의 기본원칙인 충분성, 비교성, 지속성은 각각 무엇을 뜻하나요?",
+    "국내투자 펀드와 국외투자 펀드는 유형분류 기준을 어떻게 다르게 적용하나요?",
+    "국내펀드에서 대유형과 소유형은 어떤 기준으로 구분하나요?",
+    "해외펀드에서 대유형과 소유형은 어떤 기준으로 구분하나요?",
+    "국내펀드의 유형별 BM에서 대유형과 소유형은 어떻게 구분되나요?",
+    "BM의 설정기준 세부적용 방법에서 자산별 적용지수는 어떻게 적용하나요?"
+  ],
+  "max_length": 1024,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 4,
+  "max_steps": 320,
+  "learning_rate": 0.00005,
+  "logging_steps": 5,
+  "save_steps": 80,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "sample_prompt_count": 6,
+  "seed": 42
+}

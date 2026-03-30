@@ -1,0 +1,50 @@
+{
+  "total": 46,
+  "passed": 40,
+  "manual_review": 6,
+  "dropped": 0,
+  "failures": [
+    {
+      "id": "v5_q_0020",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0033",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0036",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0038",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0044",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0046",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    }
+  ]
+}

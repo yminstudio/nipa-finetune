@@ -292,20 +292,33 @@ def main() -> None:
         base_model.enable_input_require_grads()
 
     resolved_target_modules = resolve_target_modules(base_model, list(cfg["target_modules"]))
-    peft_config = LoraConfig(
-        # 현재 코드는 seq2seq나 분류가 아니라 causal language modeling 작업을 택한다.
-        task_type=TaskType.CAUSAL_LM,
-        # `r`은 LoRA 저랭크 행렬의 rank다. 클수록 표현력은 늘지만 파라미터/메모리도 증가한다.
-        r=int(cfg["lora_r"]),
-        # `lora_alpha`는 LoRA 업데이트 스케일링 계수다. 실질 업데이트 크기에 영향을 준다.
-        lora_alpha=int(cfg["lora_alpha"]),
-        # LoRA 경로에만 dropout을 적용해 과적합을 줄인다.
-        lora_dropout=float(cfg["lora_dropout"]),
-        # 전체 모델이 아니라 attention/projection 계층 일부만 선택적으로 어댑터를 주입한다.
-        target_modules=resolved_target_modules,
-        # bias까지 학습하지 않고 LoRA 가중치만 학습해 스모크 실험을 더 가볍게 유지한다.
-        bias="none",
-    )
+    init_adapter_path = str(cfg.get("init_adapter_path", "")).strip()
+    if init_adapter_path:
+        init_adapter_dir = Path(init_adapter_path).resolve()
+        if not init_adapter_dir.is_dir():
+            raise FileNotFoundError(f"init_adapter_path not found: {init_adapter_dir}")
+        train_model = PeftModel.from_pretrained(
+            base_model,
+            str(init_adapter_dir),
+            is_trainable=True,
+        )
+        peft_config = None
+    else:
+        train_model = base_model
+        peft_config = LoraConfig(
+            # 현재 코드는 seq2seq나 분류가 아니라 causal language modeling 작업을 택한다.
+            task_type=TaskType.CAUSAL_LM,
+            # `r`은 LoRA 저랭크 행렬의 rank다. 클수록 표현력은 늘지만 파라미터/메모리도 증가한다.
+            r=int(cfg["lora_r"]),
+            # `lora_alpha`는 LoRA 업데이트 스케일링 계수다. 실질 업데이트 크기에 영향을 준다.
+            lora_alpha=int(cfg["lora_alpha"]),
+            # LoRA 경로에만 dropout을 적용해 과적합을 줄인다.
+            lora_dropout=float(cfg["lora_dropout"]),
+            # 전체 모델이 아니라 attention/projection 계층 일부만 선택적으로 어댑터를 주입한다.
+            target_modules=resolved_target_modules,
+            # bias까지 학습하지 않고 LoRA 가중치만 학습해 스모크 실험을 더 가볍게 유지한다.
+            bias="none",
+        )
 
     sft_config = SFTConfig(
         output_dir=str(output_dir),
@@ -342,7 +355,7 @@ def main() -> None:
     trainer = SFTTrainer(
         # SFTTrainer는 일반 Trainer보다 텍스트 SFT 파이프라인 구성이 단순하다.
         # 이미 준비된 텍스트 필드와 tokenizer/peft 설정만 넘기면 학습 루프를 구성해 준다.
-        model=base_model,
+        model=train_model,
         args=sft_config,
         train_dataset=train_dataset,
         # 최신 TRL 인터페이스에서는 tokenizer 역할을 하는 processing_class를 받는다.
@@ -371,6 +384,7 @@ def main() -> None:
     report = {
         "status": "success",
         "model_name": cfg["model_name"],
+        "init_adapter_path": init_adapter_path or None,
         "dataset_path": str(dataset_path),
         "prompt_source_path": str(prompt_source_path),
         "output_dir": str(output_dir),

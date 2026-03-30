@@ -1,0 +1,22 @@
+{
+  "total": 49,
+  "passed": 47,
+  "manual_review": 2,
+  "dropped": 0,
+  "failures": [
+    {
+      "id": "v5_q_0019",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    },
+    {
+      "id": "v5_q_0040",
+      "issues": [
+        "low_relevance"
+      ],
+      "review_status": "manual_review"
+    }
+  ]
+}
