@@ -283,3 +283,30 @@
 - 사용자는 워크트리 `feature-gen-dataset-v4`를 기준으로 `v4` 데이터셋 마감부터 `Harmony` 렌더 검증, `gpt-oss-20b` LoRA 학습, 학습 결과 검증까지 자율적으로 진행하길 원한다.
 - 범위는 `llm_datasets/seed_v4/seed_v4_ch01.jsonl`와 `seed_v4_ch02.jsonl`의 합본 학습 입력 생성, 렌더 검증, LoRA 학습, 대표 프롬프트 기반 직접 검증까지이며 `재양자화`와 `vLLM 서빙`은 이번 단계에서 제외한다.
 - 최종 보고에는 합본 경로, Harmony 검증 결과, 학습 명령과 핵심 설정, adapter 산출 경로, 검증 방법과 실제 관찰 결과, 남은 리스크를 구체적으로 포함한다.
+
+## 2026-03-20
+
+### v4 답변 생성 file_search 전환 기준 확정
+- 사용자는 `04_gen_answers.py`의 응답 생성을 `Responses API + file_search` 경로로 계획대로 수정하길 원한다.
+- 답변 생성은 `OpenAI().responses.create(...)` 형태의 SDK 호출을 기준으로 하며, `developer`/`user` 입력 배열과 `file_search` 도구 설정을 사용한다.
+- 고정 `vector_store_id`는 `vs_68a80414c938819189ac784ba37c10ee`다.
+
+### v4 답변 생성 1건 스모크 확인
+- 사용자는 로그에 실제 모델명이 남는지 확인하기 위해 질문 1건만 먼저 실행해 보길 원했다.
+
+### v4 답변 프롬프트 최소화 요청
+- 사용자는 답변 생성에서 `developer` 메시지에는 시스템 제약만, `user` 메시지에는 질문 한 줄만 들어가길 원했다.
+- 따라서 답변 생성용 장문 메타 프롬프트는 제거하고, 로그에도 단순한 user question만 남도록 맞춘다.
+
+### seed_v4_1 챕터2 품질 리뷰 및 챕터1 생성
+- 사용자는 `seed_v4_1_ch02.jsonl`에서 대표 10건만 골라 품질 리뷰한 뒤, 챕터1 입력 질문셋을 정해서 `seed_v4_1_ch01.jsonl`까지 이어서 생성하길 원했다.
+- 챕터2 대표 샘플 리뷰 결과, 일부 답변은 여전히 장문 해설형이거나 질문 범위를 넘는 확장 설명, `원하시면` 같은 어시스턴트형 마무리가 남아 있어 후속 프롬프트 보정 후보로 본다.
+- 챕터1은 `scripts/gen_dataset_v4/state/tmp/structure.jsonl`의 chapter 1 구조 레코드를 입력으로 삼아 질문을 새로 생성했고, 필터 통과 질문 32건을 챕터1 입력 질문셋으로 채택했다.
+- 이후 챕터1 답변 생성과 검증을 거쳐 `answers_validated_ch01.jsonl` 32건 중 31건이 최종 빌드에 포함되었고, `manual_review` 1건은 `bad_phrase:필요 시` 때문에 제외되었다.
+
+### seed_v4_1 LoRA 학습 및 서빙
+- 사용자는 `seed_v4_1` 데이터셋 기준으로 LoRA 학습과 모델 서빙까지 이어서 진행하길 원했고, 산출물 이름에는 `..._v4_1` 표기를 유지하길 원했다.
+- `seed_v4_1_ch01.jsonl` 31건과 `seed_v4_1_ch02.jsonl` 39건을 합쳐 `seed_v4_1_all.jsonl` 70건을 만들고, 이를 `seed_v4_1_all_harmony.jsonl`로 렌더링했다.
+- 새 학습 설정 `configs/gpt_oss_20b_seed_v4_1_all_round1.json`을 기준으로 LoRA 학습, adapter 직접 검증, merged BF16 생성, merged 직접 검증을 모두 실행했다.
+- adapter 서버는 `gpt-oss-20b-seed_v4_1-all-round1` 이름으로 포트 `8001`, merged 서버는 `gpt-oss-20b-seed_v4_1-all-bf16` 이름으로 포트 `8002`에 올렸다.
+- 기술적으로는 학습/검증/서빙이 모두 성공했지만, 직접 검증 샘플에서는 문서 밖 일반화와 장문 해설형 응답이 여전히 강해 품질 리스크가 큰 상태로 기록한다.

@@ -136,6 +136,7 @@ def filter_records(records: list[dict]) -> list[dict]:
                 "source_file": record.get("source_file", ""),
                 "generation_mode": record.get("generation_mode", "title_heading_noun_to_grounded_qa"),
                 "review_status": "pass",
+                "prompt_log_file": record.get("prompt_log_file", ""),
             }
         )
         seen_questions.add(normalized)

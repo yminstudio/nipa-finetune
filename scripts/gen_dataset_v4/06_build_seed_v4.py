@@ -11,6 +11,9 @@ from pathlib import Path
 STATE_DIR = Path(__file__).resolve().parent / "state"
 DEFAULT_INPUT = STATE_DIR / "answers_validated.jsonl"
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[2] / "llm_datasets/seed_v4"
+DEFAULT_DATASET_VERSION = "v4"
+DEFAULT_DATASET_PREFIX = "zeroin.seed_v4"
+DEFAULT_CHAPTER_OUTPUT_PREFIX = "seed_v4"
 
 SYSTEM_CONTENT = (
     "당신은 제로인 펀드평가 방법론에 근거해 답변하는 도메인 어시스턴트입니다. "
@@ -23,6 +26,13 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build canonical v4 seed jsonl files.")
     parser.add_argument("--input", default=str(DEFAULT_INPUT), help="Path to answers_validated.jsonl")
     parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR), help="Directory for chapter jsonl files")
+    parser.add_argument("--dataset-version", default=DEFAULT_DATASET_VERSION, help="Dataset version metadata")
+    parser.add_argument("--dataset-prefix", default=DEFAULT_DATASET_PREFIX, help="Record id prefix")
+    parser.add_argument(
+        "--chapter-output-prefix",
+        default=DEFAULT_CHAPTER_OUTPUT_PREFIX,
+        help="Output filename prefix for chapter jsonl files",
+    )
     parser.add_argument("--force", action="store_true", help="Overwrite existing chapter files.")
     return parser.parse_args()
 
@@ -50,7 +60,13 @@ def chapter_to_id(chapter: str) -> str:
     return "xx"
 
 
-def build_record(index: int, record: dict) -> dict | None:
+def build_record(
+    index: int,
+    record: dict,
+    *,
+    dataset_version: str = DEFAULT_DATASET_VERSION,
+    dataset_prefix: str = DEFAULT_DATASET_PREFIX,
+) -> dict | None:
     question = str(record.get("question", "")).strip()
     answer = str(record.get("answer", "")).strip()
     if not question or not answer:
@@ -59,7 +75,7 @@ def build_record(index: int, record: dict) -> dict | None:
         return None
 
     chapter = str(record.get("chapter", "")).strip()
-    record_id = f"zeroin.seed_v4_{index:04d}"
+    record_id = f"{dataset_prefix}_{index:04d}"
     return {
         "id": record_id,
         "messages": [
@@ -68,7 +84,7 @@ def build_record(index: int, record: dict) -> dict | None:
             {"role": "assistant", "content": answer},
         ],
         "meta": {
-            "dataset_version": "v4",
+            "dataset_version": dataset_version,
             "chapter": chapter,
             "section": record.get("section", ""),
             "subsection": record.get("subsection", ""),
@@ -80,9 +96,16 @@ def build_record(index: int, record: dict) -> dict | None:
             "question_template": record.get("question_template", ""),
             "review_status": record.get("review_status", ""),
             "original_id": record.get("original_id", record.get("id", "")),
-            "answer_file_id": record.get("answer_file_id", ""),
+            "answer_vector_store_id": record.get("answer_vector_store_id", ""),
         },
     }
+
+
+def resolve_output_paths(output_dir: Path, *, chapter_output_prefix: str) -> tuple[Path, Path]:
+    return (
+        output_dir / f"{chapter_output_prefix}_ch01.jsonl",
+        output_dir / f"{chapter_output_prefix}_ch02.jsonl",
+    )
 
 
 def main() -> None:
@@ -92,8 +115,10 @@ def main() -> None:
         raise FileNotFoundError(f"input file not found: {input_path}")
 
     output_dir = Path(args.output_dir).resolve()
-    ch01_path = output_dir / "seed_v4_ch01.jsonl"
-    ch02_path = output_dir / "seed_v4_ch02.jsonl"
+    ch01_path, ch02_path = resolve_output_paths(
+        output_dir,
+        chapter_output_prefix=args.chapter_output_prefix,
+    )
     if (ch01_path.exists() or ch02_path.exists()) and not args.force:
         raise SystemExit("chapter output files already exist (use --force to overwrite)")
 
@@ -108,7 +133,8 @@ def main() -> None:
         chapter_id = chapter_to_id(str(record.get("chapter", "")))
         if chapter_id in chapter_records:
             built_count += 1
-            built["id"] = f"zeroin.seed_v4_{built_count:04d}"
+            built["id"] = f"{args.dataset_prefix}_{built_count:04d}"
+            built["meta"]["dataset_version"] = args.dataset_version
             chapter_records[chapter_id].append(built)
 
     write_jsonl(ch01_path, chapter_records["01"])

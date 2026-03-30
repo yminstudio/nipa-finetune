@@ -17,13 +17,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_STRUCTURE = Path(__file__).resolve().parent / "state/structure.jsonl"
 DEFAULT_OUTPUT = Path(__file__).resolve().parent / "state/questions_raw.jsonl"
-DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-nano")
+DEFAULT_PROMPT_LOG_DIR = Path(__file__).resolve().parent / "prompt_log"
+DEFAULT_MODEL = "gpt-4.1-nano"
 DEFAULT_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
 
 SYSTEM_PROMPT = """당신은 제로인 방법론 기반 QA 데이터셋의 질문 생성기다.
 반드시 한국어로만 답하고, 제공된 재료 범위 안에서만 질문을 만든다.
 질문은 짧고 단일 쟁점 중심이어야 한다.
-일반 금융상식, 투자조언, 문서 바깥 배경지식 질문은 금지한다."""
+일반 금융상식, 투자조언, 문서 바깥 배경지식 질문은 금지한다.
+업로드 문서를 보지 않고도 일반 금융 상식만으로 답할 수 있는 질문은 생성하지 않는다.
+질문은 반드시 문서 안의 특정 정의, 기준, 비교, 적용 중 하나에 직접 매핑되어야 한다."""
 
 QUESTION_PROMPT = """아래 재료만 사용해서 자연스러운 질문 후보를 생성해줘.
 
@@ -47,8 +50,16 @@ QUESTION_PROMPT = """아래 재료만 사용해서 자연스러운 질문 후보
 - 문서 범위를 벗어난 질문 금지
 - 제목을 그대로 복붙한 문장 금지
 - 일반 금융상식, 투자조언, 시장전망 질문 금지
+- 업로드 문서를 보지 않고도 일반 금융 상식만으로 답할 수 있는 질문은 생성하지 않는다
+- 답이 표 전체 요약이나 장문 설명이 되도록 만드는 질문은 금지하고, 특정 기준 하나만 묻는 질문으로 만든다
+- 질문 하나에는 하나의 판단축만 남긴다. 정의와 기준, 기준과 예외를 한 문장에 함께 묻지 않는다
 - 질문 유형은 definition, criteria, comparison, application 중 하나만 사용
 - 최대 {question_count}개까지만 생성
+
+생성 후 자체 점검:
+- 이 질문은 문서의 특정 표, 기준, 정의, 절차가 없으면 답하기 어려운가?
+- 이 질문에 일반 금융 상식으로 그럴듯하게 답할 수 있으면 폐기한다
+- 질문이 길거나 복합적이면 더 짧은 한 쟁점 질문으로 다시 쓴다
 
 반환 형식:
 순수 JSON 배열만 출력한다.
@@ -80,12 +91,25 @@ def load_dotenv_file() -> None:
 load_dotenv_file()
 
 
+def resolve_question_model() -> str:
+    for key in ("Q_OPENAI_MODEL", "OPENAI_MODEL"):
+        value = os.getenv(key, "").strip()
+        if value:
+            return value
+    return DEFAULT_MODEL
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate raw v4 questions from structure records.")
     parser.add_argument("--input", default=str(DEFAULT_STRUCTURE), help="Path to structure.jsonl")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT), help="Path to questions_raw.jsonl")
+    parser.add_argument(
+        "--prompt-log-dir",
+        default=str(DEFAULT_PROMPT_LOG_DIR),
+        help="Directory to store prompt logs for AI API requests.",
+    )
     parser.add_argument("--api-base", default=os.getenv("OPENAI_API_BASE", DEFAULT_API_BASE))
-    parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", DEFAULT_MODEL))
+    parser.add_argument("--model", default=resolve_question_model())
     parser.add_argument("--questions-per-record", type=int, default=3)
     parser.add_argument("--max-retries", type=int, default=3)
     parser.add_argument("--limit", type=int, default=0, help="Only process the first N structure records.")
@@ -204,6 +228,70 @@ def build_prompt(record: dict, question_count: int) -> str:
     )
 
 
+def sanitize_filename_component(text: str, limit: int = 80) -> str:
+    collapsed = re.sub(r"\s+", " ", text).strip()
+    sanitized = re.sub(r"[\\/\r\n\t]+", "_", collapsed)
+    sanitized = sanitized.rstrip(". ")
+    if not sanitized:
+        sanitized = "질문"
+    return sanitized[:limit].rstrip(" ._")
+
+
+def write_prompt_log(
+    *,
+    log_dir: Path,
+    stage: str,
+    record_id: str,
+    question_text: str,
+    model: str,
+    api_base: str,
+    system_prompt: str,
+    user_prompt: str,
+    extra: dict,
+) -> Path:
+    log_dir.mkdir(parents=True, exist_ok=True)
+    safe_question = sanitize_filename_component(question_text)
+    log_path = log_dir / f"{safe_question}.md"
+    body = "\n".join(
+        [
+            "# 질문 프롬프트 로그",
+            "",
+            "## Stage",
+            stage,
+            "",
+            "## Record ID",
+            record_id,
+            "",
+            "## Question",
+            question_text,
+            "",
+            "## Model",
+            model,
+            "",
+            "## API Base",
+            api_base,
+            "",
+            "## Extra",
+            "```json",
+            json.dumps(extra, ensure_ascii=False, indent=2),
+            "```",
+            "",
+            "## System Prompt",
+            "```text",
+            system_prompt,
+            "```",
+            "",
+            "## User Prompt",
+            "```text",
+            user_prompt,
+            "```",
+            "",
+        ]
+    )
+    log_path.write_text(body, encoding="utf-8")
+    return log_path
+
+
 def main() -> None:
     args = parse_args()
     output_path = Path(args.output).resolve()
@@ -213,6 +301,7 @@ def main() -> None:
     input_path = Path(args.input).resolve()
     if not input_path.exists():
         raise FileNotFoundError(f"input file not found: {input_path}")
+    prompt_log_dir = Path(args.prompt_log_dir).resolve()
 
     structure_records = read_jsonl(input_path)
     if args.limit > 0:
@@ -224,6 +313,7 @@ def main() -> None:
 
     for record in structure_records:
         prompt = build_prompt(record, question_count=args.questions_per_record)
+        source_record_id = str(record.get("id", f"record_{question_index:04d}"))
         last_error: Exception | None = None
         items: list[dict] = []
         for _attempt in range(args.max_retries):
@@ -248,6 +338,26 @@ def main() -> None:
             question = str(item.get("question", "")).strip()
             if not question:
                 continue
+            log_path = write_prompt_log(
+                log_dir=prompt_log_dir,
+                stage="questions",
+                record_id=source_record_id,
+                question_text=question,
+                model=args.model,
+                api_base=args.api_base,
+                system_prompt=SYSTEM_PROMPT,
+                user_prompt=prompt,
+                extra={
+                    "chapter": record.get("chapter", ""),
+                    "section": record.get("section", ""),
+                    "subsection": record.get("subsection", ""),
+                    "seed_title": record.get("seed_title", ""),
+                    "questions_per_record": args.questions_per_record,
+                    "generated_question": question,
+                    "qa_type": str(item.get("qa_type", "")).strip(),
+                    "question_template": str(item.get("question_template", "")).strip(),
+                },
+            )
             results.append(
                 {
                     "id": f"v4_qraw_{question_index:04d}",
@@ -262,6 +372,7 @@ def main() -> None:
                     "source_file": record.get("source_file", ""),
                     "generation_mode": "title_heading_noun_to_grounded_qa",
                     "review_status": "pending",
+                    "prompt_log_file": log_path.relative_to(ROOT).as_posix(),
                 }
             )
             question_index += 1

@@ -1,0 +1,39 @@
+{
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+  "dataset_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_datasets/rendered/gpt-oss/seed_v4_1_all_harmony.jsonl",
+  "prompt_source_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_datasets/seed_v4_1/seed_v4_1_all.jsonl",
+  "output_dir": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_lora/gpt-oss-20b-seed_v4_1-all-round1",
+  "report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_lora/gpt-oss-20b-seed_v4_1-all-round1/train_result.json",
+  "validation_report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_lora/gpt-oss-20b-seed_v4_1-all-round1/adapter_validation.json",
+  "merged_output_dir": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_merged/gpt-oss-20b-seed_v4_1-all-bf16",
+  "merge_report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v4/llm_model_merged/gpt-oss-20b-seed_v4_1-all-bf16/merge_result.json",
+  "served_model_name": "gpt-oss-20b-seed_v4_1-all-round1",
+  "validation_questions": [
+    "유형생성의 기본원칙인 충분성, 비교성, 지속성을 설명해줘.",
+    "국내펀드와 해외펀드의 유형별 BM은 어떻게 구분되나요?",
+    "환헷지를 하는 경우와 하지 않는 경우 BM 적용은 어떻게 달라지나요?",
+    "펀드 %순위와 등급의 평가대상은 어떤 기준으로 선정하나요?",
+    "제로인 펀드등급은 어떤 지표를 바탕으로 산출하나요?",
+    "평균 수익률 계산에서 로그수익률을 사용하는 이유는 무엇인가요?",
+    "실현수익률의 연환산은 어떤 경우에 다르게 적용되나요?"
+  ],
+  "max_length": 1024,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 4,
+  "max_steps": 240,
+  "learning_rate": 0.0001,
+  "logging_steps": 5,
+  "save_steps": 60,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "sample_prompt_count": 4,
+  "seed": 42
+}
