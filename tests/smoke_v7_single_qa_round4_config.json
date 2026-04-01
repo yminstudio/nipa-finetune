@@ -1,0 +1,9 @@
+{
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+  "adapter_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v7/llm_model_lora/gpt-oss-20b-seed-v7-single-qa-round4",
+  "prompt_source_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v7/llm_datasets/seed_v7/seed_v7_single_qa_round4.jsonl",
+  "report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v7/tests/log/v7_single_qa_round4_all_questions_report.md",
+  "dtype": "bfloat16",
+  "max_new_tokens": 384
+}

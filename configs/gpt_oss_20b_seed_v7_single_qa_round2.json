@@ -1,0 +1,27 @@
+{
+  "model_name": "unsloth/gpt-oss-20b-BF16",
+  "cache_dir": "/home/work/dev_data/fine-tuning/llm_model_base",
+  "dataset_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v7/llm_datasets/seed_v7/seed_v7_single_qa_round2.jsonl",
+  "output_dir": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v7/llm_model_lora/gpt-oss-20b-seed-v7-single-qa-round2",
+  "report_path": "/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v7/llm_model_lora/gpt-oss-20b-seed-v7-single-qa-round2/train_result.json",
+  "max_length": 1536,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 4,
+  "max_steps": 1000,
+  "learning_rate": 5e-05,
+  "logging_steps": 5,
+  "stop_when_loss_below": 1.0,
+  "stop_when_mean_token_accuracy_at_least": 1.0,
+  "save_steps": 250,
+  "save_total_limit": 1,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "seed": 42
+}

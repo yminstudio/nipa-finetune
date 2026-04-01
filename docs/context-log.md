@@ -344,3 +344,17 @@
 ### 시스템 지시와 사용자 프롬프트의 역할 분리
 - 사용자는 `예시, 장황한 배경설명, 불필요한 열거는 줄인다` 같은 일반 제약은 시스템 레벨에서 이미 충분히 요청된 사항이므로, 사용자 프롬프트에 중복으로 둘 필요가 없다고 판단했다.
 - 따라서 답변 생성용 사용자 프롬프트에서는 중복 제약 문구를 제거하고, 사용자 프롬프트에는 질문별로 직접 필요한 지시만 남긴다.
+
+## 2026-03-30
+
+### v7 단일 Q/A 반복 학습 전환
+- 사용자는 `v6`의 API/검증 중심 흐름 대신, 새 브랜치 `v7`에서 질문 1개와 답변 1개만으로 반복 학습하는 가장 단순한 로컬 경로를 원한다.
+- 따라서 `v7`에서는 외부 API 호출, judge, 후속 smoke 생성 검증을 기본 실행 경로에서 제거하고 `train_result.json` 중심으로만 학습 완료를 확인한다.
+
+## 2026-04-01
+
+### v7 round5 표 기반 확장 학습 완료
+- 사용자는 `scripts/data_source.md`를 기준으로 기존 `round4` 다음 라운드를 만들고, 표의 각 행을 answer group으로, 각 `<br>` 질문 변형을 개별 학습 레코드로 확장한 뒤 베이스 모델에서 새 라운드를 학습하고 전체 질문 smoke 로그까지 남기길 원했다.
+- 따라서 `scripts/build_v7_round_from_data_source.py`를 추가하고, 현재 표 기준 5개 그룹·150개 질문으로 `seed_v7_single_qa_round5.jsonl`, `gpt_oss_20b_seed_v7_single_qa_round5.json`, `smoke_v7_single_qa_round5_config.json`를 생성했다.
+- `round5` 학습은 베이스 모델 `unsloth/gpt-oss-20b-BF16`에서 GPU 0으로 수행했고, `loss < 1.0` 및 `mean_token_accuracy >= 0.98` 조건으로 `step 115`, `loss 0.1100`, `mean_token_accuracy 0.9804`에서 조기 종료되었다.
+- 전체 150문항 smoke 추론은 GPU 2에서 수행해 `tests/log/v7_single_qa_round5_all_questions_report.md`를 생성했다. 출력은 대체로 원문 구조를 유지했지만, 일부 후반 문항에서 일반화된 재서술, 용어 흔들림, 간헐적 표현 오류(`제로인 설정`, `비교 대상가 설정`)가 보여 후속 품질 점검 포인트가 남았다.
