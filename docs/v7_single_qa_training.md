@@ -6,6 +6,14 @@
 - 학습 데이터는 질문 1개와 답변 1개로 고정한다.
 - 후속 judge, smoke 생성 검증, vector store 연결은 기본 실행 경로에 넣지 않는다.
 
+## V8 Full FT Transition
+
+- `v7`는 LoRA 실험 계열이며 학습 산출물을 `llm_model_lora/` 아래에 남긴다.
+- `v8`는 같은 문서형 데이터 확장 패턴은 유지하지만, 어댑터 대신 전체 가중치를 업데이트하는 `full_ft` 경로로 전환한다.
+- `v8` 산출물은 `llm_model_full/` 아래에 저장되며, 실제 학습 전 `--dry-run`으로 readiness gate와 입력 경로를 먼저 확인한다.
+- `v8` 후속 검증은 adapter smoke가 아니라 `final-export/` 또는 `checkpoint-*`를 다시 로드하는 `scripts/check_gpt_oss_full_ft_output.py`로 수행한다.
+- 운영 명령과 최신 경로는 `docs/v8_preparation.md`를 기준으로 확인한다.
+
 ## Fixed Input
 
 - dataset path: `llm_datasets/seed_v7/seed_v7_single_qa.jsonl`

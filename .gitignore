@@ -22,3 +22,9 @@ llm_model_lora/**
 !llm_model_lora/**/
 !llm_model_lora/**/README.md
 .worktrees/
+.cache/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.jinja
