@@ -59,6 +59,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Validate config, inputs, readiness, and report writing without starting training.",
     )
+    parser.add_argument(
+        "--orchestrate",
+        action="store_true",
+        help="Run full pipeline: training subprocess (torchrun) then validation subprocess.",
+    )
+    parser.add_argument(
+        "--nproc-per-node",
+        type=int,
+        default=None,
+        help="GPU count for torchrun in orchestrate mode (auto-detected if omitted).",
+    )
+    parser.add_argument(
+        "--skip-validation",
+        action="store_true",
+        help="In orchestrate mode, skip the post-training validation subprocess.",
+    )
     return parser.parse_args(argv)
 
 
@@ -1129,50 +1145,6 @@ def run_from_config(
             checkpoint_path=checkpoint_path,
             final_export_path=final_export_path,
         )
-        reset_post_training_phase_statuses(
-            cfg=cfg,
-            runtime=runtime,
-            distributed_info=distributed_info,
-            phase_names=["reload validation", "train result report"],
-        )
-        finalize = getattr(runtime, "finalize_distributed", None)
-        if callable(finalize):
-            finalize(distributed_info)
-        mark_distributed_finalized(distributed_info)
-
-        try:
-            coordinated_post_training_writer_phase(
-                cfg=cfg,
-                runtime=runtime,
-                distributed_info=distributed_info,
-                phase_name="reload validation",
-                action=lambda: runtime.validate_outputs(
-                    config_path=config_path,
-                    checkpoint_dir=checkpoint_path,
-                    final_export_dir=final_export_path,
-                ),
-            )
-        except Exception as exc:
-            report = build_report(
-                cfg=cfg,
-                config_path=config_path,
-                dataset_info=dataset_info,
-                deepspeed_info=deepspeed_info,
-                readiness=readiness,
-                resume_info=resume_info,
-                distributed_info=distributed_info,
-                artifact_paths=artifact_paths,
-                dry_run=False,
-                status="validation_failed",
-                error_message=str(exc),
-            )
-            write_report_json(
-                Path(str(cfg["report_path"])).resolve(),
-                report,
-                distributed_info=distributed_info,
-            )
-            return report
-
         report = build_report(
             cfg=cfg,
             config_path=config_path,
@@ -1185,6 +1157,17 @@ def run_from_config(
             dry_run=False,
             status="success",
         )
+        reset_post_training_phase_statuses(
+            cfg=cfg,
+            runtime=runtime,
+            distributed_info=distributed_info,
+            phase_names=["train result report"],
+        )
+        finalize = getattr(runtime, "finalize_distributed", None)
+        if callable(finalize):
+            finalize(distributed_info)
+        mark_distributed_finalized(distributed_info)
+
         coordinated_post_training_writer_phase(
             cfg=cfg,
             runtime=runtime,
@@ -1220,8 +1203,104 @@ def run_from_config(
             finalize(distributed_info)
 
 
+def _detect_gpu_count() -> int:
+    try:
+        torch = importlib.import_module("torch")
+        cuda = getattr(torch, "cuda", None)
+        if cuda is not None and callable(getattr(cuda, "device_count", None)):
+            count = int(cuda.device_count())
+            if count > 0:
+                return count
+    except Exception:
+        pass
+    return 1
+
+
+def run_orchestrated(
+    config_path: str | Path,
+    *,
+    dry_run: bool = False,
+    nproc_per_node: int | None = None,
+    skip_validation: bool = False,
+) -> dict[str, Any]:
+    """Run training via torchrun subprocess, then validation via separate subprocess."""
+    import subprocess as _sp
+
+    config_path = Path(config_path).resolve()
+    cfg = read_json(config_path)
+
+    if nproc_per_node is None:
+        nproc_per_node = _detect_gpu_count()
+
+    script_path = str(Path(__file__).resolve())
+    venv_python = sys.executable
+
+    train_cmd: list[str]
+    if nproc_per_node > 1:
+        torchrun_path = str(Path(venv_python).parent / "torchrun")
+        train_cmd = [
+            torchrun_path, "--standalone", f"--nproc_per_node={nproc_per_node}",
+            script_path, "--config", str(config_path),
+        ]
+    else:
+        train_cmd = [venv_python, script_path, "--config", str(config_path)]
+
+    if dry_run:
+        train_cmd.append("--dry-run")
+
+    print(f"[orchestrate] training cmd: {' '.join(train_cmd)}", flush=True)
+    train_proc = _sp.run(train_cmd, capture_output=False)
+
+    report_path = Path(str(cfg.get("report_path", "train_result.json"))).resolve()
+    if not report_path.exists():
+        return {"status": "failed", "phase": "training", "error": "train_result.json not found after training"}
+
+    train_report = read_json(report_path)
+    if train_report.get("status") != "success":
+        print(f"[orchestrate] training ended with status={train_report.get('status')}, skipping validation", flush=True)
+        return train_report
+
+    if dry_run or skip_validation:
+        print("[orchestrate] skipping validation (dry-run or --skip-validation)", flush=True)
+        return train_report
+
+    final_export_path = resolve_final_export_path(cfg)
+    if not final_export_path.exists():
+        train_report["validation_skipped"] = "final-export directory not found"
+        print(f"[orchestrate] final-export not found at {final_export_path}, skipping validation", flush=True)
+        return train_report
+
+    validator_script = str(Path(__file__).with_name("check_gpt_oss_full_ft_output.py").resolve())
+    validate_cmd = [
+        venv_python, validator_script,
+        "--config", str(config_path),
+        "--model-path", str(final_export_path),
+    ]
+
+    print(f"[orchestrate] validation cmd: {' '.join(validate_cmd)}", flush=True)
+    validate_proc = _sp.run(validate_cmd, capture_output=False)
+
+    train_report["validation"] = {
+        "exit_code": validate_proc.returncode,
+        "status": "success" if validate_proc.returncode == 0 else "failed",
+    }
+    write_json(report_path, train_report)
+
+    print(f"[orchestrate] done. training={train_report['status']}, validation={'success' if validate_proc.returncode == 0 else 'failed'}", flush=True)
+    return train_report
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.orchestrate:
+        result = run_orchestrated(
+            args.config,
+            dry_run=bool(args.dry_run),
+            nproc_per_node=args.nproc_per_node,
+            skip_validation=bool(args.skip_validation),
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result.get("status") in {"dry_run_ready", "success"} else 1
     report = run_from_config(args.config, dry_run=bool(args.dry_run))
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0 if report["status"] in {"dry_run_ready", "success"} else 1
