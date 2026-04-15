@@ -464,4 +464,30 @@
 - 사용자는 이후 모델 검토 시 샘플이 중간에서 잘리지 않도록 검토 기본값을 `1024`로 고정하길 원했다.
 - 따라서 `check_gpt_oss_full_ft_output.py`의 기본 `max_new_tokens`를 `1024`로 상향하고, 관련 validator 보고서 테스트 기대값도 함께 맞춘다.
 
+### v8 round4 전체 문서 CSV 전환과 디스크 차단
+- 사용자는 기존 `v8-r3 section-1.csv` 대신 컬럼 위치가 조정된 `docs/제로인방법론/source_csv/v8-r4 section-all.csv`를 기준으로 문서 전체 데이터셋을 만들고, 그 데이터로 full fine-tuning을 진행하길 원했다.
+- 새 CSV는 `num, sec, system, user_q_base, assistant, user_q_ext` 구조로 확인되었고, `round4 section-all` builder/config를 추가해 dataset 생성까지 진행했다.
+- 다만 `num=51` 행은 `assistant`가 비어 있어 학습용 Q/A로는 사용할 수 없어 builder에서 해당 행만 제외했고, 최종 dataset은 `394`개 그룹 `4023`개 레코드로 생성되었다.
+- 이후 dry-run에서는 현재 가용 디스크가 약 `482G`로 부족해 readiness gate가 차단되었고, 현재 큰 산출물은 `round2`와 `round3 section1` full model 디렉터리가 각각 약 `587G`씩 차지하고 있다.
+
+### v8 round4 출력 파일시스템 분리
+- 사용자는 `dev_data` 마운트에서 추가 정리를 계속하되, 실제 학습은 더 여유 있는 다른 파일시스템으로 `output_dir`를 옮겨서 진행하길 원했다.
+- 확인 결과 `/home/work`는 `ext4` 마운트이며 약 `2.5T` 여유가 있어, `round4 section-all` full fine-tuning 출력 경로와 `train_result.json` 경로를 `/home/work/llm_model_full/gpt-oss-20b-seed-v8-round4-section-all-full-ft`로 이동한다.
+- dataset, prompt source, deepspeed config는 기존 worktree 경로를 유지하고, 대형 체크포인트/최종 export만 별도 파일시스템에 기록하도록 구성해 readiness gate를 우회하지 않고 통과시키는 방향으로 정리한다.
+
+### v8 round4 `/home/work` 출력 경로 기준 실학습 시작
+- 변경된 `output_dir` 기준으로 `torchrun --nproc_per_node=3` dry-run을 다시 수행한 결과, readiness는 `ready`였고 `disk_free_bytes`는 약 `2.73T`로 기록되어 디스크 차단이 해소되었다.
+- 이후 실제 학습은 세션 단절에 영향받지 않도록 detached 프로세스로 시작했고, 로그는 `/home/work/llm_model_full/gpt-oss-20b-seed-v8-round4-section-all-full-ft/round4-train.log`, PID 파일은 같은 디렉터리의 `round4-train.pid`에 기록한다.
+- 초기 로그에서는 HF Hub 비인증 경고와 `torch_dtype` deprecated 경고만 보였고, 별도 training monitor로 초기 진행/실패 여부를 계속 추적한다.
+
+## 2026-04-15: post-training validation 프로세스 분리
+
+- **문제**: round4 학습 1000/1000 완료 후, 러너가 같은 프로세스 안에서 모델을 다시 로드하여 검증하려 했으나, ZeRO-3 분산 학습으로 GPU당 ~129GB가 점유된 상태에서 39GB 모델 재로딩이 불가능하여 매 라운드 post-training 단계에서 hang 발생.
+- **근본 원인**: `run_from_config` 내 `coordinated_post_training_writer_phase("reload validation")`이 in-process로 모델을 재로딩하는 구조. 학습 프로세스가 종료되어야 GPU 메모리가 해제되므로, 같은 프로세스에서는 재로딩 불가.
+- **수정**: 러너에서 in-process reload validation을 제거하고, `--orchestrate` 모드를 추가.
+  - 학습 러너: 학습 + final-export + train_result.json 기록까지만 하고 정상 종료
+  - 오케스트레이터: training subprocess(torchrun) 완료 후 → validation subprocess(check_gpt_oss_full_ft_output.py) 자동 실행
+  - 프로세스 단위 분리로 GPU 메모리 충돌 원천 차단
+- **사용법**: `python run_full_ft_gpt_oss_20b.py --config CONFIG --orchestrate [--nproc-per-node N] [--skip-validation]`
+- round4 학습 산출물(final-export 39GB, checkpoint-1000)은 정상 저장 확인됨.
 

@@ -10,6 +10,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 ROUND1_FULL_FT_CONFIG_PATH = ROOT / "configs/gpt_oss_20b_seed_v8_round1_full_ft.json"
 ROUND3_SECTION1_FULL_FT_CONFIG_PATH = ROOT / "configs/gpt_oss_20b_seed_v8_round3_section1_full_ft.json"
+ROUND4_SECTION_ALL_FULL_FT_CONFIG_PATH = ROOT / "configs/gpt_oss_20b_seed_v8_round4_section_all_full_ft.json"
 DEEPSPEED_CONFIG_PATH = ROOT / "configs/deepspeed/gpt_oss_20b_zero3_bf16.json"
 
 REQUIRED_CONFIG_KEYS = {
@@ -257,6 +258,76 @@ def test_v8_round3_section1_full_ft_config_file_matches_expected_paths_and_valid
     assert cfg["report_path"] == str(
         (ROOT / "llm_model_full/gpt-oss-20b-seed-v8-round3-section1-full-ft/train_result.json").resolve()
     )
+    assert cfg["deepspeed_config_path"] == str(DEEPSPEED_CONFIG_PATH.resolve())
+
+    validated = contracts.validate_full_ft_config(cfg)
+    assert validated["resume_mode"] == "fail"
+
+
+def test_v8_round4_section_all_builder_parses_csv_groups_and_expands_question_variants():
+    module = load_module("scripts/build_v8_round4_section_all_full_ft_dataset.py", "build_v8_round4_section_all_full_ft_dataset")
+
+    parsed = module.parse_csv_source(ROOT / "docs/제로인방법론/source_csv/v8-r4 section-all.csv")
+    groups = parsed["groups"]
+    records = module.build_dataset_records(groups)
+
+    assert parsed["columns"] == ["num", "sec", "system", "user_q_base", "assistant", "user_q_ext"]
+    assert parsed["skipped_rows"] == ["51"]
+    assert len(groups) == 394
+    assert len(records) == 4023
+    assert records[0]["id"] == "zeroin.seed_v8_round4_section_all_full_ft_0001"
+    assert records[-1]["id"] == "zeroin.seed_v8_round4_section_all_full_ft_4023"
+    assert records[0]["messages"][0]["content"].startswith("당신은 제로인 펀드평가 방법론에 근거해 답변하는 도메인 어시스턴트입니다.")
+    assert records[0]["messages"][1]["content"] == "유형생성의 기본원칙에서 충분성, 비교성, 지속성은 각각 무엇을 뜻하나요?"
+    assert (
+        records[-1]["messages"][1]["content"]
+        == "월간 자산분석과 스타일 공시를 기반으로 현재 포트폴리오의 비중 변화나 유사 펀드 비교 검색 기능에 대한 질문에 강해야 하나요?"
+    )
+    assert records[0]["meta"]["round"] == "round4"
+    assert records[0]["meta"]["section"] == "section_all"
+    assert records[0]["meta"]["source_strategy"] == "csv_multiline_question_expansion"
+    assert records[-1]["meta"]["group_id"] == "group394"
+    assert records[-1]["meta"]["chapter"] == "8"
+
+
+def test_v8_round4_section_all_builder_writes_exact_dataset_path_and_file_contents(tmp_path: Path):
+    builder = load_module(
+        "scripts/build_v8_round4_section_all_full_ft_dataset.py",
+        "build_v8_round4_section_all_full_ft_dataset_write",
+    )
+
+    summary = builder.build_dataset(
+        root=tmp_path,
+        source_path=ROOT / "docs/제로인방법론/source_csv/v8-r4 section-all.csv",
+    )
+
+    dataset_path = tmp_path / "llm_datasets/seed_v8/seed_v8_round4_section_all_full_ft.jsonl"
+    assert summary["dataset_path"] == str(dataset_path.resolve())
+    assert dataset_path.exists()
+
+    lines = [line for line in dataset_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    records = [json.loads(line) for line in lines]
+
+    assert summary["group_count"] == 394
+    assert summary["record_count"] == 4023
+    assert summary["skipped_rows"] == ["51"]
+    assert len(records) == 4023
+    assert records[0]["messages"][1]["content"] == "유형생성의 기본원칙에서 충분성, 비교성, 지속성은 각각 무엇을 뜻하나요?"
+    assert records[-1]["meta"]["group_id"] == "group394"
+
+
+def test_v8_round4_section_all_full_ft_config_file_matches_expected_paths_and_validates():
+    contracts = load_module("scripts/v8_full_ft_contracts.py", "v8_full_ft_contracts_round4_section_all")
+    round4_output_dir = Path("/home/work/llm_model_full/gpt-oss-20b-seed-v8-round4-section-all-full-ft")
+
+    assert ROUND4_SECTION_ALL_FULL_FT_CONFIG_PATH.exists()
+    cfg = json.loads(ROUND4_SECTION_ALL_FULL_FT_CONFIG_PATH.read_text(encoding="utf-8"))
+
+    assert REQUIRED_CONFIG_KEYS.issubset(cfg.keys())
+    assert cfg["dataset_path"] == str((ROOT / "llm_datasets/seed_v8/seed_v8_round4_section_all_full_ft.jsonl").resolve())
+    assert cfg["prompt_source_path"] == str((ROOT / "llm_datasets/seed_v8/seed_v8_round4_section_all_full_ft.jsonl").resolve())
+    assert cfg["output_dir"] == str(round4_output_dir)
+    assert cfg["report_path"] == str(round4_output_dir / "train_result.json")
     assert cfg["deepspeed_config_path"] == str(DEEPSPEED_CONFIG_PATH.resolve())
 
     validated = contracts.validate_full_ft_config(cfg)
@@ -1291,16 +1362,13 @@ def test_v8_full_ft_non_dry_run_wires_runtime_and_writes_success_report(tmp_path
     assert ("load_dataset", str(Path(cfg["dataset_path"]).resolve())) in runtime.calls
     assert not any(call[0] == "save_checkpoint" for call in runtime.calls)
     assert ("save_final_export", "final-export") in runtime.calls
-    assert ("validate_outputs", "checkpoint-10|final-export") in runtime.calls
+    assert not any(call[0] == "validate_outputs" for call in runtime.calls)
     assert ("finalize_distributed", "0|1|True") in runtime.calls
-    assert runtime.calls.index(("finalize_distributed", "0|1|True")) < runtime.calls.index(
-        ("validate_outputs", "checkpoint-10|final-export")
-    )
 
 
-def test_v8_full_ft_non_dry_run_marks_validation_failed_in_train_result(tmp_path: Path):
+def test_v8_full_ft_non_dry_run_succeeds_without_in_process_validation(tmp_path: Path):
     runner, _contracts, config_path, cfg = write_full_ft_config_fixture(tmp_path)
-    runtime = FakeFullFTRuntime(fail_on_validate="final export validation failed")
+    runtime = FakeFullFTRuntime(fail_on_validate="should never be called")
 
     result = runner.run_from_config(
         config_path,
@@ -1310,9 +1378,9 @@ def test_v8_full_ft_non_dry_run_marks_validation_failed_in_train_result(tmp_path
     )
 
     report = json.loads(Path(cfg["report_path"]).read_text(encoding="utf-8"))
-    assert result["status"] == "validation_failed"
-    assert report["status"] == "validation_failed"
-    assert "final export validation failed" in report["error"]["message"]
+    assert result["status"] == "success"
+    assert report["status"] == "success"
+    assert not any(call[0] == "validate_outputs" for call in runtime.calls)
     assert Path(report["artifacts"]["checkpoint_path"]).name == "checkpoint-10"
     assert Path(report["artifacts"]["final_export_path"]).name == "final-export"
 
@@ -1384,14 +1452,72 @@ def test_v8_full_ft_non_writer_rank_participates_in_final_export_collective_then
     assert result["status"] == "success"
     assert ("save_checkpoint", "checkpoint-12") not in runtime.calls
     assert ("save_final_export", "final-export") in runtime.calls
-    assert ("validate_outputs", "checkpoint-10|final-export") not in runtime.calls
+    assert not any(call[0] == "validate_outputs" for call in runtime.calls)
     assert ("finalize_distributed", "1|2|True") in runtime.calls
     assert collective_phases == [("final export", 1)]
     assert post_training_writer_phases == [
-        ("reload validation", 1),
         ("train result report", 1),
     ]
     assert Path(cfg["report_path"]).exists() is False
+
+
+def test_v8_full_ft_orchestrate_parses_args():
+    runner = load_module("scripts/run_full_ft_gpt_oss_20b.py", "run_full_ft_gpt_oss_20b_orchestrate_args")
+    args = runner.parse_args(["--config", "/tmp/cfg.json", "--orchestrate", "--nproc-per-node", "3"])
+    assert args.orchestrate is True
+    assert args.nproc_per_node == 3
+    assert args.skip_validation is False
+    args2 = runner.parse_args(["--config", "/tmp/cfg.json", "--orchestrate", "--skip-validation"])
+    assert args2.skip_validation is True
+
+
+def test_v8_full_ft_orchestrate_skips_validation_when_training_not_success(tmp_path: Path):
+    runner = load_module("scripts/run_full_ft_gpt_oss_20b.py", "run_full_ft_gpt_oss_20b_orchestrate_skip")
+    config_path, cfg = _write_orchestrate_config_fixture(tmp_path)
+    report_path = Path(cfg["report_path"])
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    runner.write_json(report_path, {"status": "failed", "error": {"message": "boom"}})
+
+    result = runner.run_orchestrated(config_path, nproc_per_node=1, skip_validation=True)
+    assert result["status"] == "failed"
+
+
+def test_v8_full_ft_orchestrate_detect_gpu_count():
+    runner = load_module("scripts/run_full_ft_gpt_oss_20b.py", "run_full_ft_gpt_oss_20b_detect_gpu")
+    count = runner._detect_gpu_count()
+    assert isinstance(count, int)
+    assert count >= 1
+
+
+def _write_orchestrate_config_fixture(tmp_path: Path) -> tuple[Path, dict]:
+    runner = load_module("scripts/run_full_ft_gpt_oss_20b.py", "run_full_ft_gpt_oss_20b_orch_fixture")
+    output_dir = tmp_path / "output"
+    output_dir.mkdir()
+    cfg = {
+        "model_name": "test-model",
+        "cache_dir": str(tmp_path / "cache"),
+        "dataset_path": str(tmp_path / "dataset.jsonl"),
+        "output_dir": str(output_dir),
+        "report_path": str(output_dir / "train_result.json"),
+        "max_length": 512,
+        "per_device_train_batch_size": 1,
+        "gradient_accumulation_steps": 1,
+        "max_steps": 10,
+        "learning_rate": 1e-5,
+        "logging_steps": 1,
+        "save_steps": 5,
+        "save_total_limit": 1,
+        "seed": 42,
+        "bf16": True,
+        "gradient_checkpointing": True,
+        "deepspeed_config_path": str(tmp_path / "ds.json"),
+        "prompt_source_path": str(tmp_path / "dataset.jsonl"),
+        "sample_prompt_count": 1,
+        "resume_mode": "fail",
+    }
+    config_path = tmp_path / "config.json"
+    runner.write_json(config_path, cfg)
+    return config_path, cfg
 
 
 class FakeFullFTValidatorRuntime:
