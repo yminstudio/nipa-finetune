@@ -1204,13 +1204,16 @@ def run_from_config(
 
 
 def _detect_gpu_count() -> int:
+    """Detect GPU count without initializing CUDA (safe for orchestrator)."""
+    import subprocess as _sp
+
     try:
-        torch = importlib.import_module("torch")
-        cuda = getattr(torch, "cuda", None)
-        if cuda is not None and callable(getattr(cuda, "device_count", None)):
-            count = int(cuda.device_count())
-            if count > 0:
-                return count
+        result = _sp.run(
+            ["nvidia-smi", "--query-gpu=index", "--format=csv,noheader"],
+            capture_output=True, text=True, timeout=10,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return len(result.stdout.strip().splitlines())
     except Exception:
         pass
     return 1
