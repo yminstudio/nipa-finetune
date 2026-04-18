@@ -486,8 +486,46 @@
 - **근본 원인**: `run_from_config` 내 `coordinated_post_training_writer_phase("reload validation")`이 in-process로 모델을 재로딩하는 구조. 학습 프로세스가 종료되어야 GPU 메모리가 해제되므로, 같은 프로세스에서는 재로딩 불가.
 - **수정**: 러너에서 in-process reload validation을 제거하고, `--orchestrate` 모드를 추가.
   - 학습 러너: 학습 + final-export + train_result.json 기록까지만 하고 정상 종료
-  - 오케스트레이터: training subprocess(torchrun) 완료 후 → validation subprocess(check_gpt_oss_full_ft_output.py) 자동 실행
+  - 오케스트레이터: training subprocess(torchrun) 완료 후 -> validation subprocess(check_gpt_oss_full_ft_output.py) 자동 실행
   - 프로세스 단위 분리로 GPU 메모리 충돌 원천 차단
 - **사용법**: `python run_full_ft_gpt_oss_20b.py --config CONFIG --orchestrate [--nproc-per-node N] [--skip-validation]`
 - round4 학습 산출물(final-export 39GB, checkpoint-1000)은 정상 저장 확인됨.
+
+## 2026-04-16: round4 재현성 검증과 오케스트레이터 OOM 수정
+
+- **배경**: `--orchestrate` 모드가 round4 v3에서 training+validation 전체 파이프라인을 자동 완료(5시간 52분, loss 0.0025)시켰고, 사용자는 동일 설정에서 재현되는지 한 번 더 확인하기 위해 산출물을 모두 삭제한 뒤 round4 v4를 처음부터 다시 돌리길 원했다.
+- **문제**: 오케스트레이터 모드 재시동 시 `torchrun` worker가 GPU 0에서 CUDA OOM으로 즉시 실패. 원인은 `_detect_gpu_count()`가 `torch.cuda.device_count()`를 호출하면서 오케스트레이터 부모 프로세스 쪽에서 GPU 0에 ~80GiB CUDA context를 초기화했기 때문.
+- **수정**: `_detect_gpu_count()`를 `nvidia-smi --query-gpu=index` CLI 기반으로 교체해 부모 프로세스가 CUDA를 건드리지 않도록 함. 이후 round4 v4 재학습은 정상적으로 training+validation 모두 success, 최종 loss 0.0025로 v3와 동일 결과 재현.
+
+## 2026-04-17: v8-r4 모델의 HF Hub private 업로드 결정
+
+- **배경**: 사용자는 round4 full fine-tuning 산출물을 Hugging Face Hub에 올려 내부 공유/배포에 쓰길 원했다. 학습 데이터(`제로인 방법론`)는 외부 재배포가 허용되지 않는 내부 자료로 분류됨.
+- **결정 사항**:
+  - HF 계정: `ymin2839` (개인 fineGrained 토큰 사용, 토큰은 파일/커밋에 남기지 않음)
+  - 공개 수준: **private** (데이터 내부 공유 전제와 일치)
+  - 라이선스: Apache 2.0 그대로 유지. base 모델 `openai/gpt-oss-20b` 저작권 고지와 파생 변경 내역을 `NOTICE`로 명시, 학습 데이터는 repo에 포함하지 않는다고 선언.
+  - 구조: safetensors 전용 repo `ymin2839/gpt-oss-20b-zeroin-v8-r4`, GGUF 전용 repo `ymin2839/gpt-oss-20b-zeroin-v8-r4-gguf`를 분리.
+  - 양자화: 우선 F16 GGUF만 공개, Q8_0/Q4_K_M 등은 이후 필요 시 추가.
+- **기술 메모**:
+  - GGUF 변환은 작업 격리를 위해 `/home/work/llama_cpp_work/.venv` (llama.cpp 전용 venv)에서 수행. 기존 사용자 `PYTHONPATH`가 user site를 강제 주입해 transformers 버전이 꼬였기 때문에 `PYTHONNOUSERSITE=1` + `unset PYTHONPATH`로 격리 실행.
+  - tokenizer가 transformers 5.3.0에서 저장된 `TokenizersBackend` 클래스였기에, 변환 venv도 `transformers==5.3.0`으로 맞춰야 `convert_hf_to_gguf.py`가 성공.
+  - base 모델은 MoE 가중치를 MXFP4로 제공하지만, 이번 full fine-tune 산출물은 BF16/F16 기준이라 F16 GGUF 크기가 ~14GB가 아닌 **~39-42GB**로 나옴. 단일 파일 50GB 한도 이내라 업로드는 가능했고, 추후 `llama-quantize`로 크기를 줄일 예정.
+- **결과**: 두 repo 모두 private 상태로 업로드 완료. safetensors 업로드 7.6분, GGUF 변환 8분 53초, GGUF 업로드 6.8분.
+
+## 2026-04-02: v8-r4 학습 데이터셋의 HF Hub private 업로드
+
+- **배경**: 사용자는 모델 repo 업로드(2026-04-17)에 이어 학습 데이터셋도 HF Hub에 올리길 원했다. 이전에는 모델 NOTICE에 "training data is NOT released"로 선언했지만, 데이터 소유자 동의를 다시 확인한 결과 "원본+데이터셋 모두 private 저장 OK"로 정리되어 정책을 조정함.
+- **결정 사항**:
+  - repo: `ymin2839/zeroin-v8-r4-dataset` (type=dataset, **private**) -- 모델 repo들과 네임스페이스 분리.
+  - 범위: `round4` JSONL만 업로드 (`seed_v8_round4_section_all_full_ft.jsonl`, 14MB, 4023 records). `round1/round3` JSONL과 원본 CSV는 이번 업로드 대상에서 제외.
+  - 라이선스: `license: other` + 커스텀 **"zeroin-internal-only"** (비-OSS, 내부 사용·재배포 금지). 표준 라이선스로 "재배포 금지" 조건을 표현할 수 없어 full text를 `LICENSE`에 직접 기재.
+  - dataset card: `messages` 스키마 설명, `system` 프롬프트, `question_variant_index` 기반 multiline 확장 전략, 금지/허용 범위 명시.
+- **실행**:
+  - 업로드 도구: `huggingface_hub 1.6.0`의 `create_repo` + `upload_folder` 조합. 파일이 작아 `upload_large_folder` 대신 일반 `upload_folder` 사용. 소요 4.8초.
+  - 검증: `datasets.load_dataset("ymin2839/zeroin-v8-r4-dataset", split="train")` 로 4023 rows 정상 로드 확인. `HfApi.repo_info().private=True` 재확인.
+  - 기존 모델 repo 두 개(`ymin2839/gpt-oss-20b-zeroin-v8-r4`, `ymin2839/gpt-oss-20b-zeroin-v8-r4-gguf`)의 `NOTICE`를 갱신해 "데이터는 별도 private dataset repo에 보관" 문구로 교체, HF Hub에 바로 업로드.
+- **정책 메모**:
+  - 모델 repo는 Apache 2.0(가중치), dataset repo는 "zeroin-internal-only"(비-OSS)로 라이선스가 서로 다르며 의도된 결과.
+  - 원본 CSV는 이번에 올리지 않음. 필요 시 이후 별도 결정으로 추가.
+  - 모델과 데이터셋 NOTICE 간 크로스 레퍼런스를 유지하기 위해 향후 둘 중 하나를 수정하면 다른 쪽도 함께 업데이트해야 한다.
 
