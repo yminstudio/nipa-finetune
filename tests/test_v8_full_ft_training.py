@@ -267,27 +267,24 @@ def test_v8_round3_section1_full_ft_config_file_matches_expected_paths_and_valid
 def test_v8_round4_section_all_builder_parses_csv_groups_and_expands_question_variants():
     module = load_module("scripts/build_v8_round4_section_all_full_ft_dataset.py", "build_v8_round4_section_all_full_ft_dataset")
 
-    parsed = module.parse_csv_source(ROOT / "docs/제로인방법론/source_csv/v8-r4 section-all.csv")
+    parsed = module.parse_csv_source(ROOT / "docs/제로인방법론/source_csv/v9-r5.csv")
     groups = parsed["groups"]
     records = module.build_dataset_records(groups)
 
     assert parsed["columns"] == ["num", "sec", "system", "user_q_base", "assistant", "user_q_ext"]
-    assert parsed["skipped_rows"] == ["51"]
-    assert len(groups) == 394
-    assert len(records) == 4023
+    assert parsed["skipped_rows"] == []
+    assert len(groups) == 529
+    assert len(records) == 5785
     assert records[0]["id"] == "zeroin.seed_v8_round4_section_all_full_ft_0001"
-    assert records[-1]["id"] == "zeroin.seed_v8_round4_section_all_full_ft_4023"
+    assert records[-1]["id"] == "zeroin.seed_v8_round4_section_all_full_ft_5785"
     assert records[0]["messages"][0]["content"].startswith("당신은 제로인 펀드평가 방법론에 근거해 답변하는 도메인 어시스턴트입니다.")
     assert records[0]["messages"][1]["content"] == "유형생성의 기본원칙에서 충분성, 비교성, 지속성은 각각 무엇을 뜻하나요?"
-    assert (
-        records[-1]["messages"][1]["content"]
-        == "월간 자산분석과 스타일 공시를 기반으로 현재 포트폴리오의 비중 변화나 유사 펀드 비교 검색 기능에 대한 질문에 강해야 하나요?"
-    )
+    assert records[-1]["messages"][1]["content"] == "Zeroin"
     assert records[0]["meta"]["round"] == "round4"
     assert records[0]["meta"]["section"] == "section_all"
     assert records[0]["meta"]["source_strategy"] == "csv_multiline_question_expansion"
-    assert records[-1]["meta"]["group_id"] == "group394"
-    assert records[-1]["meta"]["chapter"] == "8"
+    assert records[-1]["meta"]["group_id"] == "group529"
+    assert records[-1]["meta"]["chapter"] == "0"
 
 
 def test_v8_round4_section_all_builder_writes_exact_dataset_path_and_file_contents(tmp_path: Path):
@@ -298,7 +295,7 @@ def test_v8_round4_section_all_builder_writes_exact_dataset_path_and_file_conten
 
     summary = builder.build_dataset(
         root=tmp_path,
-        source_path=ROOT / "docs/제로인방법론/source_csv/v8-r4 section-all.csv",
+        source_path=ROOT / "docs/제로인방법론/source_csv/v9-r5.csv",
     )
 
     dataset_path = tmp_path / "llm_datasets/seed_v8/seed_v8_round4_section_all_full_ft.jsonl"
@@ -308,12 +305,12 @@ def test_v8_round4_section_all_builder_writes_exact_dataset_path_and_file_conten
     lines = [line for line in dataset_path.read_text(encoding="utf-8").splitlines() if line.strip()]
     records = [json.loads(line) for line in lines]
 
-    assert summary["group_count"] == 394
-    assert summary["record_count"] == 4023
-    assert summary["skipped_rows"] == ["51"]
-    assert len(records) == 4023
+    assert summary["group_count"] == 529
+    assert summary["record_count"] == 5785
+    assert summary["skipped_rows"] == []
+    assert len(records) == 5785
     assert records[0]["messages"][1]["content"] == "유형생성의 기본원칙에서 충분성, 비교성, 지속성은 각각 무엇을 뜻하나요?"
-    assert records[-1]["meta"]["group_id"] == "group394"
+    assert records[-1]["meta"]["group_id"] == "group529"
 
 
 def test_v8_round4_section_all_full_ft_config_file_matches_expected_paths_and_validates():
