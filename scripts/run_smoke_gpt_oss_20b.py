@@ -27,13 +27,58 @@ from datasets import Dataset
 # `peft`는 전체 가중치 미세조정 대신 LoRA 어댑터만 학습/저장/재적용하기 위해 사용한다.
 from peft import LoraConfig, PeftModel, TaskType
 # `transformers`는 베이스 Causal LM과 토크나이저 로딩, 채팅 템플릿 적용을 담당한다.
-from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
+from transformers import AutoModelForCausalLM, AutoTokenizer, TrainerCallback, set_seed
 # `trl`의 SFTTrainer/SFTConfig는 "텍스트 한 필드를 읽어 next-token prediction 방식으로
 # 지도 미세조정"하는 흐름을 간단히 구성해 준다.
 from trl import SFTConfig, SFTTrainer
 
 FINAL_CHANNEL_PREFIX = "<|channel|>final<|message|>"
 RETURN_TOKEN = "<|return|>"
+
+
+class MetricThresholdStopCallback(TrainerCallback):
+    """중간 로그 기준으로 조기 종료 조건을 검사한다."""
+
+    def __init__(self, loss_threshold: float, accuracy_threshold: float):
+        self.loss_threshold = float(loss_threshold)
+        self.accuracy_threshold = float(accuracy_threshold)
+        self.triggered = False
+        self.triggered_step: int | None = None
+        self.triggered_loss: float | None = None
+        self.triggered_accuracy: float | None = None
+
+    def should_stop_from_logs(self, logs: dict[str, Any] | None) -> bool:
+        if not logs:
+            return False
+
+        loss = logs.get("loss")
+        accuracy = logs.get("mean_token_accuracy")
+        if loss is None or accuracy is None:
+            return False
+
+        try:
+            loss_value = float(loss)
+            accuracy_value = float(accuracy)
+        except (TypeError, ValueError):
+            return False
+
+        return loss_value < self.loss_threshold and accuracy_value >= self.accuracy_threshold
+
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        if self.triggered or not self.should_stop_from_logs(logs):
+            return control
+
+        self.triggered = True
+        self.triggered_step = int(state.global_step)
+        self.triggered_loss = float(logs["loss"])
+        self.triggered_accuracy = float(logs["mean_token_accuracy"])
+        control.should_training_stop = True
+        print(
+            "[early-stop] stop at step "
+            f"{self.triggered_step}: loss={self.triggered_loss}, "
+            f"mean_token_accuracy={self.triggered_accuracy}"
+        )
+        return control
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -59,18 +104,31 @@ def read_jsonl_records(path: Path) -> list[dict[str, Any]]:
     return records
 
 
-def load_train_dataset(path: Path) -> Dataset:
+def render_training_text(tokenizer, messages: list[dict[str, str]]) -> str:
+    """메시지 목록을 학습용 단일 문자열로 렌더링한다."""
+    return tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=False,
+    )
+
+
+def load_train_dataset(path: Path, tokenizer) -> Dataset:
     """TRL 학습기에 넘길 학습 데이터셋을 준비한다.
 
-    현재 스크립트는 각 레코드에 이미 학습용 문자열이 완성되어 있다고 가정하고
-    `rendered_text` 필드만 검증한다. 즉, 학습 중에 메시지 목록을 다시 조합하는 대신,
-    외부 전처리 단계에서 렌더링한 텍스트를 그대로 쓰는 방식을 선택했다.
+    기존 `rendered_text` 데이터셋도 받되, 단일 Q/A처럼 `messages`만 있는 JSONL은
+    여기서 바로 학습 문자열로 렌더링해 사용한다.
     """
     records = read_jsonl_records(path)
     for index, record in enumerate(records, start=1):
         text = record.get("rendered_text")
-        if not isinstance(text, str) or not text.strip():
-            raise ValueError(f"record {index}: missing rendered_text")
+        if isinstance(text, str) and text.strip():
+            continue
+
+        messages = record.get("messages")
+        if not isinstance(messages, list) or not messages:
+            raise ValueError(f"record {index}: missing rendered_text or messages")
+        record["rendered_text"] = render_training_text(tokenizer, messages)
     return Dataset.from_list(records)
 
 
@@ -88,6 +146,14 @@ def load_prompt_records(path: Path, limit: int) -> list[dict[str, Any]]:
         if not isinstance(messages, list) or not messages:
             raise ValueError(f"record {index}: missing messages for prompt source")
     return records[:limit]
+
+
+def build_metric_stop_callback(cfg: dict[str, Any]) -> MetricThresholdStopCallback | None:
+    loss_threshold = cfg.get("stop_when_loss_below")
+    accuracy_threshold = cfg.get("stop_when_mean_token_accuracy_at_least")
+    if loss_threshold is None or accuracy_threshold is None:
+        return None
+    return MetricThresholdStopCallback(loss_threshold=loss_threshold, accuracy_threshold=accuracy_threshold)
 
 
 def load_tokenizer(model_name: str, cache_dir: Path):
@@ -271,7 +337,8 @@ def main() -> None:
 
     cache_dir = Path(cfg["cache_dir"]).resolve()
     dataset_path = Path(cfg["dataset_path"]).resolve()
-    prompt_source_path = Path(cfg["prompt_source_path"]).resolve()
+    prompt_source_value = str(cfg.get("prompt_source_path", "")).strip()
+    prompt_source_path = Path(prompt_source_value).resolve() if prompt_source_value else None
     output_dir = Path(cfg["output_dir"]).resolve()
     report_path = Path(cfg["report_path"]).resolve()
 
@@ -282,8 +349,10 @@ def main() -> None:
     set_seed(int(cfg["seed"]))
 
     tokenizer = load_tokenizer(cfg["model_name"], cache_dir)
-    train_dataset = load_train_dataset(dataset_path)
-    prompt_records = load_prompt_records(prompt_source_path, int(cfg["sample_prompt_count"]))
+    train_dataset = load_train_dataset(dataset_path, tokenizer)
+    prompt_records: list[dict[str, Any]] = []
+    if prompt_source_path is not None:
+        prompt_records = load_prompt_records(prompt_source_path, int(cfg.get("sample_prompt_count", 1)))
 
     base_model = load_base_model(cfg["model_name"], cache_dir)
     if hasattr(base_model, "enable_input_require_grads"):
@@ -349,6 +418,9 @@ def main() -> None:
         processing_class=tokenizer,
         peft_config=peft_config,
     )
+    metric_stop_callback = build_metric_stop_callback(cfg)
+    if metric_stop_callback is not None:
+        trainer.add_callback(metric_stop_callback)
 
     train_result = trainer.train()
     # 최종 저장물은 "베이스 모델 전체"가 아니라 LoRA 어댑터 중심 결과물이다.
@@ -358,26 +430,37 @@ def main() -> None:
     train_metrics = dict(train_result.metrics)
     del trainer
     del base_model
-    # 대형 모델을 곧바로 다시 읽어야 하므로, 가능한 GPU 캐시를 먼저 비운다.
-    torch.cuda.empty_cache()
-
-    reloaded_base = load_base_model(cfg["model_name"], cache_dir)
-    # 방금 저장한 LoRA 어댑터를 베이스 모델 위에 다시 얹어 실제 재사용 경로를 검증한다.
-    reloaded_model = PeftModel.from_pretrained(reloaded_base, str(output_dir))
-    inference_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    reloaded_model = reloaded_model.to(inference_device)
-    infer_results = run_inference(reloaded_model, tokenizer, prompt_records)
-
     report = {
         "status": "success",
         "model_name": cfg["model_name"],
         "dataset_path": str(dataset_path),
-        "prompt_source_path": str(prompt_source_path),
         "output_dir": str(output_dir),
         "resolved_target_modules": resolved_target_modules,
         "train_metrics": train_metrics,
-        "sample_inference": infer_results,
     }
+    if metric_stop_callback is not None:
+        report["early_stop_thresholds"] = {
+            "loss_below": metric_stop_callback.loss_threshold,
+            "mean_token_accuracy_at_least": metric_stop_callback.accuracy_threshold,
+        }
+        report["early_stop_triggered"] = metric_stop_callback.triggered
+        if metric_stop_callback.triggered:
+            report["early_stop_event"] = {
+                "step": metric_stop_callback.triggered_step,
+                "loss": metric_stop_callback.triggered_loss,
+                "mean_token_accuracy": metric_stop_callback.triggered_accuracy,
+            }
+    if prompt_source_path is not None:
+        # 추론 검증이 필요한 설정에서만 후속 생성 단계를 수행한다.
+        torch.cuda.empty_cache()
+        reloaded_base = load_base_model(cfg["model_name"], cache_dir)
+        reloaded_model = PeftModel.from_pretrained(reloaded_base, str(output_dir))
+        inference_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        reloaded_model = reloaded_model.to(inference_device)
+        infer_results = run_inference(reloaded_model, tokenizer, prompt_records)
+        report["prompt_source_path"] = str(prompt_source_path)
+        report["sample_inference"] = infer_results
+
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(json.dumps(report, ensure_ascii=False, indent=2))

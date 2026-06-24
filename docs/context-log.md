@@ -344,3 +344,188 @@
 ### 시스템 지시와 사용자 프롬프트의 역할 분리
 - 사용자는 `예시, 장황한 배경설명, 불필요한 열거는 줄인다` 같은 일반 제약은 시스템 레벨에서 이미 충분히 요청된 사항이므로, 사용자 프롬프트에 중복으로 둘 필요가 없다고 판단했다.
 - 따라서 답변 생성용 사용자 프롬프트에서는 중복 제약 문구를 제거하고, 사용자 프롬프트에는 질문별로 직접 필요한 지시만 남긴다.
+
+## 2026-03-30
+
+### v7 단일 Q/A 반복 학습 전환
+- 사용자는 `v6`의 API/검증 중심 흐름 대신, 새 브랜치 `v7`에서 질문 1개와 답변 1개만으로 반복 학습하는 가장 단순한 로컬 경로를 원한다.
+- 따라서 `v7`에서는 외부 API 호출, judge, 후속 smoke 생성 검증을 기본 실행 경로에서 제거하고 `train_result.json` 중심으로만 학습 완료를 확인한다.
+
+## 2026-04-01
+
+### v7 round5 표 기반 확장 학습 완료
+- 사용자는 `scripts/data_source.md`를 기준으로 기존 `round4` 다음 라운드를 만들고, 표의 각 행을 answer group으로, 각 `<br>` 질문 변형을 개별 학습 레코드로 확장한 뒤 베이스 모델에서 새 라운드를 학습하고 전체 질문 smoke 로그까지 남기길 원했다.
+- 따라서 `scripts/build_v7_round_from_data_source.py`를 추가하고, 현재 표 기준 5개 그룹·150개 질문으로 `seed_v7_single_qa_round5.jsonl`, `gpt_oss_20b_seed_v7_single_qa_round5.json`, `smoke_v7_single_qa_round5_config.json`를 생성했다.
+- `round5` 학습은 베이스 모델 `unsloth/gpt-oss-20b-BF16`에서 GPU 0으로 수행했고, `loss < 1.0` 및 `mean_token_accuracy >= 0.98` 조건으로 `step 115`, `loss 0.1100`, `mean_token_accuracy 0.9804`에서 조기 종료되었다.
+- 전체 150문항 smoke 추론은 GPU 2에서 수행해 `tests/log/v7_single_qa_round5_all_questions_report.md`를 생성했다. 출력은 대체로 원문 구조를 유지했지만, 일부 후반 문항에서 일반화된 재서술, 용어 흔들림, 간헐적 표현 오류(`제로인 설정`, `비교 대상가 설정`)가 보여 후속 품질 점검 포인트가 남았다.
+
+## 2026-04-02
+
+### v8 새 워크트리 초기화
+- 사용자는 다음 라운드로 이어 가지 않고, `v7`를 기반으로 한 새 워크트리 `v8`를 별도로 준비하길 원했다.
+- 따라서 `feature-gen-dataset-v8`는 `feature-gen-dataset-v7` 브랜치를 출발점으로 새 git worktree로 생성하고, 이전 round의 `llm_model_lora/` 산출물 흔적과 `tests/log/` smoke 로그를 제거한 깨끗한 실험 시작점으로 정리한다.
+
+### v8 풀 파인튜닝 전환 설계
+- 사용자는 `v8`부터는 LoRA 어댑터가 아니라 `gpt-oss-20b` 전체 가중치를 업데이트하는 풀 파인튜닝 경로로 전환하길 원했다.
+- 따라서 `v8` 설계는 기존 `data_source -> dataset -> config -> train -> report` 흐름은 유지하되, 학습 엔트리를 `full_ft` 전용 스크립트와 설정으로 분리하고 산출물은 `llm_model_full/` 아래에 저장한다.
+- 실제 `v8 round1` 실행은 하드웨어와 Python 패키지 스택 readiness gate를 먼저 통과한 경우에만 진행하고, 검증도 adapter reload 대신 저장된 전체 모델 또는 체크포인트 재로딩 기반으로 바꾼다.
+
+### v8 round1 데이터 소스 확정
+- 사용자는 `v8` 학습 입력으로 `/home/work/dev_data/fine-tuning/.worktrees/feature-gen-dataset-v8/scripts/data_source.md`를 사용할 계획이라고 밝혔다.
+- 따라서 `v8 round1` 설계는 이 Markdown 표를 기준 소스로 삼고, 각 행의 `assistant` 답변과 `<br>`로 나뉜 `user` 질문 변형을 JSONL 학습 레코드로 확장하는 전제를 명시한다.
+
+### v8 풀 파인튜닝 전환 배경 보강
+- 사용자는 `v7`에서 LoRA 기반 학습을 여러 차례 진행했지만 원하는 수준의 결과가 충분히 나오지 않았다고 판단했다.
+- 따라서 `v8`에서는 더 강한 학습 경로가 필요하다고 보고, LoRA 대신 `gpt-oss-20b` 전체 가중치를 업데이트하는 풀 파인튜닝을 시도한다.
+- 이 전환 전에 `H200 x3` 환경에서 `gpt-oss-20b` 풀 파인튜닝이 가능한지 검토했고, 조사 결과 실행 가능하다고 판단되어 `v8` full fine-tuning 설계를 진행한다.
+
+### v8 Task 2 구현 범위 고정
+- 사용자는 격리된 `feature-gen-dataset-v8` worktree에서 계획 문서의 Task 2만 구현하길 요청했다.
+- 따라서 `scripts/data_source.md`를 읽어 `llm_datasets/seed_v8/seed_v8_round1_full_ft.jsonl`을 생성하는 최소 builder, 해당 경로를 검증하는 테스트, 그리고 `<br>` 질문 확장·결정론적 id·고정 시스템 프롬프트·`prompt_source_path` 재사용 전제를 우선 구현한다.
+- 이번 작업에서는 git commit을 만들지 않고, Task 3 이후 범위나 worktree 밖 파일은 건드리지 않으며, red/green 테스트와 builder CLI 직접 실행으로만 검증한다.
+
+### v8 운영 문서 최소 업데이트
+- 사용자는 Task 7 범위에서 `v7`와 `v8`의 차이, `v8 full_ft` 데이터셋·산출물 위치, dry-run/실학습/사후 검증 실행법을 운영자가 바로 이해할 수 있게 문서를 최소 수정하길 원했다.
+- 따라서 `docs/v7_single_qa_training.md`에는 `v8 full_ft` 전환 차이를 짧게 연결하고, `docs/v8_preparation.md`에는 `build dataset -> dry-run -> real training -> post-training validation` 순서와 핵심 경로를 간단한 운영 가이드로 정리한다.
+
+### v8 H200 x3 첫 실학습 착수
+- 사용자는 `/.venv-gpt-oss-train`에 `deepspeed`를 설치하고, GPU 1의 `vLLM` 프로세스를 내려 `H200 x3`로 실제 `v8 round1` 풀 파인튜닝을 시작하길 원했다.
+- 따라서 학습용 가상환경에 `deepspeed`를 설치하고 기존 `vLLM` 점유를 해제한 뒤, `torchrun --nproc_per_node=3` 기준 readiness/dry-run을 재확인하고 실학습을 시작했다.
+- 첫 런타임 검증에서 `Trainer(tokenizer=...)` 호환성 문제와 DeepSpeed `gradient_accumulation_steps` 불일치가 드러나 이를 즉시 수정했고, 중복 실행으로 생긴 OOM 상황을 정리한 후 수정된 설정으로 단일 clean run을 다시 시작했다.
+
+### v8 Harmony 재설계 선행 원칙 확인
+- 사용자는 `gpt-oss` 출력 누수 문제를 고치기 전에, 먼저 변경 설계를 파일로 남기는 기존 작업 규칙을 다시 지키길 원했다.
+- 따라서 `v8 full_ft`의 다음 수정은 바로 코드부터 건드리지 않고, 학습 문자열 렌더링과 검증 출력 파싱을 Harmony 기준으로 재정의한 설계 문서를 먼저 작성한 뒤 사용자 검토를 거쳐 진행한다.
+
+## 2026-04-06
+
+### v8 Harmony 기준 재학습 결정
+- Harmony 기준 학습 문자열 렌더링과 `final` 채널 추출 로직을 코드와 회귀 테스트에 반영한 뒤, 사용자는 이제 `v8 round1`을 해당 기준으로 다시 학습하길 원했다.
+- 따라서 이번 재실행은 기존 복구 export를 그대로 신뢰하지 않고, 같은 `seed_v8_round1_full_ft.jsonl`과 `gpt_oss_20b_seed_v8_round1_full_ft.json` 설정을 사용하되 Harmony 정렬이 반영된 최신 러너 기준으로 처음부터 다시 학습한다.
+- 재학습 후에는 저장된 `final-export`를 다시 로드해 새 validator로 raw 출력과 사용자용 `final` 답변을 함께 검증한다.
+
+### 디스크 확보를 위한 이전 산출물 백업 삭제 승인
+- 재학습 시작 직전 readiness gate가 `disk_free_bytes` 부족으로 차단되었고, 직전에 보관한 이전 `v8` full-ft 백업이 약 `587G`를 차지하고 있었다.
+- 사용자는 이 백업을 삭제해 공간을 확보하고, 같은 설정으로 Harmony 기준 재학습을 바로 다시 시작하는 방안을 선택했다.
+
+### v8 디스크 readiness gate 기준 재조정
+- 실제 파일시스템 가용 공간은 약 `1.1 TiB`였고, 직전 `v8` full-ft 백업 전체 크기는 약 `587G`였지만, 러너는 `1.5 TiB` 최소 여유를 강제해 재학습을 시작조차 하지 못했다.
+- 따라서 이번 단계에서는 실측 산출물 규모를 기준으로 readiness gate의 최소 디스크 요구치를 `1 TiB`로 낮추고, 회귀 테스트로 `1 TiB` 환경이 통과해야 한다는 계약을 추가했다.
+
+### v8 재시도와 서브에이전트 모니터링 전환
+- 조정된 readiness gate 기준으로 재학습을 다시 시작했지만, 이번에는 내부 예외 없이 `45 step` 부근에서 `torchrun` 부모 프로세스가 외부 `SIGTERM`을 받아 중단되었다.
+- 사용자는 같은 설정으로 다시 재시도하되, 이후 상태 확인은 서브에이전트 기반 모니터링으로 넘기고 완료 시점에만 결과를 보고받는 방식을 원했다.
+
+### v8 checkpoint 기반 품질 확인 전환
+- 이후 재시도에서는 `1000 step`까지 학습과 `checkpoint-1000`/`final-export` 생성이 진행됐지만, 마지막 분산 종료 구간에서 `NCCL collective timeout`으로 런이 실패 처리되었다.
+- 사용자는 다음 단계로 실제 출력 품질을 확인하길 원했고, 현재 `final-export`는 비어 있으므로 검증 기준 산출물은 `checkpoint-1000`으로 잡아 reload validation을 수행한다.
+
+### v8 final export NCCL timeout 수정 및 clean rerun 착수
+- 사용자는 이번 단계에서 `final export` 저장/종료 구간의 `NCCL timeout`을 먼저 수정한 뒤, 같은 학습 하이퍼파라미터로 다시 실행해 실제 `success` 런을 확보하길 원했다.
+- 따라서 `final export` 단계는 writer-only phase가 아니라 모든 rank가 참여하는 collective phase로 바꾸고, writer만 tokenizer 부가 산출물을 쓰도록 조정했다.
+- 이전 실패 산출물은 보존한 채 clean rerun을 위해 동일 설정에 새 `output_dir`만 사용하는 `gpt_oss_20b_seed_v8_round1_full_ft_retry1.json`을 만들고, 이후 런에서 답변 잘림이 남으면 그때 `max_new_tokens`나 종료 조건을 재조정해 다시 확인한다.
+- 기존 `checkpoint-1000` 품질 리포트에서 답변이 문장 중간에서 반복적으로 끊기는 패턴이 `max_new_tokens=256` 상한과 맞물려 보였기 때문에, 이번 재검증 기준값은 validator 기본 `max_new_tokens`를 `512`로 높여 새 런 종료 후 잘림 여부를 다시 확인한다.
+
+### v8 retry1 종료 후 export/검증 확인
+- `retry1` 산출물에서는 `checkpoint-1000/trainer_state.json`의 `global_step`이 `1000`으로 확인됐고, `final-export` 디렉터리에 `model.safetensors`, tokenizer, config 산출물이 정상 존재했다.
+- `final-export`를 대상으로 validator를 다시 실행한 결과 `v8_round1_full_ft_retry1_final_export_report_512.md` 기준 `Run Status: success`였고, Harmony `final` 답변도 정상 추출되었다.
+- 직전 `256` 기준에서 보이던 답변 중간 잘림은 `512` 기준 샘플에서는 재현되지 않았지만, 러너가 자체로 남기는 `train_result.json`은 여전히 dry-run 값이라 최종 report 기록 경로는 별도 점검 여지가 남는다.
+
+### v8 retry1 산출물 비교 평가 기록
+- 사용자는 `retry1` 산출물을 기존 `checkpoint-1000` 기준 결과와 비교해 설명하고, 그 평가를 문서로 남기길 원했다.
+- 비교 결과, 가장 큰 개선은 `final-export` 실산출물 확보와 재로딩 검증 성공, 그리고 기존 `256` 기준에서 보이던 답변 중간 잘림이 `512` 기준 샘플에서는 사라졌다는 점이었다.
+- 반면 답변 내용의 기본 골격은 기존과 거의 동일했고 질문별 표현 변화 폭도 크지 않아, 이번 결과는 "내용 수준의 큰 도약"보다는 "운영 완결성 확보와 답변 완결성 개선"으로 해석하는 것이 적절하다고 정리했다.
+
+### v8 round2 착수 전 round1 산출물 정리
+- 사용자는 기존 `round1` full fine-tuning 산출물을 유지할 필요가 크지 않다고 판단했고, 비교는 이제 베이스 모델을 기준으로 하면 된다고 정리했다.
+- 따라서 `gpt-oss-20b-seed-v8-round1-full-ft`와 `gpt-oss-20b-seed-v8-round1-full-ft-retry1` 산출물을 삭제해 약 `1.1T`의 여유 공간을 회복했다.
+- 이후 같은 데이터셋을 유지한 채 출력 경로만 새로 잡는 `gpt_oss_20b_seed_v8_round2_full_ft.json`을 만들었고, `round2` 실학습 전 dry-run이 다시 `ready`로 통과하는 것을 확인했다.
+
+### v8 round2 세션 단절 대응 재실행
+- 사용자는 Cursor 세션이 끊겨도 학습이 유지되도록 실행 방식을 바꾸길 원했고, 직전 `round2` 런은 `checkpoint-100`까지만 남긴 채 외부 세션 단절로 중단됐을 가능성이 높다고 판단했다.
+- `checkpoint-100`은 resume-capable로 확인되어, `resume_mode=resume_latest`를 사용하는 `gpt_oss_20b_seed_v8_round2_full_ft_resume1.json`을 새로 만들고 dry-run으로 `checkpoint-100` 재개가 가능함을 확인했다.
+- 이후 `setsid`로 부모 세션과 분리된 detached 프로세스로 `round2` 이어학습을 다시 시작했고, 전용 로그 파일 `round2-resume1.log`를 기준으로 모니터링 서브에이전트가 상태를 추적하도록 전환했다.
+
+### v8 round2 종료부 writer phase 재설계와 품질 평가
+- 사용자는 `round2`의 종료부 `NCCL timeout`을 실제로 수정하고, 확보된 `final-export` 산출물의 품질 평가까지 이어서 진행하길 원했다.
+- 조사 결과 `final export` 자체는 성공했고 `.runner-sync/final-export*.json`도 모두 `ok`였으며, 실제 timeout은 그 다음 `reload validation`/`train result report`를 writer-only barrier 구조로 수행하는 동안 non-writer rank가 10분 NCCL 대기 후 실패한 흐름과 맞았다.
+- 따라서 이번에는 `final export` 뒤에서 stale 상태 파일을 짧게 정리한 후 process group을 먼저 종료하고, 이후 `reload validation`과 `train result report`는 writer가 상태 파일을 쓰고 non-writer는 파일만 기다리는 post-training writer phase로 분리하도록 러너/테스트를 조정했다.
+- 같은 시점에 현재 `round2 final-export`를 별도 validator로 재검증한 결과 reload validation은 `success`였고, 샘플 기준으로 Harmony `final` 추출 정상, 내부 추론 누출 없음, `max_new_tokens=512` 기준 답변 잘림 없음으로 평가했다.
+
+### v8 round3 1단원 CSV 시작점과 데이터 확장 방향
+- 사용자는 세션마다 업로드한 라운드용 CSV를 `제로인방법론` 폴더 쪽에 저장해 관리하고 있으며, `round3`는 우선 `v8-r3 section-1.csv` 같은 1단원 데이터셋 파일부터 시작할 계획이라고 설명했다.
+- 동시에 디스크 여유가 부족한 상황에서 데이터를 모아서 한 번에 학습해야 하는지 고민하고 있으며, 현재까지의 평가 결과가 나쁘지 않으므로 데이터 확장 중심으로 다음 라운드를 설계하려는 의도가 있다.
+
+### v8 round3 1단원 검증 샘플 다양화 요청
+- 사용자는 `round3 section1` 산출물이 직접 검증만 되면 종료부 에러는 핵심이 아니라고 보았고, 기존 자동 샘플이 모두 `충분성·비교성·지속성` 질문 변형이라 확인 가치가 낮다고 지적했다.
+- 따라서 `section1` 전체에서 서로 다른 `group_id`를 대표하는 20개 질문을 별도 검증 prompt source로 추려 `final-export`에 다시 적용하고, 사용자가 직접 읽어볼 수 있는 분산 샘플 보고서를 새로 만든다.
+
+### v8 검토 기본 생성 길이 1024 상향
+- 사용자는 이후 모델 검토 시 샘플이 중간에서 잘리지 않도록 검토 기본값을 `1024`로 고정하길 원했다.
+- 따라서 `check_gpt_oss_full_ft_output.py`의 기본 `max_new_tokens`를 `1024`로 상향하고, 관련 validator 보고서 테스트 기대값도 함께 맞춘다.
+
+### v8 round4 전체 문서 CSV 전환과 디스크 차단
+- 사용자는 기존 `v8-r3 section-1.csv` 대신 컬럼 위치가 조정된 `docs/제로인방법론/source_csv/v8-r4 section-all.csv`를 기준으로 문서 전체 데이터셋을 만들고, 그 데이터로 full fine-tuning을 진행하길 원했다.
+- 새 CSV는 `num, sec, system, user_q_base, assistant, user_q_ext` 구조로 확인되었고, `round4 section-all` builder/config를 추가해 dataset 생성까지 진행했다.
+- 다만 `num=51` 행은 `assistant`가 비어 있어 학습용 Q/A로는 사용할 수 없어 builder에서 해당 행만 제외했고, 최종 dataset은 `394`개 그룹 `4023`개 레코드로 생성되었다.
+- 이후 dry-run에서는 현재 가용 디스크가 약 `482G`로 부족해 readiness gate가 차단되었고, 현재 큰 산출물은 `round2`와 `round3 section1` full model 디렉터리가 각각 약 `587G`씩 차지하고 있다.
+
+### v8 round4 출력 파일시스템 분리
+- 사용자는 `dev_data` 마운트에서 추가 정리를 계속하되, 실제 학습은 더 여유 있는 다른 파일시스템으로 `output_dir`를 옮겨서 진행하길 원했다.
+- 확인 결과 `/home/work`는 `ext4` 마운트이며 약 `2.5T` 여유가 있어, `round4 section-all` full fine-tuning 출력 경로와 `train_result.json` 경로를 `/home/work/llm_model_full/gpt-oss-20b-seed-v8-round4-section-all-full-ft`로 이동한다.
+- dataset, prompt source, deepspeed config는 기존 worktree 경로를 유지하고, 대형 체크포인트/최종 export만 별도 파일시스템에 기록하도록 구성해 readiness gate를 우회하지 않고 통과시키는 방향으로 정리한다.
+
+### v8 round4 `/home/work` 출력 경로 기준 실학습 시작
+- 변경된 `output_dir` 기준으로 `torchrun --nproc_per_node=3` dry-run을 다시 수행한 결과, readiness는 `ready`였고 `disk_free_bytes`는 약 `2.73T`로 기록되어 디스크 차단이 해소되었다.
+- 이후 실제 학습은 세션 단절에 영향받지 않도록 detached 프로세스로 시작했고, 로그는 `/home/work/llm_model_full/gpt-oss-20b-seed-v8-round4-section-all-full-ft/round4-train.log`, PID 파일은 같은 디렉터리의 `round4-train.pid`에 기록한다.
+- 초기 로그에서는 HF Hub 비인증 경고와 `torch_dtype` deprecated 경고만 보였고, 별도 training monitor로 초기 진행/실패 여부를 계속 추적한다.
+
+## 2026-04-15: post-training validation 프로세스 분리
+
+- **문제**: round4 학습 1000/1000 완료 후, 러너가 같은 프로세스 안에서 모델을 다시 로드하여 검증하려 했으나, ZeRO-3 분산 학습으로 GPU당 ~129GB가 점유된 상태에서 39GB 모델 재로딩이 불가능하여 매 라운드 post-training 단계에서 hang 발생.
+- **근본 원인**: `run_from_config` 내 `coordinated_post_training_writer_phase("reload validation")`이 in-process로 모델을 재로딩하는 구조. 학습 프로세스가 종료되어야 GPU 메모리가 해제되므로, 같은 프로세스에서는 재로딩 불가.
+- **수정**: 러너에서 in-process reload validation을 제거하고, `--orchestrate` 모드를 추가.
+  - 학습 러너: 학습 + final-export + train_result.json 기록까지만 하고 정상 종료
+  - 오케스트레이터: training subprocess(torchrun) 완료 후 -> validation subprocess(check_gpt_oss_full_ft_output.py) 자동 실행
+  - 프로세스 단위 분리로 GPU 메모리 충돌 원천 차단
+- **사용법**: `python run_full_ft_gpt_oss_20b.py --config CONFIG --orchestrate [--nproc-per-node N] [--skip-validation]`
+- round4 학습 산출물(final-export 39GB, checkpoint-1000)은 정상 저장 확인됨.
+
+## 2026-04-16: round4 재현성 검증과 오케스트레이터 OOM 수정
+
+- **배경**: `--orchestrate` 모드가 round4 v3에서 training+validation 전체 파이프라인을 자동 완료(5시간 52분, loss 0.0025)시켰고, 사용자는 동일 설정에서 재현되는지 한 번 더 확인하기 위해 산출물을 모두 삭제한 뒤 round4 v4를 처음부터 다시 돌리길 원했다.
+- **문제**: 오케스트레이터 모드 재시동 시 `torchrun` worker가 GPU 0에서 CUDA OOM으로 즉시 실패. 원인은 `_detect_gpu_count()`가 `torch.cuda.device_count()`를 호출하면서 오케스트레이터 부모 프로세스 쪽에서 GPU 0에 ~80GiB CUDA context를 초기화했기 때문.
+- **수정**: `_detect_gpu_count()`를 `nvidia-smi --query-gpu=index` CLI 기반으로 교체해 부모 프로세스가 CUDA를 건드리지 않도록 함. 이후 round4 v4 재학습은 정상적으로 training+validation 모두 success, 최종 loss 0.0025로 v3와 동일 결과 재현.
+
+## 2026-04-17: v8-r4 모델의 HF Hub private 업로드 결정
+
+- **배경**: 사용자는 round4 full fine-tuning 산출물을 Hugging Face Hub에 올려 내부 공유/배포에 쓰길 원했다. 학습 데이터(`제로인 방법론`)는 외부 재배포가 허용되지 않는 내부 자료로 분류됨.
+- **결정 사항**:
+  - HF 계정: `ymin2839` (개인 fineGrained 토큰 사용, 토큰은 파일/커밋에 남기지 않음)
+  - 공개 수준: **private** (데이터 내부 공유 전제와 일치)
+  - 라이선스: Apache 2.0 그대로 유지. base 모델 `openai/gpt-oss-20b` 저작권 고지와 파생 변경 내역을 `NOTICE`로 명시, 학습 데이터는 repo에 포함하지 않는다고 선언.
+  - 구조: safetensors 전용 repo `ymin2839/gpt-oss-20b-zeroin-v8-r4`, GGUF 전용 repo `ymin2839/gpt-oss-20b-zeroin-v8-r4-gguf`를 분리.
+  - 양자화: 우선 F16 GGUF만 공개, Q8_0/Q4_K_M 등은 이후 필요 시 추가.
+- **기술 메모**:
+  - GGUF 변환은 작업 격리를 위해 `/home/work/llama_cpp_work/.venv` (llama.cpp 전용 venv)에서 수행. 기존 사용자 `PYTHONPATH`가 user site를 강제 주입해 transformers 버전이 꼬였기 때문에 `PYTHONNOUSERSITE=1` + `unset PYTHONPATH`로 격리 실행.
+  - tokenizer가 transformers 5.3.0에서 저장된 `TokenizersBackend` 클래스였기에, 변환 venv도 `transformers==5.3.0`으로 맞춰야 `convert_hf_to_gguf.py`가 성공.
+  - base 모델은 MoE 가중치를 MXFP4로 제공하지만, 이번 full fine-tune 산출물은 BF16/F16 기준이라 F16 GGUF 크기가 ~14GB가 아닌 **~39-42GB**로 나옴. 단일 파일 50GB 한도 이내라 업로드는 가능했고, 추후 `llama-quantize`로 크기를 줄일 예정.
+- **결과**: 두 repo 모두 private 상태로 업로드 완료. safetensors 업로드 7.6분, GGUF 변환 8분 53초, GGUF 업로드 6.8분.
+
+## 2026-04-02: v8-r4 학습 데이터셋의 HF Hub private 업로드
+
+- **배경**: 사용자는 모델 repo 업로드(2026-04-17)에 이어 학습 데이터셋도 HF Hub에 올리길 원했다. 이전에는 모델 NOTICE에 "training data is NOT released"로 선언했지만, 데이터 소유자 동의를 다시 확인한 결과 "원본+데이터셋 모두 private 저장 OK"로 정리되어 정책을 조정함.
+- **결정 사항**:
+  - repo: `ymin2839/zeroin-v8-r4-dataset` (type=dataset, **private**) -- 모델 repo들과 네임스페이스 분리.
+  - 범위: `round4` JSONL만 업로드 (`seed_v8_round4_section_all_full_ft.jsonl`, 14MB, 4023 records). `round1/round3` JSONL과 원본 CSV는 이번 업로드 대상에서 제외.
+  - 라이선스: `license: other` + 커스텀 **"zeroin-internal-only"** (비-OSS, 내부 사용·재배포 금지). 표준 라이선스로 "재배포 금지" 조건을 표현할 수 없어 full text를 `LICENSE`에 직접 기재.
+  - dataset card: `messages` 스키마 설명, `system` 프롬프트, `question_variant_index` 기반 multiline 확장 전략, 금지/허용 범위 명시.
+- **실행**:
+  - 업로드 도구: `huggingface_hub 1.6.0`의 `create_repo` + `upload_folder` 조합. 파일이 작아 `upload_large_folder` 대신 일반 `upload_folder` 사용. 소요 4.8초.
+  - 검증: `datasets.load_dataset("ymin2839/zeroin-v8-r4-dataset", split="train")` 로 4023 rows 정상 로드 확인. `HfApi.repo_info().private=True` 재확인.
+  - 기존 모델 repo 두 개(`ymin2839/gpt-oss-20b-zeroin-v8-r4`, `ymin2839/gpt-oss-20b-zeroin-v8-r4-gguf`)의 `NOTICE`를 갱신해 "데이터는 별도 private dataset repo에 보관" 문구로 교체, HF Hub에 바로 업로드.
+- **정책 메모**:
+  - 모델 repo는 Apache 2.0(가중치), dataset repo는 "zeroin-internal-only"(비-OSS)로 라이선스가 서로 다르며 의도된 결과.
+  - 원본 CSV는 이번에 올리지 않음. 필요 시 이후 별도 결정으로 추가.
+  - 모델과 데이터셋 NOTICE 간 크로스 레퍼런스를 유지하기 위해 향후 둘 중 하나를 수정하면 다른 쪽도 함께 업데이트해야 한다.
+
