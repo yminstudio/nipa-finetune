@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ROUND_NAME = "round4"
 SECTION_NAME = "section_all"
 DATASET_OUTPUT_RELATIVE_PATH = "llm_datasets/seed_v8/seed_v8_round4_section_all_full_ft.jsonl"
-DEFAULT_SOURCE_RELATIVE_PATH = "docs/제로인방법론/source_csv/v8-r4 section-all.csv"
+DEFAULT_SOURCE_RELATIVE_PATH = "docs/제로인방법론/source_csv/v9-r5.csv"
 
 
 def normalize_cell(text: str) -> str:
@@ -28,8 +28,10 @@ def parse_csv_source(source_path: Path) -> dict[str, Any]:
         reader = csv.DictReader(handle)
         columns = [str(name).strip() for name in (reader.fieldnames or [])]
         expected_columns = ["num", "sec", "system", "user_q_base", "assistant", "user_q_ext"]
-        if columns != expected_columns:
-            raise ValueError(f"expected CSV columns {expected_columns}, got {columns}")
+        if columns[: len(expected_columns)] != expected_columns:
+            raise ValueError(
+                f"expected leading CSV columns {expected_columns}, got {columns[: len(expected_columns)]}"
+            )
 
         groups: list[dict[str, Any]] = []
         skipped_rows: list[str] = []

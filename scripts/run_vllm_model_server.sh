@@ -14,6 +14,7 @@ PORT="${PORT:-8000}"
 DTYPE="${DTYPE:-bfloat16}"
 TP_SIZE="${TP_SIZE:-1}"
 MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}"
+REASONING_PARSER="${REASONING_PARSER:-}"
 
 if [[ ! -x "${VENV_DIR}/bin/vllm" ]]; then
   echo "vLLM is not installed. Run scripts/setup_vllm_env.sh first." >&2
@@ -29,6 +30,11 @@ unset PYTHONPATH
 export PYTHONPATH="${VENV_SITE_PACKAGES}${PYTHONPATH:+:${PYTHONPATH}}"
 export PYTHONNOUSERSITE=1
 
+EXTRA_ARGS=()
+if [[ -n "${REASONING_PARSER}" ]]; then
+  EXTRA_ARGS+=(--reasoning-parser "${REASONING_PARSER}")
+fi
+
 exec "${VENV_DIR}/bin/vllm" serve "${MODEL_PATH}" \
   --download-dir "${MODEL_CACHE_DIR}" \
   --served-model-name "${SERVED_MODEL_NAME}" \
@@ -38,4 +44,5 @@ exec "${VENV_DIR}/bin/vllm" serve "${MODEL_PATH}" \
   --host "${HOST}" \
   --port "${PORT}" \
   --tensor-parallel-size "${TP_SIZE}" \
-  --max-model-len "${MAX_MODEL_LEN}"
+  --max-model-len "${MAX_MODEL_LEN}" \
+  "${EXTRA_ARGS[@]}"
